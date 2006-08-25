@@ -1,0 +1,55 @@
+## Makefile for program src directory in GNU hello.
+## Copyright (C) 1996, 1997, 2001 Free Software Foundation, Inc.
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2, or (at your option)
+## any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+## USA.
+
+## Process this file with automake to produce Makefile.in.
+
+bin_PROGRAMS = calo
+calo_SOURCES =  exceptions.h         \
+		main.cpp             \
+		CairoPDFCreator.cpp  \
+		CairoPDFCreator.h    \
+		InputPipe.cpp        \
+		InputPipe.h          \
+		LynxTextRenderer.cpp \
+		LynxTextRenderer.h   \
+		PDFCreator.cpp       \
+		PDFCreator.h         \
+		SoupURIFetcher.cpp   \
+		SoupURIFetcher.h     \
+		TempFile.cpp         \
+		TempFile.h           \
+		TextRenderer.cpp     \
+		TextRenderer.h       \
+		URIFetcher.cpp       \
+		URIFetcher.h
+
+
+#hello_LDADD = @LIBINTL@ @ALLOCA@
+
+localedir = $(datadir)/locale
+
+#INCLUDES = -I. -I$(srcdir) -I.. -I../intl -I$(top_srcdir)/intl
+INCLUDES = $(PACKAGE_CFLAGS)
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+LIBS = $(PACKAGE_LIBS) 
+AM_CXXFLAGS = -Wall
+
+## # Automake cannot handle this now (version 1.0).
+## $(bin_PROGRAMS): $(LDADD)
+
+## src/Makefile.am ends here
