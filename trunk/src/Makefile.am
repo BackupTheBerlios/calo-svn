@@ -38,6 +38,7 @@ calo_SOURCES =  exceptions.h         \
 		URIFetcher.cpp       \
 		URIFetcher.h
 
+check_PROGRAMS = testPDFCreator	
 
 #hello_LDADD = @LIBINTL@ @ALLOCA@
 
