@@ -17,7 +17,7 @@ dnl -------------------------Checks for programs.
 AC_PROG_CXX
 
 dnl Check for build configuration.
-dnl AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 
 dnl Check for lynx
 AC_PATH_PROG(LYNX_PATH,lynx,no)
