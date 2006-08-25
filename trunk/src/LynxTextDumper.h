@@ -11,12 +11,12 @@
 #include <glibmm/ustring.h>
 #include "TextDumper.h"
 
-/// LynxTextRenderer
+/// LynxTextDumper
 
-class LynxTextRenderer : public TextDumper
+class LynxTextDumper : public TextDumper
 {
 public:
-	virtual ~LynxTextRenderer() {}
+	virtual ~LynxTextDumper() {}
 	virtual const Glib::ustring& render (const Glib::ustring& html);
 };
 

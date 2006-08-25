@@ -5,13 +5,13 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#include "LynxTextRenderer.h"
+#include "LynxTextDumper.h"
 #include "TempFile.h"
 #include "InputPipe.h"
 
 /// Renders HTML into a new text string wich has to be deleted by the user.
 /// Opens/closes a temp file and an input pipe from the Lynx browser.
-const Glib::ustring& LynxTextRenderer::render (const Glib::ustring& html)
+const Glib::ustring& LynxTextDumper::render (const Glib::ustring& html)
 {
 	TempFile tmp;
 	tmp << html;

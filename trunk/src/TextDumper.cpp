@@ -6,11 +6,11 @@
  */
 
 #include "TextDumper.h"
-#include "LynxTextRenderer.h"
+#include "LynxTextDumper.h"
 
 TextDumper* TextDumper::create()
 {
-	return new LynxTextRenderer;
+	return new LynxTextDumper;
 }
 
 TextDumper::~TextDumper() {}

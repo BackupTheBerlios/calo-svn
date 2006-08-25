@@ -19,23 +19,23 @@
 ## Process this file with automake to produce Makefile.in.
 
 bin_PROGRAMS = calo
-calo_SOURCES =  exceptions.h         \
-		main.cpp             \
-		CairoPDFCreator.cpp  \
-		CairoPDFCreator.h    \
-		InputPipe.cpp        \
-		InputPipe.h          \
-		LynxTextRenderer.cpp \
-		LynxTextRenderer.h   \
-		PDFCreator.cpp       \
-		PDFCreator.h         \
-		SoupURIFetcher.cpp   \
-		SoupURIFetcher.h     \
-		TempFile.cpp         \
-		TempFile.h           \
-		TextDumper.cpp     \
-		TextDumper.h       \
-		URIFetcher.cpp       \
+calo_SOURCES =  exceptions.h		\
+		main.cpp		\
+		CairoPDFCreator.cpp	\
+		CairoPDFCreator.h	\
+		InputPipe.cpp		\
+		InputPipe.h		\
+		LynxTextDumper.cpp	\
+		LynxTextDumper.h	\
+		PDFCreator.cpp		\
+		PDFCreator.h		\
+		SoupURIFetcher.cpp	\
+		SoupURIFetcher.h	\
+		TempFile.cpp		\
+		TempFile.h		\
+		TextDumper.cpp		\
+		TextDumper.h		\
+		URIFetcher.cpp		\
 		URIFetcher.h
 
 check_PROGRAMS = testPDFCreator	
