@@ -10,13 +10,13 @@
 
 #include <glibmm/ustring.h>
 
-/// TextRenderer
+/// TextDumper
 
-class TextRenderer
+class TextDumper
 {
 public:
-	static TextRenderer* create();
-	virtual ~TextRenderer() = 0;
+	static TextDumper* create();
+	virtual ~TextDumper() = 0;
 	virtual const Glib::ustring& render (const Glib::ustring& html) = 0;
 };
 

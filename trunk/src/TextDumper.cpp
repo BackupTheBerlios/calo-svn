@@ -5,14 +5,14 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#include "TextRenderer.h"
+#include "TextDumper.h"
 #include "LynxTextRenderer.h"
 
-TextRenderer* TextRenderer::create()
+TextDumper* TextDumper::create()
 {
 	return new LynxTextRenderer;
 }
 
-TextRenderer::~TextRenderer() {}
+TextDumper::~TextDumper() {}
 
 

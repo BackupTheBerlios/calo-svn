@@ -33,8 +33,8 @@ calo_SOURCES =  exceptions.h         \
 		SoupURIFetcher.h     \
 		TempFile.cpp         \
 		TempFile.h           \
-		TextRenderer.cpp     \
-		TextRenderer.h       \
+		TextDumper.cpp     \
+		TextDumper.h       \
 		URIFetcher.cpp       \
 		URIFetcher.h
 

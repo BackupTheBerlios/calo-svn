@@ -9,7 +9,7 @@
 #include <gtkmm/main.h>
 
 #include "URIFetcher.h"
-#include "TextRenderer.h"
+#include "TextDumper.h"
 #include "PDFCreator.h"
 
 
@@ -37,15 +37,15 @@ int main (int argc , char **argv)
 static void quit (URIFetcher* fetcher)
 {
 	const Glib::ustring& str = fetcher->str();
-	TextRenderer *renderer = TextRenderer::create();
-	const Glib::ustring& dump = renderer->render (str);
+	TextDumper *dumper = TextDumper::create();
+	const Glib::ustring& dump = dumper->render (str);
 	
 	PDFCreator *pdf = PDFCreator::create ("out.pdf", 580, 870);
 	*pdf << dump;
 	pdf->save();
 
 	delete pdf;
-	delete renderer;
+	delete dumper;
 	delete fetcher;
 	delete &str;
 	delete &dump;

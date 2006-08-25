@@ -9,11 +9,11 @@
  */
 
 #include <glibmm/ustring.h>
-#include "TextRenderer.h"
+#include "TextDumper.h"
 
 /// LynxTextRenderer
 
-class LynxTextRenderer:public TextRenderer
+class LynxTextRenderer : public TextDumper
 {
 public:
 	virtual ~LynxTextRenderer() {}
