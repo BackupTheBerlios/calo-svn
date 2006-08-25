@@ -40,6 +40,10 @@ calo_SOURCES =  exceptions.h         \
 
 check_PROGRAMS = testPDFCreator	
 
+testPDFCreator_SOURCES = testPDFCreator.cpp	\
+			 PDFCreator.cpp PDFCreator,h	\
+			 CairoPDFCreator.cpp CairoPDFCreator.h
+
 #hello_LDADD = @LIBINTL@ @ALLOCA@
 
 localedir = $(datadir)/locale
