@@ -1,1 +1,102 @@
-2006-Aug-15: start
+2006-08-26 06:24 +0000 [r23]  rws <rws@localhost>
+
+	* configure.ac: remove cairomm from dependencies, add cairo>=1.2
+
+2006-08-25 18:54 +0000 [r22]  rws <rws@localhost>
+
+	* src/LynxTextRenderer.cpp (removed), src/Makefile.am,
+	  src/LynxTextRenderer.h (removed), src/LynxTextDumper.cpp (added),
+	  src/LynxTextDumper.h (added), src/TextDumper.cpp: rename
+	  LynxTextRenderer to LynxTextDumper
+
+2006-08-25 18:45 +0000 [r21]  rws <rws@localhost>
+
+	* src/TextDumper.h (added), src/Makefile.am, src/TextRenderer.cpp
+	  (removed), src/LynxTextRenderer.h, src/TextRenderer.h (removed),
+	  src/TextDumper.cpp (added), src/main.cpp: rename TextRenderer to
+	  TextDumper
+
+2006-08-25 17:34 +0000 [r20]  rws <rws@localhost>
+
+	* src/Makefile.am, src: testPDFCreator deps and ignore
+
+2006-08-25 17:08 +0000 [r18-19]  rws <rws@localhost>
+
+	* src/TestPDFCreator.cpp (removed), src/testPDFCreator.cpp (added):
+	  tests have small initial t
+
+	* src/Makefile.am, src/TestPDFCreator.cpp (added),
+	  tests/PDFCreatorTest.cpp (removed): move tests into src/
+
+2006-08-25 14:14 +0000 [r12-17]  rws <rws@localhost>
+
+	* some svn testing
+
+2006-08-25 11:01 +0000 [r11]  rws <rws@localhost>
+
+	* po, /, m4, tests, doc, src, man: more ignore props
+
+2006-08-25 10:56 +0000 [r10]  rws <rws@localhost>
+
+	* m4/Makefile (removed): remove generated file
+
+2006-08-25 10:51 +0000 [r9]  rws <rws@localhost>
+
+	* po: set ignore prop
+
+2006-08-25 10:43 +0000 [r7-8]  rws <rws@localhost>
+
+	* /, src: set some ignore props
+
+	* doc: set ignore prop
+
+2006-08-25 10:36 +0000 [r6]  rws <rws@localhost>
+
+	* m4: prop
+
+2006-08-25 10:25 +0000 [r5]  rws <rws@localhost>
+
+	* configure.ac: dummy
+
+2006-08-25 09:58 +0000 [r4]  rws <rws@localhost>
+
+	* aclocal.m4 (removed), m4/Makefile.in (removed), po/Makefile.in.in
+	  (removed): remove some generated files
+
+2006-08-25 09:28 +0000 [r2-3]  rws <rws@localhost>
+
+	* configure.ac: added libtool check
+
+	* distro (added), autogen.sh (added), tools-version.sh (added):
+	  taken and adapted from inkscape
+
+2006-08-25 07:24 +0000 [r1]  rws <rws@localhost>
+
+	* m4/Makefile (added), README (added), src/exceptions.h (added),
+	  src/LynxTextRenderer.cpp (added), / (added), po/Makefile.in.in
+	  (added), src/PDFCreator.h (added), m4/progtest.m4 (added),
+	  tests/test2.dump (added), aclocal.m4 (added), m4/isc-posix.m4
+	  (added), install-sh (added), src/TempFile.h (added), src (added),
+	  THANKS (added), m4/Makefile.am (added), BUGS (added), tests
+	  (added), m4/Makefile.in (added), configure.ac (added), INSTALL
+	  (added), tests/test3.dump (added), NEWS (added), m4/iconv.m4
+	  (added), src/URIFetcher.h (added), doc/Makefile.am (added),
+	  src/SoupURIFetcher.cpp (added), m4/pkg.m4 (added), m4/glibc21.m4
+	  (added), ChangeLog.O (added), m4/codeset.m4 (added),
+	  man/Makefile.in (added), m4/lib-prefix.m4 (added), m4/lib-ld.m4
+	  (added), m4/lcmessage.m4 (added), doc/README (added),
+	  tests/test0.dump (added), m4/ChangeLog (added), po/POTFILES.in
+	  (added), src/URIFetcher.cpp (added), Makefile.am (added), missing
+	  (added), stamp-h (added), tests/PDFCreatorTest.cpp (added),
+	  m4/README (added), src/CairoPDFCreator.cpp (added), m4 (added),
+	  src/TextRenderer.cpp (added), m4/gettext.m4 (added),
+	  src/SoupURIFetcher.h (added), AUTHORS (added), src/InputPipe.cpp
+	  (added), depcomp (added), src/cairo-test.h (added), src/main.cpp
+	  (added), m4/lib-link.m4 (added), src/Makefile.am (added),
+	  src/PDFCreator.cpp (added), src/LynxTextRenderer.h (added),
+	  po/ChangeLog (added), doc (added), tests/test1.dump (added),
+	  COPYING (added), man (added), src/TempFile.cpp (added), po
+	  (added), tests/Makefile.in (added), src/CairoPDFCreator.h
+	  (added), ChangeLog (added), src/TextRenderer.h (added), stamp-h1
+	  (added), src/InputPipe.h (added): initial import to berlios
+
