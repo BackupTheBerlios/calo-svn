@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(calo, 0.25.1, ralf@ark.in-berlin.de)
-AC_CONFIG_SRCDIR([src/TextRenderer.cpp])
+AC_CONFIG_SRCDIR([src/TextDumper.cpp])
 
 AC_PREREQ(2.52)
 
@@ -32,7 +32,7 @@ pkg_modules="
 		gtk+-2.0 >= 2.10.0 
 		glibmm-2.4 >= 2.11.3
 		gtkmm-2.4 >= 2.9.0
-		cairomm-1.0 >= 1.0
+		cairo >= 1.2.0
 		libsoup-2.2"
 
 PKG_CHECK_MODULES(PACKAGE,$pkg_modules)
