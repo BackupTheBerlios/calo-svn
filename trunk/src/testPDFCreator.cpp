@@ -22,9 +22,9 @@ off_t get_file_size (char *fname)
 
 int main (int argc , char **argv)
 {
-	std::ifstream dumpfile (argv[1], std::_S_bin);
+	std::ifstream dumpfile (argv[1]);
 	off_t filesize = get_file_size (argv[1]);
-	char *buf = new char (filesize + 1);
+	char *buf = (char*) malloc (filesize + 1);
 	dumpfile.read (buf, filesize);
 	buf[filesize] = '\0';
 
@@ -34,7 +34,7 @@ int main (int argc , char **argv)
 	pdf->save();
 
 	delete pdf;
-	delete buf;
+	free (buf);
 }
 
 
