@@ -5,7 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#include <fstream>
+#include <cstdio>
 #include <sys/stat.h>
 
 #include "exceptions.h"
@@ -20,12 +20,26 @@ off_t get_file_size (char *fname)
 	return stats.st_size;
 }
 
+/// Read a block of data into buf. We know the size of the file to read.
+void read_file_buf (char *fname, char *buf, off_t size)
+{
+	FILE *fp = fopen (fname, "rb");
+	if (fp == NULL)
+		throw FileException();
+	size_t s;
+	while ((s = fread (buf, sizeof(char), size, fp)) > 0)
+	{
+		size -= s;
+		buf += s;
+	}
+	fclose (fp);
+}
+
 int main (int argc , char **argv)
 {
-	std::ifstream dumpfile (argv[1]);
 	off_t filesize = get_file_size (argv[1]);
 	char *buf = (char*) malloc (filesize + 1);
-	dumpfile.read (buf, filesize);
+	read_file_buf (argv[1], buf, filesize);
 	buf[filesize] = '\0';
 
 	PDFCreator *pdf = PDFCreator::create ("test.pdf", 580, 860);
