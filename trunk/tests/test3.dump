@@ -1,0 +1,148 @@
+   An interview with two 'granny hackers'
+
+Tuesday August 15, 2006 (05:01 PM GMT)
+
+   By: Joe Barr
+
+      Printer-friendly    Email story    [discuss.gif]
+   One of the best things that can happen at a show like Black Hat is making new friends, especially if they are not only brilliant, but also compliment you on your Linux T-shirt. That's how I met Terri Gilbert and Becky Bace, two of the most fascinating geek/security pros I've ever run across. I won't hazard a guess at their ages, but if you called them "granny hackers" they would probably not be offended.
+
+   Terri, a whiz kid from California, has been involved with computers for 50 years. Becky, who hails from Alabama, is a whiz kid in her own right. During her 16-year tenure at the NSA, she was the project manager for the first intrusion detection system, which was being developed there in the '80s.
+
+   Terri and Becky are partners in a computer security firm called Infidel, Inc.. Becky was at Black Hat as part of a panel discussing the globalization of the security industry organized by the Executive Women's Forum.
+
+   The pair met through Terri's childhood friend Marvin Shaffer, a mathematics genius who has retired from a career at the NSA. He put them in touch with each other when Terri was forming a startup computer security business and Becky was working as a consultant.
+
+   Terri and Becky were kind enough to grant me an interview, so after a great meal at the 808 restaurant in Caesar's Palace at the end of the opening day of the Black Hat Briefings, we retired to their room to talk.
+
+   NF: Terri, you got started with computers in the 1950s, is that correct?
+
+   Terri: Well, I built a very simple computing device as a Popular Electronics project in '56, so this is my 50th anniversary as a computing engineer.
+
+   NF: Incredible! Did you study computer science in college?
+
+   Terri: There was no such thing as computer science.
+
+   NF: When were you there?
+
+   Terri: I started Harvey Mudd in '61, graduated in '65. Graduated from high school when I was 15.
+
+   NF: When did you first start working professionally in data processing?
+
+   Terri: When I started school at Harvey Mudd, in '61, they had bought an IBM 1620 Model 1, known as the CADET. CADET stood for "Can't Add, Doesn't Even Try." If you know about the 1620, it was a decimal machine, based on XS3 (Excess-3), which meant that zero was represented by 3.
+
+   Arithmetic was done by table lookup, so when you started up the machine the first thing you did was put the addition table and the multiplication table in low memory. Then you had to bring in the arithmetic routines that did table lookups, including carry and those things, and everything had to be brought in from the beginning; paper tape, an IBM Selectric console. And then we had an early card reader, and it was just nasty, keeping that thing running.
+
+   But the students did it all. I mean, there was no operator, there were no professionals. We had to maintain it, keep it running, we had to program it. The only language we had besides binary was the assembler and a program that IBM provided us called GOTRAN.
+
+   GOTRAN was a precursor, as you might expect, of FORTRAN. It looked a little bit like FORTRAN, except you could only have one operator on a line, so you could say A = B + C. Sort of like assembly language, but without the format of assembly language.
+
+   I spent my time on that machine convincing myself that I was never going to have anything to do with computers. In fact, when I graduated, I was basically an engineering mathematician. [It was] an absolute certainty that I would never understand computers, even though I had used them every day for all of my work, because I did process mathematics simulations and stuff. It was always so hard for me, and it was just a slog though geek mud in getting results out of machines.
+
+   It just seemed like the hardest thing in the world to do, and why would anybody spend their lives working that hard? Then I graduated school, and I went to work for IBM as a hardware engineer doing microscopic analysis of wear patterns on physical components of computers.
+
+   Doing microscopic failure analysis involved a lot of very interesting work, but it didn't pay enough because I was married at the time, and so I was supporting Stanford Medical School. I was earning $683 a month as an engineer at IBM, so we used boxes for furniture and had no money. So I decided I had to find a better job, and when I looked in the newspaper the only thing that paid any money at all was this awful occupation called programmer.
+
+   I went to my mentor at IBM, and he said, "I am so glad you are getting out of here because if you stayed here...." I had already gotten the pitch, I had been taken aside and told that I had been identified as the next generation of superstars at IBM, and that here is the path that I was going to be following. "That's the kiss the death," he said.
+
+   He said, "There is a secret program at Hewlett-Packard, they want to go into the computer business. Let me give you an introduction." So he sent me over to HP, this was 1966, and I took a job at HP where it turned out I was the only programmer in the engineering lab at HP. I really didn't consider myself a programmer.
+
+   But getting out of IBM was not that easy, because I had been identified as "next generation superstar." So I ended up spending three days in exit interviews, all the way up to the C level. And I ended up spending three hours with, I've forgotten his name now, but he was the chief executive for the division, I guess. I mapped out all the things I had been told, if I wanted to stay at IBM, that I should do.
+
+   My boss had said, "No, no, no. You've been identified as a star, so you're going to stay on my team." And I said, "No, I'm not." To their credit, they reorganized behind me. They fired people, they changed people's positions, they moved people around. So I did have an impact when I left. That was '66, February of '66.
+
+   NF: How did you meet Amazing Grace?
+
+   Terri: I met Amazing Grace when I was in junior high school. I was introduced to her as a super-bright kid -- you know, I was always the one with the super-talent and everything -- and I was taken and introduced to her, and given an audience, if you will. She took me around on a tour, and showed the sorts of things that she was doing, and I was so impressed. She had a really big impact on me, it was beautiful. She was quite a character.
+
+   After that, I had applied to a program at the Navy Research Center in San Diego. That was what got me the early entry at MIT and CalTech, because they required early entry to be a part of the program. She started me on that path.
+
+   NF: When did you get into security? Was that something that just happened along the way, or were you an "3v33l hax0r"?
+
+   Terri: I had been a consultant for a long time, and I've always hacked into systems, but always just because I was trying to get my job done. I would be working at two in the morning, and I would need access to a system. There was nobody to give me access, and I never really thought about it. It was just, "Oh, I've got to get into this system." I would go and do everything I could to get access to it in the normal way, and then, rather than be frustrated and not get my job done, I would just go ahead and get into it.
+
+   The way I got into security was that I was working for Seagate, and I had written a system that was basically a worm that updated their manufacturing systems worldwide when a process change was made. I was very concerned about doing this in a way that was secure, so I noticed that the systems that they were using were very insecure, and I wanted to leave the system better than I found it. I found it so easy to create a system that could just run around the world and update all their systems. So I started thinking about that, and as Becky can attest, I've been a pain in the ass ever since.
+
+   I think I learned a whole lot of stuff, and being absolutely unaware of what was supposed to be true, or anything else, I still think they are all blind to the simple solutions, because I didn't come with a whole lot of pre-knowledge or what has to be or what can't be. I just looked at the problem with fresh eyes and said, "Oh. Yeah, I can see how to do this. This is simple."
+
+   And then I found out it was more complicated. But still, if you looked at it from this entirely different approach, it made more sense than the way they were trying to do it, because they were still trying to build railroad tracks according to Roman chariot wheel width.
+
+   Sometimes standards and everything evolve because of something that is no longer true, because "Oh, we gotta use the legacy." I don't care about the legacy, you can leave the legacy in place, what I am talking about is if you were to start doing it now....
+
+   Enough of that, that's how I got into security. I raised money and I started a company. Then I called up Marvin, and Marvin found me some people to come and audit what I was doing to make sure that I wasn't nuts. And then Marvin sent Becky to me as a consultant.
+
+   NF: OK, Becky -- your turn. How did you become a geek, or have you always been one?
+
+   Becky: I think I've always been a geek. The joke was that I was my father's oldest boy. One of the jokes of the family is the day that he was changing the oil in his truck and I -- being inquisitive -- toppled and fell head-first into the bucket of used motor oil. Apparently he turned around to find me and my diaper-laden rear sticking up out of the bucket, my legs waving. I was so greasy nobody could really get a good grip on me. So I got teased about that quite a bit.
+
+   NF: That might explain how you became a gear-head.
+
+   Becky: Yes, absolutely. I sort of shadowed [my father], and he was extremely handy. So I picked up a lot of stuff along the way.
+
+   NF: You mentioned at dinner that Jimmy Hoffa sent you to college. How did that come to happen?
+
+   Becky: Actually, that was a predicament. When I was an adolescent, I came down with epilepsy. Country doctors are not particularly progressive in their thoughts about what people with any kind of handicap were capable of doing. I was having kind of a challenging time, first with diagnosis and also with decent medication.
+
+   My dad had a sudden change in employment when the firm he was working for went under. He had been an early Teamster organizer in that area of the country. In my senior year of high school, I was not sure what I was going to do about college, because we were not exactly flush. It was clear that I needed to go to college, but it was unclear how I was going to get there. I was encouraged by the local union folks to submit my records as a demonstration that I was actually getting good grades. I pretty much went willy-nilly, hoping to get accepted into college somewhere, because in certain colleges the epilepsy was a reason to be denied access.
+
+   I was working part-time, and was cobbling together frantically the admission application fees for a number of schools. Then in March, I got a telegram from General Mills saying that I had won a state competition in their Betty Crocker Family Leader of Tomorrow program, and that included a scholarship.
+
+   Not even a week later, I got a certified letter from the Teamsters saying they were going to endow a scholarship. Apparently Hoffa and his wife had made a request to the union to forgo their proposed bonus for the year. Hoffa had said that he was acutely aware of how his life might have been different if he had gotten more education, and he wanted to provide deserving kids a chance to go to college. It was quite a generous scholarship endowment, and the Teamsters wrote and said they had decided to give me one. So I went from being penniless, to having pretty much a full scholarship.
+
+   I got to college and started working on my initial degree requirements for a medical records librarian program, and walked into a math class and fell in love. That was all she wrote.
+
+   NF: What college did you go to?
+
+   Becky: Alabama-Birmingham. I went to the career counseling office and I said, "I've decided I want to take more math." They proceeded to pick themselves up off the floor, and the guy looked at me and said, "I've been in the business for 15 years and this is the first time any freshman has ever come into this office and asked for a more rigorous mathematics curriculum."
+
+   He added that the only woman in an engineering school in Alabama had just graduated, and they really felt like they needed another woman there. So they sent me to talk to the Dean of Engineering, who proceeded to talk me into changing my major to engineering. That ended up being an almost constant theme, being the token woman.
+
+   NF: Did engineering turn out to be a good choice for you?
+
+   Becky: Yeah, it was good. I could handle the math, I could handle the physics. The sciences were not a big deal. My patience wore out, though. I finished all my degree requirements in engineering except for thermodynamics. They had an old codger from U.S. Steel, and this guy worked thermodynamics as a steam table exercise. A steam table lookup exercise. I was near suicidal, I was so bored. It was the worst, most tedious work on earth. In desperation, I audited graduate thermo and physics, just to prove to myself that it wasn't my head that was malfunctioning. I could do that beautifully. But I sat thermo three times, and I just could not finish the course.
+
+   In the meantime, I was running out of money. I was desperate to figure out what it was I wanted to do. It was clear I was not going to be the civil engineer that the engineering school thought I was going to be. I could not get through thermodynamics. I was teaching engineering labs, and there were a couple of guys in there who were working for Xerox. They said, "You should come and apply at Xerox, you should come and work with us. It's a fabulous company to work for, and by the way, we're desperate to find a qualified woman, the feds are beating on us. They are threatening to pull all of their business because we don't have any women in our technical force."
+
+   So I went and I sat their exams. They had a pretty rigorous set of exams you had to sit at Xerox in order to be considered for employment. I show up at Xerox, and there are 150 men and me in the room where they were issuing the tests.
+
+   I get a call two weeks later from the head of the technical fields, who sat me down in front of him and said, "Well, you scored better than anyone else on the tests. I guess I have to hire you." Like an idiot, I said, "OK, I'll take the job."
+
+   I went to work for Xerox and I stayed there for five years. I did the tool-toting, copy repair person [thing] and worked my way up the field engineering ranks. I ended up in a sexual harassment situation, involving my manager, who unfortunately, not only had the temerity to harass, but furthermore to harass me in a customer installation. Then he attempted to penalize me for the situation.
+
+   At that point, I had a conversation with the folks at Xerox headquarters, and I offered to engage in a legally driven conversation with them. They basically said, "Tell us what you want." I told them to get me the hell out of there. They offered me a selection of places I could go. I wanted to go to Washington, but they didn't have any openings in Washington, but they did have in Baltimore. So I went to Baltimore.
+
+   I had met a couple of friends at Xerox in various schools who lived in Baltimore, and one of them was the guy I ended up marrying about a year later. At that time, nepotism rules were still in place, so we could not both work on the technical side. My husband said, "Go back and finish your degree." I did a year in Maryland, in computer science, and I cobbled out my bachelor's.
+
+   At that point, I saw a posting in Byte Magazine, saying a group in Ft. Meade, Maryland, was looking to employ people in computer science. I sent my résumé in, and I sent my husband's résumé in. A day later I got a call from a consulting engineering firm that was four miles away from my house, who wanted a civil engineer who could actually run a computer.
+
+   I kind of walked into that opportunity, and the agency came knocking about six months later and hired me. I told my husband, "I can't really decide whether I want to do this or not. I've got this job which I really kind of like. I was born to do this job." I was generating a fair amount of consulting income running some of the civil engineering software because I knew that was the main goal. On the other hand, it wasn't paying that well. He said, "You've got to come to work for the NSA." I asked him why, and he said, "There are about half a dozen reasons, I'll pull them all together. Number one reason is that they will pay you more, even though they may not pay you much at the outset. Secondly, they will pay for a master's. The third thing is, [remember] there were all these people that you hung out with in undergraduate school that were really, really, really bright guys who had aced the math exams, but who would forget to tie their shoelaces, or wear different colored shoes
+   because they were so freaking absent-minded? The place is crawling with them. You've got to work here."
+
+   That kind of appealed to me, so I went to work for the NSA.
+
+   NF: At dinner, I think you said that after you left the agency, you went to work at Los Alamos National Lab.
+
+   Becky: It was a very interesting time to be there. It was also a wonderful social chaining exercise. I had gotten to know a couple of researchers at Los Alamos who were doing early genetic algorithm work. They introduced me to a good friend of theirs at UNM. He was the reason I knew Spafford, because he had gone to graduate school with Spafford at Georgia Tech.
+
+   Then Spaf would introduce me to someone else, it just ran with my Southern impulses about how you built networking communities.
+
+   NF: Have you been independent, a consultant, since leaving Los Alamos?
+
+   Becky: We incorporated Infidel in '98, I took a year out there where I was pretty much a standalone, a casual contractor. Since then we've been pretty much a standalone. I've got a retained relationship with Trident Capital since the latter part of '01.
+
+   NF: Is Infidel still a going concern, with customers?
+
+   Becky: I tried to get them to go on hiatus, but they wouldn't cooperate.
+
+   Terri: What we discovered, Becky can't -- in fact, neither can I -- can't charge by the hour, or the project, or by anything else, because we simply can't be bothered to keep track. So, the only way Infidel takes clients is on a retainer basis. That gets you access.
+
+   We decide how much of us you want, we work up a retainer, and that's how much you pay us every month. If it ends up being different than we decided, then we adjust the retainer. You just write that check every month, and you're one of our clients.
+
+   NF: I know you are at Black Hat this year because Becky is a speaker. Have you been to previous Black Hats?
+
+   Terri: We've been to two. Whenever Becky speaks, I come. We came a few years ago -- we were both on the panel -- and talked about security and Microsoft operating systems. Or the insecurity in Microsoft operating systems. And then we ended up in the hallway afterward with CNN cameras and Microsoft apologists, being attacked. It was funny. You know, we have some wonderful friends at Microsoft, in the security group. Microsoft has an impossible task.
+
+   Becky: They've gotten better, since they've actually tried.
+
+   NF: Thank you both for your time.
+
