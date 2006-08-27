@@ -19,14 +19,16 @@ public:
 
 	const Glib::ustring& get_font() const;
 	void get_rgb_background (double* r, double* g, double* b) const;
+	void get_rgb_foreground (double* r, double* g, double* b) const;
 	void set_font (const Glib::ustring& font);
 	void set_rgb_background (double r, double g, double b);
+	void set_rgb_foreground (double r, double g, double b);
 
 private:
 	PDFContext();
 	
 	Glib::ustring _font;
-	double _r, _g, _b;
+	double _rb, _gb, _bb, _rf, _gf, _bf;
 };
 
 #endif

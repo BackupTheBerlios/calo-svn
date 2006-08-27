@@ -69,7 +69,10 @@ std::cerr << "size=" << strlen (text.c_str()) << std::endl; std::cerr.flush();
 
 void CairoPDFCreator::save()
 {
-	cairo_set_source_rgb (_cctx, 0,0,0);
+	PDFContext& pctx = PDFContext::get();
+	double r, g, b;
+	pctx.get_rgb_foreground (&r, &g, &b);
+	cairo_set_source_rgb (_cctx, r, g, b);
 	PangoLayoutIter *iter = pango_layout_get_iter (_play);
 	double startpos = 0;
 	int lineindex = 0;
