@@ -1,3 +1,41 @@
+2006-08-27 07:32 +0000 [r32-34]  rws <rws@localhost>
+
+	* src: more svn:ignore props
+
+	* src/TempFile.h: use Glib::ustring
+
+	* src/TempFile.cpp: use /tmp or /var/tmp whenever possible
+
+2006-08-27 07:14 +0000 [r31]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp: remove old test case
+
+2006-08-26 18:24 +0000 [r30]  rws <rws@localhost>
+
+	* src/testPDFCreator.cpp: remove ifstream usage
+
+2006-08-26 17:19 +0000 [r29]  rws <rws@localhost>
+
+	* src/testPDFCreator.cpp: fix allocation bug
+
+2006-08-26 17:04 +0000 [r28]  rws <rws@localhost>
+
+	* tests/test4.dump (added): add Markus Kuhn's Unicode test file
+
+2006-08-26 08:48 +0000 [r25-27]  rws <rws@localhost>
+
+	* makelog.sh: fix typo
+
+	* src/testPDFCreator.cpp: do not use stream input but raw read
+
+	* src/exceptions.h: add FileException and default ctor perror
+	  output for all classes
+
+2006-08-26 06:41 +0000 [r24]  rws <rws@localhost>
+
+	* ChangeLog, makelog.sh (added): first ChangeLog, added makelog
+	  script
+
 2006-08-26 06:24 +0000 [r23]  rws <rws@localhost>
 
 	* configure.ac: remove cairomm from dependencies, add cairo>=1.2
