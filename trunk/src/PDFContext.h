@@ -17,18 +17,29 @@ class PDFContext
 public:
 	static PDFContext& get();
 
+	const Glib::ustring& get_fname() const;
 	const Glib::ustring& get_font() const;
 	void get_rgb_background (double* r, double* g, double* b) const;
 	void get_rgb_foreground (double* r, double* g, double* b) const;
+	double get_pdf_width() const      { return _pdfw; }
+	double get_pdf_height() const     { return _pdfh; }
+	double get_layout_width() const   { return _layow; }
+	double get_layout_height() const  { return _layoh; }
+	void set_fname (const Glib::ustring& fname);
 	void set_font (const Glib::ustring& font);
 	void set_rgb_background (double r, double g, double b);
 	void set_rgb_foreground (double r, double g, double b);
+	void set_pdf_width (double w)     { _pdfw = w; }
+	void set_pdf_height (double h)    { _pdfh = h; }
+	void set_layout_width (double w)  { _layow = w; }
+	void set_layout_height (double h) { _layoh = h; } 
 
 private:
 	PDFContext();
 	
-	Glib::ustring _font;
+	Glib::ustring _font, _fname;
 	double _rb, _gb, _bb, _rf, _gf, _bf;
+	double _pdfw, _pdfh, _layow, _layoh;
 };
 
 #endif

@@ -19,15 +19,26 @@ PDFContext& PDFContext::get()
 
 PDFContext::PDFContext()
 {
+	_fname = "test.pdf";
 	_font = "Sans 11";
 	_rb = _gb = _bb = 1.0;
 	_rf = _gf = _bf = 0.0;
+	_pdfw = 580;
+	_pdfh = 860;
+	_layow = 500;
+	_layoh = 800;
 }
 
 const Glib::ustring& 
 PDFContext::get_font() const
 {
 	return _font;
+}
+
+const Glib::ustring& 
+PDFContext::get_fname() const
+{
+	return _fname;
 }
 
 void PDFContext::get_rgb_background (double* r, double* g, double* b) const
@@ -42,6 +53,11 @@ void PDFContext::get_rgb_foreground (double* r, double* g, double* b) const
 	*r = _rf;
 	*g = _gf;
 	*b = _bf;
+}
+
+void PDFContext::set_fname (const Glib::ustring& fname)
+{
+	_fname = fname;
 }
 
 void PDFContext::set_font (const Glib::ustring& font)
