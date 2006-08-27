@@ -18,12 +18,12 @@ public:
 	TempFile();
 	~TempFile();
 
-	const char* name() const	{ return _fname; }
-	int fd() const			{ return _fdes; }
+	const Glib::ustring& name() const	{ return _fname; }
+	int fd() const				{ return _fdes; }
 	void operator<< (const Glib::ustring& str);
 
 private:
-	char _fname[16];
+	Glib::ustring _fname;
 	int _fdes;
 };
 
