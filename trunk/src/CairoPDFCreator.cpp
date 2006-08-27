@@ -38,33 +38,10 @@ void CairoPDFCreator::operator<< (const Glib::ustring& text)
 	PangoFontDescription *fdesc = pango_font_description_from_string ("Sans 16");
 	pango_layout_set_font_description (_play, fdesc);
 	pango_layout_set_width (_play, static_cast<int>(_w * PANGO_SCALE));
-
-	char *ttext =
-"                    <b>Lynx source distribution and potpourri</b>\
-\n\
-   Lynx is the text web browser. This is the top level page for the Lynx\
-   software distribution site hosted by the Internet Software Consortium.\
-\
-   The current development sources have the latest version of Lynx\
-   available (development towards 2.8.6). The main help page for\
-   lynx-current is online; the current User Guide is part of the online\
-   documentation.\
-\
-   The most recent stable release is lynx2-8-5. The main help page is\
-   online, as well as the User Guide.\
-\n\n\
-   Other resources include:\
-     * ftp and http mirrors\
-     * Mailing list archives\
-     * pgp/gpg signatures äöüß العربية\
-     _________________________________________________________________\
-\
-   Viewable with any browser; valid HTML.\n\n\n";
-//const char *p=text.c_str();while(*p){fprintf(stderr,"%X ",*p); ++p;}
 	pango_layout_set_markup (_play, text.c_str(), text.size());
 
 	const int linecount = pango_layout_get_line_count (_play);
-std::cerr << "linecount=" << linecount << std::endl; std::cerr.flush();
+std::cerr << "size=" << text.size() << std::endl; std::cerr.flush();
 	std::vector<int> pagebreaks;
 	PangoLayoutLine *layoutline;
 	double pageheight = 0;
