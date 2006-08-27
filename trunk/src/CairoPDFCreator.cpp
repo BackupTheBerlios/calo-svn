@@ -38,10 +38,10 @@ void CairoPDFCreator::operator<< (const Glib::ustring& text)
 	PangoFontDescription *fdesc = pango_font_description_from_string ("Sans 16");
 	pango_layout_set_font_description (_play, fdesc);
 	pango_layout_set_width (_play, static_cast<int>(_w * PANGO_SCALE));
-	pango_layout_set_markup (_play, text.c_str(), text.size());
+	pango_layout_set_markup (_play, text.c_str(), strlen (text.c_str()));
 
 	const int linecount = pango_layout_get_line_count (_play);
-std::cerr << "size=" << text.size() << std::endl; std::cerr.flush();
+std::cerr << "size=" << strlen (text.c_str()) << std::endl; std::cerr.flush();
 	std::vector<int> pagebreaks;
 	PangoLayoutLine *layoutline;
 	double pageheight = 0;
