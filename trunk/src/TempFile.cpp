@@ -5,6 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <fstream>
 #include <stdlib.h>
 #include <errno.h>
 #include <stddef.h>
@@ -15,14 +16,38 @@
 #include "TempFile.h"
 #include "exceptions.h"
 
+/// TODO: Either C or C++ file i/o but not both
+
+/// Check to see if directory exists by attempting to open a new file
+/// for output within it. Stolen from Bruce Eckel.
+static bool exists (Glib::ustring fname) 
+{
+	size_t len = fname.length();
+	if(fname[len-1] != '/' && fname[len-1] != '\\')
+	fname.append("/");
+	fname.append("000.tmp");
+	std::ofstream outf(fname.c_str());
+	bool existFlag = outf;
+	if (outf) 
+	{
+		outf.close();
+		remove(fname.c_str());
+	}
+	return existFlag;
+}
 
 /// Create the temporary file
 TempFile::TempFile()
 {
-	/// TODO 
-	/// Use /tmp or /var/tmp
-	strcpy (_fname, "calo.tmpXXXXXX");
-	_fdes = mkstemp (_fname);
+	char path[32];
+	path[0] = '\0';
+	if (exists ("/tmp"))
+		strcpy (path, "/tmp/");
+	else if (exists ("/var/tmp"))
+		strcpy (path, "/var/tmp/");
+	strcat (path, "calo.tmpXXXXXX");
+	_fdes = mkstemp (path);
+	_fname = path;
 	if (_fdes < 0)
 		throw TempfileException (_("Could not create.\n"));
 }
@@ -34,7 +59,7 @@ TempFile::~TempFile()
 	if (ret)
 		throw TempfileException (_("Could not close.\n"));
 
-	ret = unlink (_fname);
+	ret = unlink (_fname.c_str());
 	if (ret)
 		throw TempfileException (_("Could not remove.\n"));
 }
@@ -53,6 +78,5 @@ void TempFile::operator<< (const Glib::ustring& str)
 		buf += n;
 	}
 }
-
 
 
