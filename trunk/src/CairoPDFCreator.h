@@ -8,6 +8,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <vector>
 #include <cairo/cairo-pdf.h>
 #include <pango/pango-layout.h>
 #include "PDFCreator.h"
@@ -30,6 +31,7 @@ private:
 	cairo_surface_t *_csfc;
 	cairo_t *_cctx;
 	PangoLayout* _play;
+	std::vector<int> _pagebreaks;
 };
 
 #endif

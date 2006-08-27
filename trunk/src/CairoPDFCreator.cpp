@@ -27,11 +27,6 @@ CairoPDFCreator::CairoPDFCreator()
 	_csfc = cairo_pdf_surface_create (_name.c_str(), _w, _h);
 	_cctx = cairo_create (_csfc);
 
-	double r, g, b;
-	pctx.get_rgb_background (&r, &g, &b);
-	cairo_set_source_rgb (_cctx, r, g, b);
-	cairo_paint (_cctx);
-
 	_play = pango_cairo_create_layout (_cctx);
 }
 
@@ -48,8 +43,6 @@ void CairoPDFCreator::operator<< (const Glib::ustring& text)
 	pango_layout_set_markup (_play, text.c_str(), strlen (text.c_str()));
 
 	const int linecount = pango_layout_get_line_count (_play);
-std::cerr << "size=" << strlen (text.c_str()) << std::endl; std::cerr.flush();
-	std::vector<int> pagebreaks;
 	PangoLayoutLine *layoutline;
 	double pageheight = 0;
 	for (int line=0; line < linecount; ++line)
@@ -60,7 +53,7 @@ std::cerr << "size=" << strlen (text.c_str()) << std::endl; std::cerr.flush();
 		const double lineheight = lrect.height/1024.0;
 		if (pageheight + lineheight > pctx.get_layout_height())
 		{
-			pagebreaks.push_back (line);
+			_pagebreaks.push_back (line);
 			pageheight = 0;
 		}
 		pageheight += lineheight;
@@ -72,29 +65,46 @@ void CairoPDFCreator::save()
 	double r, g, b;
 	PDFContext::get().get_rgb_foreground (&r, &g, &b);
 	cairo_set_source_rgb (_cctx, r, g, b);
+	PDFContext::get().get_rgb_background (&r, &g, &b);
+	cairo_set_source_rgb (_cctx, r, g, b);
+	cairo_paint (_cctx);
 	
 	PangoLayoutIter *iter = pango_layout_get_iter (_play);
 	double startpos = 0;
 	int lineindex = 0;
 	int nlines = pango_layout_get_line_count (_play);
+std::cerr << "nlines=" << nlines << std::endl; std::cerr.flush();
+	std::vector<int>::iterator last_line_page = _pagebreaks.begin();
 
 	do
 	{
-		if (lineindex >= 0)
-		{
-			PangoLayoutLine *layoutline = pango_layout_iter_get_line (iter);
-			PangoRectangle lrect;
-			pango_layout_iter_get_line_extents (iter, NULL, &lrect);
-			int baseline = pango_layout_iter_get_baseline (iter);
+		PangoLayoutLine *layoutline = pango_layout_iter_get_line (iter);
+		PangoRectangle lrect;
+		pango_layout_iter_get_line_extents (iter, NULL, &lrect);
+		int baseline = pango_layout_iter_get_baseline (iter);
 
-			if (lineindex == 0)
-				startpos = lrect.y/1024.0;
+		if (lineindex == 0)
+			startpos = lrect.y/1024.0;
 
-			cairo_move_to (_cctx, lrect.x/1024.0, baseline/1024.0-startpos);
-			pango_cairo_show_layout_line (_cctx, layoutline);
-		}
+		cairo_move_to (_cctx, lrect.x/1024.0, baseline/1024.0-startpos);
+		pango_cairo_show_layout_line (_cctx, layoutline);
 		
-	lineindex++;
+		if (++lineindex > *last_line_page)
+		{
+			cairo_show_page (_cctx);
+			cairo_destroy (_cctx);
+			
+			_cctx = cairo_create (_csfc);
+			double r, g, b;
+			PDFContext::get().get_rgb_foreground (&r, &g, &b);
+			cairo_set_source_rgb (_cctx, r, g, b);
+			PDFContext::get().get_rgb_background (&r, &g, &b);
+			cairo_set_source_rgb (_cctx, r, g, b);
+			cairo_paint (_cctx);
+
+			startpos += PDFContext::get().get_layout_height();
+			++last_line_page;
+		}
 	}
 	while (lineindex < nlines && pango_layout_iter_next_line (iter));
 
