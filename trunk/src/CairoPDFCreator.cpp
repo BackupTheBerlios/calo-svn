@@ -15,6 +15,7 @@
 #include <pango/pango-layout.h>
 
 #include "CairoPDFCreator.h"
+#include "PDFContext.h"
 
 CairoPDFCreator::CairoPDFCreator (const Glib::ustring& name, double w, double h)
 {
@@ -24,8 +25,13 @@ CairoPDFCreator::CairoPDFCreator (const Glib::ustring& name, double w, double h)
 	
 	_csfc = cairo_pdf_surface_create (_name.c_str(), _w, _h);
 	_cctx = cairo_create (_csfc);
-	cairo_set_source_rgb (_cctx, 1.0, 1.0, 1.0);
+
+	double r, g, b;
+	PDFContext& pctx = PDFContext::get();
+	pctx.get_rgb_background (&r, &g, &b);
+	cairo_set_source_rgb (_cctx, r, g, b);
 	cairo_paint (_cctx);
+
 	_play = pango_cairo_create_layout (_cctx);
 }
 
@@ -35,7 +41,8 @@ CairoPDFCreator::~CairoPDFCreator()
 
 void CairoPDFCreator::operator<< (const Glib::ustring& text)
 {
-	PangoFontDescription *fdesc = pango_font_description_from_string ("Sans 16");
+	PDFContext& pctx = PDFContext::get();
+	PangoFontDescription *fdesc = pango_font_description_from_string (pctx.get_font().c_str());
 	pango_layout_set_font_description (_play, fdesc);
 	pango_layout_set_width (_play, static_cast<int>(_w * PANGO_SCALE));
 	pango_layout_set_markup (_play, text.c_str(), strlen (text.c_str()));
