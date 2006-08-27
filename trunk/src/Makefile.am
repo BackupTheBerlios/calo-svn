@@ -27,6 +27,8 @@ calo_SOURCES =  exceptions.h		\
 		InputPipe.h		\
 		LynxTextDumper.cpp	\
 		LynxTextDumper.h	\
+		PDFContext.cpp		\
+		PDFContext.h		\
 		PDFCreator.cpp		\
 		PDFCreator.h		\
 		SoupURIFetcher.cpp	\
@@ -41,6 +43,7 @@ calo_SOURCES =  exceptions.h		\
 check_PROGRAMS = testPDFCreator	
 
 testPDFCreator_SOURCES = testPDFCreator.cpp	\
+			 PDFContext.cpp PDFContext,h	\
 			 PDFCreator.cpp PDFCreator,h	\
 			 CairoPDFCreator.cpp CairoPDFCreator.h
 
