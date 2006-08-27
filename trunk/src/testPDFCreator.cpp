@@ -42,7 +42,7 @@ int main (int argc , char **argv)
 	read_file_buf (argv[1], buf, filesize);
 	buf[filesize] = '\0';
 
-	PDFCreator *pdf = PDFCreator::create ("test.pdf", 580, 860);
+	PDFCreator *pdf = PDFCreator::create();
 	Glib::ustring str (buf);
 	*pdf << str;
 	pdf->save();

@@ -40,7 +40,7 @@ static void quit (URIFetcher* fetcher)
 	TextDumper *dumper = TextDumper::create();
 	const Glib::ustring& dump = dumper->render (str);
 	
-	PDFCreator *pdf = PDFCreator::create ("out.pdf", 580, 870);
+	PDFCreator *pdf = PDFCreator::create();
 	*pdf << dump;
 	pdf->save();
 

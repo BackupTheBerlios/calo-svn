@@ -15,7 +15,7 @@
 class PDFCreator
 {
 public:
-	static PDFCreator* create (const Glib::ustring& name, double w, double h);
+	static PDFCreator* create();
 	virtual ~PDFCreator() = 0;
 
 	virtual void operator<< (const Glib::ustring& text) = 0;

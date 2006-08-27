@@ -17,7 +17,7 @@
 class CairoPDFCreator : public PDFCreator
 {
 public:
-	CairoPDFCreator (const Glib::ustring& name, double w, double h);
+	CairoPDFCreator();
 	virtual ~CairoPDFCreator();
 
 	virtual void operator<< (const Glib::ustring& text);

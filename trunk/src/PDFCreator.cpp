@@ -9,9 +9,9 @@
 #include "PDFCreator.h"
 #include "CairoPDFCreator.h"
 
-PDFCreator* PDFCreator::create (const Glib::ustring& name, double w, double h)
+PDFCreator* PDFCreator::create()
 {
-	return new CairoPDFCreator (name, w, h);
+	return new CairoPDFCreator();
 }
 
 PDFCreator::~PDFCreator() {}
