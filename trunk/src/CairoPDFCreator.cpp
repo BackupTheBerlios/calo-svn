@@ -54,6 +54,7 @@ void CairoPDFCreator::operator<< (const Glib::ustring& text)
 		if (pageheight + lineheight > pctx.get_layout_height())
 		{
 			_pagebreaks.push_back (line);
+std::cerr << "line=" << line << std::endl; std::cerr.flush();
 			pageheight = 0;
 		}
 		pageheight += lineheight;
@@ -102,11 +103,11 @@ std::cerr << "ypos=" << baseline/1024.0-startpos << std::endl; std::cerr.flush()
 			PDFContext::get().get_rgb_foreground (&r, &g, &b);
 			cairo_set_source_rgb (_cctx, r, g, b);
 
-			startpos += PDFContext::get().get_layout_height();
+			startpos = baseline/1024.0;
 			++last_line_page;
 		}
 	}
-	while (lineindex < nlines && pango_layout_iter_next_line (iter));
+	while (last_line_page != _pagebreaks.end() && lineindex < nlines && pango_layout_iter_next_line (iter));
 
 	cairo_show_page (_cctx);
 	cairo_destroy (_cctx);
