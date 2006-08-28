@@ -1,3 +1,55 @@
+2006-08-28 06:40 +0000 [r48]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp: get pagebreaking right
+
+2006-08-27 18:29 +0000 [r47]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp: corrections to make multipage work
+
+2006-08-27 18:22 +0000 [r46]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp, src/CairoPDFCreator.h: first multipage
+	  code
+
+2006-08-27 16:35 +0000 [r44-45]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp, src/PDFCreator.cpp,
+	  src/testPDFCreator.cpp, src/CairoPDFCreator.h, src/PDFCreator.h,
+	  src/main.cpp: adaptation to new PDFContext
+
+	* src/PDFContext.cpp, src/PDFContext.h: added properties: fname,
+	  PDF w/h, layout w/h
+
+2006-08-27 16:01 +0000 [r43]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp, src/PDFContext.cpp, src/PDFContext.h:
+	  add RGB foreground to context properties
+
+2006-08-27 15:25 +0000 [r40-42]  rws <rws@localhost>
+
+	* tests/test3.dump (added): add multipage test
+
+	* src/CairoPDFCreator.cpp: use PDFContext class
+
+	* src/Makefile.am, src/PDFContext.cpp (added), src/PDFContext.h
+	  (added): add PDFContext class
+
+2006-08-27 07:59 +0000 [r36-39]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp: use strlen for length
+
+	* tests/test2.dump (added), tests/test4.dump (removed): renamed
+	  test4 to test2
+
+	* tests/test2.dump (removed), tests/test3.dump (removed): remove
+	  ISO dumps
+
+	* tests/test4.dump: removed <> to only test Unicode
+
+2006-08-27 07:34 +0000 [r35]  rws <rws@localhost>
+
+	* ChangeLog: updated to rev. 34
+
 2006-08-27 07:32 +0000 [r32-34]  rws <rws@localhost>
 
 	* src: more svn:ignore props
