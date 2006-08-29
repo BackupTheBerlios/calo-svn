@@ -25,6 +25,8 @@ calo_SOURCES =  exceptions.h		\
 		CairoPDFCreator.h	\
 		DumpProcessor.cpp	\
 		DumpProcessor.h		\
+		FetchAndRenderPipeline.cpp\
+		FetchAndRenderPipeline.h\
 		InputPipe.cpp		\
 		InputPipe.h		\
 		LynxTextDumper.cpp	\
