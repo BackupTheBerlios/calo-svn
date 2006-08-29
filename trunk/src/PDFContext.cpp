@@ -27,6 +27,8 @@ PDFContext::PDFContext()
 	_pdfh = 860;
 	_layow = 500;
 	_layoh = 800;
+	_leftm = 50;
+	_topm = 35;
 }
 
 const Glib::ustring& 

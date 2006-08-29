@@ -64,10 +64,11 @@ std::cerr << "line=" << line << std::endl; std::cerr.flush();
 void CairoPDFCreator::save()
 {
 	double r, g, b;
-	PDFContext::get().get_rgb_background (&r, &g, &b);
+	PDFContext &pctx = PDFContext::get();
+	pctx.get_rgb_background (&r, &g, &b);
 	cairo_set_source_rgb (_cctx, r, g, b);
 	cairo_paint (_cctx);
-	PDFContext::get().get_rgb_foreground (&r, &g, &b);
+	pctx.get_rgb_foreground (&r, &g, &b);
 	cairo_set_source_rgb (_cctx, r, g, b);
 	
 	PangoLayoutIter *iter = pango_layout_get_iter (_play);
@@ -86,7 +87,9 @@ void CairoPDFCreator::save()
 		if (lineindex == 0)
 			startpos = lrect.y/1024.0;
 
-		cairo_move_to (_cctx, lrect.x/1024.0, baseline/1024.0-startpos);
+		cairo_move_to (_cctx, lrect.x/1024.0 + pctx.get_left_margin(), 
+			baseline/1024.0 - startpos + pctx.get_top_margin());
+
 std::cerr << "ypos=" << baseline/1024.0-startpos << std::endl; std::cerr.flush();
 		pango_cairo_show_layout_line (_cctx, layoutline);
 		
@@ -97,10 +100,10 @@ std::cerr << "ypos=" << baseline/1024.0-startpos << std::endl; std::cerr.flush()
 			
 			_cctx = cairo_create (_csfc);
 			double r, g, b;
-			PDFContext::get().get_rgb_background (&r, &g, &b);
+			pctx.get_rgb_background (&r, &g, &b);
 			cairo_set_source_rgb (_cctx, r, g, b);
 			cairo_paint (_cctx);
-			PDFContext::get().get_rgb_foreground (&r, &g, &b);
+			pctx.get_rgb_foreground (&r, &g, &b);
 			cairo_set_source_rgb (_cctx, r, g, b);
 
 			startpos = baseline/1024.0;
