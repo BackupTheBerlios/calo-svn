@@ -7,19 +7,32 @@
 
 #include "FetchAndRenderPipeline.h"
 
+/// Starts fetching articles after which they are processed for the
+/// PDFCreator. Only when all texts are available or timeout happens,
+/// the named PDF file is written. For every single successful fetch, a 
+/// callback is called giving this and the fetched URI.
+
 FetchAndRenderPipeline::FetchAndRenderPipeline 
-(const std::vector<Glib::ustring>& theURIs, 
- const Glib::ustring& fname, 
- void (*progress_cb)(FetchAndRenderPipeline*, const Glib::ustring&) = NULL,
- unsigned long timeout_ms = 300000L)
+(const std::vector<Glib::ustring>& theURIs, const Glib::ustring& fname)
 {
+	set_callback();
+	set_timeout_ms();
+	_theURIs = &theURIs;
+	_fname = fname;
+	
+	_size = _theURIs->size();
+	_fetched.assign (_size, false); 
 }
 	
 FetchAndRenderPipeline::~FetchAndRenderPipeline()
 {
 }
 
-status_t FetchAndRenderPipeline::interrupt()
+void FetchAndRenderPipeline::start()
+{
+}
+
+status_t FetchAndRenderPipeline::stop()
 {
 	return FULLY_WRITTEN;
 }

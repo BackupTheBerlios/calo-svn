@@ -13,21 +13,34 @@
 
 /// FetchAndRenderPipeline
 
+class FetchAndRenderPipeline;
+
 typedef enum { PARTLY_FETCHED=0, PARTLY_WRITTEN, FULLY_WRITTEN } status_t;
+typedef void (*progress_func_t)(FetchAndRenderPipeline*, const Glib::ustring&);
 
 class FetchAndRenderPipeline
 {
 public:
 	FetchAndRenderPipeline (const std::vector<Glib::ustring>& theURIs, 
-			const Glib::ustring& fname, 
-			void (*progress_cb)(FetchAndRenderPipeline*, const Glib::ustring&) = NULL,
-			unsigned long timeout_ms = 300000L);
+			const Glib::ustring& fname = "calo.pdf");
 	
-	status_t interrupt();
+	void set_callback (progress_func_t progress_cb = NULL) 	
+		{ _progress_cb = progress_cb; }
+	void set_timeout_ms (unsigned long timeout_ms = 300000L)
+		{ _timeout_ms = timeout_ms; }
+	
+	void start();
+	status_t stop();
 	~FetchAndRenderPipeline();
 
 private:
-	status_t _status;
+	status_t 			_status;
+	const std::vector<Glib::ustring> *_theURIs;
+	Glib::ustring			_fname;
+	progress_func_t 		_progress_cb;
+	unsigned long 			_timeout_ms;
+	int				_size;
+	std::vector<bool>		_fetched;
 };
 
 #endif
