@@ -23,10 +23,14 @@ calo_SOURCES =  exceptions.h		\
 		main.cpp		\
 		CairoPDFCreator.cpp	\
 		CairoPDFCreator.h	\
+		DumpProcessor.cpp	\
+		DumpProcessor.h		\
 		InputPipe.cpp		\
 		InputPipe.h		\
 		LynxTextDumper.cpp	\
 		LynxTextDumper.h	\
+		LynxToCairoProcessor.cpp\
+		LynxToCairoProcessor.h	\
 		PDFContext.cpp		\
 		PDFContext.h		\
 		PDFCreator.cpp		\
