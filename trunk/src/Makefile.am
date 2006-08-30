@@ -49,8 +49,8 @@ calo_SOURCES =  exceptions.h		\
 check_PROGRAMS = testPDFCreator	
 
 testPDFCreator_SOURCES = testPDFCreator.cpp	\
-			 PDFContext.cpp PDFContext,h	\
-			 PDFCreator.cpp PDFCreator,h	\
+			 PDFContext.cpp PDFContext.h	\
+			 PDFCreator.cpp PDFCreator.h	\
 			 CairoPDFCreator.cpp CairoPDFCreator.h
 
 #hello_LDADD = @LIBINTL@ @ALLOCA@
