@@ -1,3 +1,42 @@
+2006-09-02 16:53 +0000 [r56-57]  rws <rws@localhost>
+
+	* src/URIFetcher.h, src/FetchAndRenderPipeline.h,
+	  src/SoupURIFetcher.cpp, src/SoupURIFetcher.h,
+	  src/FetchAndRenderPipeline.cpp, src/main.cpp: introduce new
+	  URIFetcher interface
+
+	* src/testPipeline.cpp (added), src/Makefile.am: add testPipeline
+
+2006-08-30 07:20 +0000 [r54-55]  rws <rws@localhost>
+
+	* po, m4: more files to svn:ignore
+
+	* src/Makefile.am, config.rpath (added), ABOUT-NLS (added),
+	  po/ChangeLog, m4/ChangeLog, m4/Makefile.am: changes introduced by
+	  gettextize; fixes 'make dist'
+
+2006-08-29 17:22 +0000 [r52-53]  rws <rws@localhost>
+
+	* src/FetchAndRenderPipeline.h (added), src/Makefile.am,
+	  src/FetchAndRenderPipeline.cpp (added): outline of fetch&render
+	  pipeline
+
+2006-08-29 07:44 +0000 [r51]  rws <rws@localhost>
+
+	* src/DumpProcessor.cpp (added), src/Makefile.am,
+	  src/DumpProcessor.h (added), src/LynxToCairoProcessor.cpp
+	  (added), src/LynxToCairoProcessor.h (added): add DumpProcessor
+	  module
+
+2006-08-29 06:55 +0000 [r50]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp, src/PDFContext.cpp, src/PDFContext.h:
+	  add margins handling
+
+2006-08-28 08:13 +0000 [r49]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-08-28 06:40 +0000 [r48]  rws <rws@localhost>
 
 	* src/CairoPDFCreator.cpp: get pagebreaking right
