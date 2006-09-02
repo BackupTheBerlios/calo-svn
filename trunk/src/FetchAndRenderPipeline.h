@@ -34,13 +34,14 @@ public:
 	~FetchAndRenderPipeline();
 
 private:
-	status_t 			_status;
 	const std::vector<Glib::ustring> *_theURIs;
 	Glib::ustring			_fname;
 	progress_func_t 		_progress_cb;
+	status_t 			_status;
 	unsigned long 			_timeout_ms;
 	int				_size;
 	std::vector<bool>		_fetched;
+	bool				_all_fetched;
 };
 
 #endif

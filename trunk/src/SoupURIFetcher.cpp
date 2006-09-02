@@ -23,7 +23,7 @@ void got_data (SoupMessage *msg, gpointer datap)
 	SoupURIFetcher* context = static_cast<SoupURIFetcher*>(datap);
 	context->_html = Glib::ustring (msg->response.body);
 	if (context->_quit_func != NULL)
-		context->_quit_func (context);
+		context->_quit_func (context->_quit_data, NULL);
 	else
 		g_error ("Attempt to call _quit_func = NULL!\n");
 	soup_session_abort (context->_session);
@@ -42,19 +42,26 @@ SoupURIFetcher::~SoupURIFetcher()
 }
 
 /// Do fetch
-Glib::ustring SoupURIFetcher::fetch (Glib::ustring uri)
+void SoupURIFetcher::fetch (const Glib::ustring& uri)
 {
 	// code skeleton stolen from gtkhtml
 	_session = soup_session_async_new();
 	SoupMessage* msg = soup_message_new (SOUP_METHOD_GET, uri.c_str());
 	soup_session_queue_message (_session, msg, got_data, this);
-	
-	return _html;
 }
 
 /// No more fetches will happen, set callback
-void SoupURIFetcher::finish (quit_func_t quit_func)
+void SoupURIFetcher::set_quit_func (UF_quit_func_t func, void *data)
 {
-	_quit_func = quit_func;
+	_quit_func = func;
+	_quit_data = data;
+}
+
+void SoupURIFetcher::start()
+{
+}
+
+void SoupURIFetcher::stop()
+{
 }
 

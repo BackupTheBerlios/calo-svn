@@ -13,7 +13,6 @@
 struct SoupMessage;
 struct SoupSession;
 
-typedef void (*quit_func_t)(URIFetcher*);
 
 /// SoupURIFetcher
 class SoupURIFetcher : public URIFetcher
@@ -21,16 +20,19 @@ class SoupURIFetcher : public URIFetcher
 public:
 	SoupURIFetcher();
 	virtual ~SoupURIFetcher();
-	virtual Glib::ustring fetch (Glib::ustring uri);
-	virtual void finish (quit_func_t quit_func);
-	virtual const Glib::ustring& str() { return _html; }
+	
+	virtual void fetch (const Glib::ustring& uri);
+	virtual void set_quit_func (UF_quit_func_t func, void* data);
+	virtual void start();
+	virtual void stop();
 
 private:
 	friend void got_data (SoupMessage *msg, gpointer data);
 	
-	SoupSession *_session;
-	Glib::ustring _html;
-	quit_func_t _quit_func;
+	SoupSession 	*_session;
+	Glib::ustring 	_html;
+	UF_quit_func_t 	_quit_func;
+	void 		*_quit_data;
 };
 
 #endif
