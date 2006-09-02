@@ -46,12 +46,27 @@ calo_SOURCES =  exceptions.h		\
 		URIFetcher.cpp		\
 		URIFetcher.h
 
-check_PROGRAMS = testPDFCreator	
+check_PROGRAMS = testPDFCreator	testPipeline
 
 testPDFCreator_SOURCES = testPDFCreator.cpp	\
 			 PDFContext.cpp PDFContext.h	\
 			 PDFCreator.cpp PDFCreator.h	\
 			 CairoPDFCreator.cpp CairoPDFCreator.h
+
+testPipeline_SOURCES = testPipeline.cpp	\
+		FetchAndRenderPipeline.cpp FetchAndRenderPipeline.h	\
+		URIFetcher.cpp URIFetcher.h				\
+		SoupURIFetcher.cpp SoupURIFetcher.h			\
+		TempFile.cpp TempFile.h					\
+		TextDumper.cpp TextDumper.h 				\
+		InputPipe.cpp InputPipe.h				\
+		LynxTextDumper.cpp LynxTextDumper.h			\
+		DumpProcessor.cpp DumpProcessor.h			\
+		LynxToCairoProcessor.cpp LynxToCairoProcessor.h		\
+		URIFetcher.cpp URIFetcher.h				\
+		PDFContext.cpp PDFContext.h				\
+		PDFCreator.cpp PDFCreator.h				\	
+		CairoPDFCreator.cpp CairoPDFCreator.h
 
 #hello_LDADD = @LIBINTL@ @ALLOCA@
 
