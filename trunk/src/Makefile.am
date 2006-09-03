@@ -44,7 +44,8 @@ calo_SOURCES =  exceptions.h		\
 		TextDumper.cpp		\
 		TextDumper.h		\
 		URIFetcher.cpp		\
-		URIFetcher.h
+		URIFetcher.h		\
+		URIFetchInfo.h
 
 check_PROGRAMS = testPDFCreator	testPipeline
 
@@ -63,7 +64,7 @@ testPipeline_SOURCES = testPipeline.cpp	\
 		LynxTextDumper.cpp LynxTextDumper.h			\
 		DumpProcessor.cpp DumpProcessor.h			\
 		LynxToCairoProcessor.cpp LynxToCairoProcessor.h		\
-		URIFetcher.cpp URIFetcher.h				\
+		URIFetcher.cpp URIFetcher.h URIFetchInfo.h		\
 		PDFContext.cpp PDFContext.h				\
 		PDFCreator.cpp PDFCreator.h				\	
 		CairoPDFCreator.cpp CairoPDFCreator.h
