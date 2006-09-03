@@ -56,7 +56,7 @@ testPDFCreator_SOURCES = testPDFCreator.cpp	\
 
 testPipeline_SOURCES = testPipeline.cpp	\
 		FetchAndRenderPipeline.cpp FetchAndRenderPipeline.h	\
-		URIFetcher.cpp URIFetcher.h				\
+		URIFetcher.cpp URIFetcher.h URIFetchInfo.h		\
 		SoupURIFetcher.cpp SoupURIFetcher.h			\
 		TempFile.cpp TempFile.h					\
 		TextDumper.cpp TextDumper.h 				\
@@ -64,7 +64,6 @@ testPipeline_SOURCES = testPipeline.cpp	\
 		LynxTextDumper.cpp LynxTextDumper.h			\
 		DumpProcessor.cpp DumpProcessor.h			\
 		LynxToCairoProcessor.cpp LynxToCairoProcessor.h		\
-		URIFetcher.cpp URIFetcher.h URIFetchInfo.h		\
 		PDFContext.cpp PDFContext.h				\
 		PDFCreator.cpp PDFCreator.h				\
 		CairoPDFCreator.cpp CairoPDFCreator.h
