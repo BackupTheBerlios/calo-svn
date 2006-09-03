@@ -66,7 +66,7 @@ testPipeline_SOURCES = testPipeline.cpp	\
 		LynxToCairoProcessor.cpp LynxToCairoProcessor.h		\
 		URIFetcher.cpp URIFetcher.h URIFetchInfo.h		\
 		PDFContext.cpp PDFContext.h				\
-		PDFCreator.cpp PDFCreator.h				\	
+		PDFCreator.cpp PDFCreator.h				\
 		CairoPDFCreator.cpp CairoPDFCreator.h
 
 #hello_LDADD = @LIBINTL@ @ALLOCA@
