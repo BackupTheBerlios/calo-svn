@@ -8,12 +8,9 @@
 #include <iostream>
 #include <gtkmm/main.h>
 
-#include "URIFetcher.h"
-#include "TextDumper.h"
-#include "PDFCreator.h"
+#include "FetchAndRenderPipeline.h"
 
-
-static void quit (URIFetcher* fetcher);
+static void callback (FetchAndRenderPipeline*, const Glib::ustring&,bool,bool);
 
 Glib::RefPtr< Glib::MainLoop > loop;
 
@@ -22,33 +19,27 @@ int main (int argc , char **argv)
 	g_type_init();
 	g_thread_init (NULL);           // needed by libsoup
 
-	URIFetcher *fetcher = URIFetcher::create();
-	//fetcher->fetch ("http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-demo.txt");
-	//fetcher->fetch ("http://www.lynx.org/");
-	//fetcher->fetch ("http://www.ark.in-berlin.de/plde_unicode.txt");
-	//fetcher->finish (quit);
+	std::vector<Glib::ustring> uri_list;
+	
+	uri_list.push_back ("http://localhost/index.html");
+	uri_list.push_back ("http://localhost/index.html");
+	uri_list.push_back ("http://localhost/index.html");
+	
+	FetchAndRenderPipeline pline (uri_list, "test.pdf");
 
+	pline.set_callback (callback);
+	pline.start();
 
 	loop = Glib::MainLoop::create();
 	loop->run();
 
 }
 
-static void quit (URIFetcher* fetcher)
+static void callback (FetchAndRenderPipeline* line, const Glib::ustring& uri, bool was_fetched, bool is_last)
 {
-	//const Glib::ustring& str = fetcher->str();
-	//TextDumper *dumper = TextDumper::create();
-	//const Glib::ustring& dump = dumper->render (str);
-	
-	//PDFCreator *pdf = PDFCreator::create();
-	//*pdf << dump;
-	//pdf->save();
-
-	//delete pdf;
-	//delete dumper;
-	//delete fetcher;
-	
-	loop->quit();
+	std::cout << "URI: " << uri << " was" << (was_fetched? " ":" not ") << "fetched." << std::endl;
+	if (is_last)
+		loop->quit();
 }
 
 

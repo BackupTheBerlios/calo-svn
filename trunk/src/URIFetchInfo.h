@@ -8,14 +8,15 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-//#include <glibmm/ustring.h>
+#include <glibmm/ustring.h>
 
-class URIFetchInfo;
+class URIFetchInfo
 {
 public:
-	URIFetchInfo() : is_last(false) {}
+	URIFetchInfo() : is_fetched(false), is_last(false) {}
 
-	bool is_last;
+	Glib::ustring uri;
+	bool is_fetched, is_last;
 };
 
 #endif
