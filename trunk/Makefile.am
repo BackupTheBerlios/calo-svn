@@ -18,7 +18,7 @@
 ## Process this file with automake to produce Makefile.in
 
 AUTOMAKE_OPTIONS = 1.5 gnits dist-bzip2
-ACLOCAL_AMFLAGS = -I m4
+# ACLOCAL_AMFLAGS = -I m4
 
 MAINT_CHARSET = latin1
 
@@ -27,7 +27,7 @@ ke_PRE = @ke_PRE@
 
 EXTRA_DIST = BUGS ChangeLog.O config.rpath
 
-SUBDIRS = src #doc po src man m4 tests
+SUBDIRS = src doc man po tests
 
 # To produce a diff against the previous version, untar this version
 # and the previous version in the same directory and run `make diff'.

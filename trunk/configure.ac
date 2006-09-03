@@ -19,6 +19,10 @@ AC_PROG_CXX
 dnl Check for build configuration.
 AC_PROG_LIBTOOL
 
+dnl gettext stuff
+ALL_LINGUAS="en"
+AC_SUBST(ALL_LINGUAS)
+
 dnl Check for lynx
 AC_PATH_PROG(LYNX_PATH,lynx,no)
 if test "x$LYNX_PATH" = "xno"; then
@@ -49,7 +53,7 @@ dnl internationalization macros
 dnl AM_GNU_GETTEXT
 
 AC_CONFIG_FILES([Makefile doc/Makefile man/Makefile po/Makefile.in \
-	   m4/Makefile src/Makefile tests/Makefile])
+	   po/Makefile src/Makefile tests/Makefile])
 AC_CONFIG_COMMANDS([default],[[ echo timestamp > stamp-h ]],[[]])
 AC_OUTPUT
 
