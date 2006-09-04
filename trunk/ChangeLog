@@ -1,3 +1,52 @@
+2006-09-04 18:13 +0000 [r67-69]  rws <rws@localhost>
+
+	* src/testPipeline.cpp: fix port no
+
+	* src/SoupURIFetcher.cpp: add 50ms delay between GETs
+
+	* src/cairo-test.h (removed): remove superfluous file
+
+2006-09-04 17:26 +0000 [r66]  rws <rws@localhost>
+
+	* src/SoupURIFetcher.cpp, src/SoupURIFetcher.h: remove unneded
+	  _msg_list, handle msg
+
+2006-09-04 16:30 +0000 [r65]  rws <rws@localhost>
+
+	* src/URIFetcher.h, src/testPipeline.cpp,
+	  src/FetchAndRenderPipeline.h, src/SoupURIFetcher.cpp,
+	  src/URIFetchInfo.h, src/SoupURIFetcher.h,
+	  src/FetchAndRenderPipeline.cpp: alpha version of pipeline
+
+2006-09-03 16:31 +0000 [r62-64]  rws <rws@localhost>
+
+	* src/testPipeline.cpp, src/FetchAndRenderPipeline.h,
+	  src/URIFetchInfo.h, src/FetchAndRenderPipeline.cpp: first attempt
+	  at testPipeline
+
+	* src/Makefile.am: some files were doubly included
+
+	* po: svn:ignore
+
+2006-09-03 08:10 +0000 [r61]  rws <rws@localhost>
+
+	* po/en.po (added), man/Makefile.in, tests/README (added),
+	  configure.ac, man/Makefile.am (added), tests/Makefile.in,
+	  man/README (added), Makefile.am, tests/Makefile.am (added):
+	  changes to make 'make dist' work
+
+2006-09-03 06:49 +0000 [r60]  rws <rws@localhost>
+
+	* src/Makefile.am: remove EOL space
+
+2006-09-03 06:40 +0000 [r59]  rws <rws@localhost>
+
+	* src/Makefile.am, src/URIFetchInfo.h (added): add URIFetchInfo
+
+2006-09-02 16:55 +0000 [r58]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-09-02 16:53 +0000 [r56-57]  rws <rws@localhost>
 
 	* src/URIFetcher.h, src/FetchAndRenderPipeline.h,
