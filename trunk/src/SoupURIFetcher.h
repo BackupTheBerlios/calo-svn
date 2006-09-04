@@ -9,7 +9,6 @@
  */
 
 #include <list>
-
 #include "URIFetcher.h"
 
 struct SoupUri;
@@ -36,9 +35,9 @@ private:
 	void queue_uri (SoupUri*);
 	
 	std::list<SoupUri*> 	_uri_list;
-	std::list<SoupMessage*> _msg_list;
 	SoupSession 		*_session;
 	FetchAndRenderPipeline 	*_pline;
+	int			_fetched;
 };
 
 #endif

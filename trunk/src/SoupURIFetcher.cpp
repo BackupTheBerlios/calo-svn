@@ -37,6 +37,7 @@ void got_data (SoupMessage *msg, gpointer datap)
 SoupURIFetcher::SoupURIFetcher()
 {
 	_pline = NULL;
+	_fetched = 0;
 }
 
 SoupURIFetcher::~SoupURIFetcher()
@@ -58,10 +59,7 @@ void SoupURIFetcher::queue_uri (SoupUri *up)
 {
 	SoupMessage* msg = soup_message_new_from_uri (SOUP_METHOD_GET, up);
 	if (msg != NULL)
-	{
-		_msg_list.push_back (msg);
 		soup_session_queue_message (_session, msg, got_data, this);
-	}
 	else
 		g_warning (_("Error creating message.\n"));
 }
@@ -76,7 +74,13 @@ void SoupURIFetcher::start()
 URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 {
 	const SoupUri* su = soup_message_get_uri (msg);
-	return new URIFetchInfo;
+	URIFetchInfo *info = new URIFetchInfo;
+	info->is_fetched = true;
+	if (++_fetched >= _uri_list.size())
+		info->is_last = true;
+	info->html = msg->response.body;
+	info->uri = soup_uri_to_string (su);
+	return info;
 }
 
 void SoupURIFetcher::stop()
