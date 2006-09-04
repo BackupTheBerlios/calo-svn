@@ -20,9 +20,9 @@ int main (int argc , char **argv)
 	g_thread_init (NULL);           // needed by libsoup
 
 	FetchAndRenderPipeline pline;
-	pline.add_uri ("http://localhost/index.html");
-	pline.add_uri ("http://localhost/index.html");
-	pline.add_uri ("http://localhost/index.html");
+	pline.add_uri ("http://localhost:8080/index.html");
+	pline.add_uri ("http://localhost:8080/index.html");
+	pline.add_uri ("http://localhost:8080/index.html");
 	pline.set_callback (callback);
 	pline.start();
 
