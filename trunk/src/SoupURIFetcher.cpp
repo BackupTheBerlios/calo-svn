@@ -9,7 +9,9 @@
 #include <config.h>
 #endif
 
+#include <iostream>
 #include <functional>
+#include <time.h>
 #include <glibmm/i18n.h>
 #include <libsoup/soup.h>
 
@@ -21,6 +23,7 @@
 /// Friend callback that puts the result in the Fetcher's UTF-8 storage
 void got_data (SoupMessage *msg, gpointer datap)
 {
+std::cerr << "got data" << std::endl << std::flush;
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code))
 	{
 		g_warning ("%d - %s", msg->status_code, msg->reason_phrase);
@@ -57,6 +60,11 @@ void SoupURIFetcher::add_uri (const Glib::ustring& uri)
 
 void SoupURIFetcher::queue_uri (SoupUri *up)
 {
+	struct timespec ti;
+	ti.tv_sec = 0;
+	ti.tv_nsec = 50000000L;
+	nanosleep (&ti, &ti);
+	
 	SoupMessage* msg = soup_message_new_from_uri (SOUP_METHOD_GET, up);
 	if (msg != NULL)
 		soup_session_queue_message (_session, msg, got_data, this);
@@ -79,7 +87,7 @@ URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 	if (++_fetched >= _uri_list.size())
 		info->is_last = true;
 	info->html = msg->response.body;
-	info->uri = soup_uri_to_string (su);
+	info->uri = soup_uri_to_string (su, false);
 	return info;
 }
 
