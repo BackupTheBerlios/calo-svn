@@ -11,8 +11,7 @@
 #include <glibmm/ustring.h>
 
 class URIFetchInfo;
-
-typedef void (*UF_quit_func_t)(void*,URIFetchInfo*);
+class FetchAndRenderPipeline;
 
 /// URIFetcher
 
@@ -23,10 +22,10 @@ public:
 	virtual ~URIFetcher() = 0;
 	
 	/// Name a URI to fetch
-	virtual void fetch (const Glib::ustring& uri) = 0;
+	virtual void add_uri (const Glib::ustring&) = 0;
 	
 	/// Set callback to call after URI is fetched.
-	virtual void set_quit_func (UF_quit_func_t func, void *data) = 0;
+	virtual void set_pline (FetchAndRenderPipeline*) = 0;
 
 	/// Start session and try to get all URIs.
 	virtual void start() = 0;

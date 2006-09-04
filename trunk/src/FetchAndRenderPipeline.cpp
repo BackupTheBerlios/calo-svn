@@ -8,61 +8,52 @@
  */
 
 #include <algorithm>
-#include <functional>
+#include <bits/stl_function.h>
 
 #include "FetchAndRenderPipeline.h"
 #include "URIFetcher.h"
 #include "URIFetchInfo.h"
 
+
 // but when do we destroy the SoupURIFetcher?
 static URIFetcher *_fetcher = NULL;
 
 /// Creates all structures necessary for the pipeline protocol.
-/// \param theURIs Container holding all URs to be fetched
-/// \param fname Filename of PDF to be written
-FetchAndRenderPipeline::FetchAndRenderPipeline 
-(const std::vector<Glib::ustring>& theURIs, const Glib::ustring& fname)
+FetchAndRenderPipeline::FetchAndRenderPipeline()
 {
+	set_fname();
 	set_callback();
 	set_timeout_ms();
-	_theURIs = &theURIs;
-	_fname = fname;
 	
-	_size = _theURIs->size();
-	_fetched.assign (_size, false);
+	_size = 0;
 	_all_fetched = false;
 	_something_dumped = false;
 	if (_fetcher == NULL)
 		_fetcher = URIFetcher::create();
 }
-	
+
+/// Adds an entry for this uri to the internal database of URIs
+/// that will be fetched
+void FetchAndRenderPipeline::add_uri (const Glib::ustring& uri)
+{
+	_fetcher->add_uri (uri);
+	++_size;
+}
+
 FetchAndRenderPipeline::~FetchAndRenderPipeline()
 {
 }
 
 //----------------------------------------------------------------------
-void quit_fetch (void* data, URIFetchInfo* info)
-{
-	static_cast<FetchAndRenderPipeline*>(data)->quit_fetch (info);
-}
-
-/// Helper, called for each uri.
-static void fetch (Glib::ustring uri)
-{
-	_fetcher->fetch (uri);
-}
-
 /// Starts fetching articles after which they are processed for the
 /// PDFCreator. Only when all dumps are available in the container,
 /// or timeout happens, the named PDF file is written.
 status_t FetchAndRenderPipeline::start()
 {
-	if (_theURIs->size() == 0)
+	if (_size == 0)
 		return NOTHING_FETCHED;
 		
-	_fetcher->set_quit_func (::quit_fetch, this);
-	std::for_each (_theURIs->begin(), _theURIs->end(), fetch);
-
+	_fetcher->set_pline (this);
 	_fetcher->start();
 
 	// Now wait for timeout, then stop and maybe process further.
@@ -86,19 +77,24 @@ status_t FetchAndRenderPipeline::start()
 /// Called asynchronously for every message the fetcher returns ?
 /// Postprocesses fully received HTMLs (Dumper, Processor), then
 /// saves dump in a container.
-void FetchAndRenderPipeline::quit_fetch (URIFetchInfo* info)
+void 
+FetchAndRenderPipeline::quit_fetch (URIFetchInfo* info)
 {
 	// the info struct contains bool _is_last_call;
 	// to determine if all URIs were fetched
 
-	make_dump (info);
+	make_dump (info->html, info->uri);
 	if (info->is_last)
+	{
 		make_pdf();
+		_all_fetched = true;
+	}
 	_progress_cb (this, info->uri, info->is_fetched, info->is_last);
 }
 
 /// Interrupt the pipeline even before timeout is reached. Needed?
-status_t FetchAndRenderPipeline::stop()
+status_t 
+FetchAndRenderPipeline::stop()
 {
 	if (!_all_fetched)
 		_fetcher->stop();
@@ -106,11 +102,13 @@ status_t FetchAndRenderPipeline::stop()
 }
 
 //-----------------------------------------------------------
-void FetchAndRenderPipeline::make_dump (URIFetchInfo* info)
+void 
+FetchAndRenderPipeline::make_dump (const Glib::ustring& html, const Glib::ustring& uri)
 {
 	_something_dumped = true;
 }
 
-void FetchAndRenderPipeline::make_pdf()
+void 
+FetchAndRenderPipeline::make_pdf()
 {
 }

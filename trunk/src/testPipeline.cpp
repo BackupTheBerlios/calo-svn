@@ -19,14 +19,10 @@ int main (int argc , char **argv)
 	g_type_init();
 	g_thread_init (NULL);           // needed by libsoup
 
-	std::vector<Glib::ustring> uri_list;
-	
-	uri_list.push_back ("http://localhost/index.html");
-	uri_list.push_back ("http://localhost/index.html");
-	uri_list.push_back ("http://localhost/index.html");
-	
-	FetchAndRenderPipeline pline (uri_list, "test.pdf");
-
+	FetchAndRenderPipeline pline;
+	pline.add_uri ("http://localhost/index.html");
+	pline.add_uri ("http://localhost/index.html");
+	pline.add_uri ("http://localhost/index.html");
 	pline.set_callback (callback);
 	pline.start();
 

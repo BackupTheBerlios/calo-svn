@@ -8,8 +8,8 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#include <vector>
 #include <glibmm/ustring.h>
+
 
 /// FetchAndRenderPipeline
 
@@ -23,31 +23,29 @@ typedef void (*progress_func_t)(FetchAndRenderPipeline*, const Glib::ustring&,bo
 class FetchAndRenderPipeline
 {
 public:
-	FetchAndRenderPipeline (const std::vector<Glib::ustring>& theURIs, 
-			const Glib::ustring& fname = "calo.pdf");
-	
+	FetchAndRenderPipeline();
+	~FetchAndRenderPipeline();
+			
+	void set_fname (const Glib::ustring& fname = "calo.pdf")
+		{ _fname = fname; }
 	void set_callback (progress_func_t progress_cb = NULL) 	
 		{ _progress_cb = progress_cb; }
 	void set_timeout_ms (unsigned long timeout_ms = 300000L)
 		{ _timeout_ms = timeout_ms; }
-	
+	void add_uri (const Glib::ustring& uri);
+ 	
 	status_t start();
 	status_t stop();
-	~FetchAndRenderPipeline();
+	void quit_fetch (URIFetchInfo*);
 
 private:
-	friend void quit_fetch (void* , URIFetchInfo*);
-	void quit_fetch (URIFetchInfo* info);
-	void make_dump (URIFetchInfo* info);
+	void make_dump (const Glib::ustring& html, const Glib::ustring& uri);
 	void make_pdf();
 
-	const std::vector<Glib::ustring> *_theURIs;
 	Glib::ustring			_fname;
 	progress_func_t 		_progress_cb;
-	//status_t 			_status;
 	unsigned long 			_timeout_ms;
 	int				_size;
-	std::vector<bool>		_fetched;
 	bool				_all_fetched, _something_dumped;
 };
 

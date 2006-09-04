@@ -5,11 +5,18 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <libsoup/soup.h>
-#include "SoupURIFetcher.h"
+#endif
 
-/// This class can only handle one connection overall!
+#include <functional>
+#include <glibmm/i18n.h>
+#include <libsoup/soup.h>
+
+#include "SoupURIFetcher.h"
+#include "FetchAndRenderPipeline.h"
+#include "URIFetchInfo.h"
+
 
 /// Friend callback that puts the result in the Fetcher's UTF-8 storage
 void got_data (SoupMessage *msg, gpointer datap)
@@ -21,44 +28,55 @@ void got_data (SoupMessage *msg, gpointer datap)
 	}
 	
 	SoupURIFetcher* context = static_cast<SoupURIFetcher*>(datap);
-	context->_html = Glib::ustring (msg->response.body);
-	if (context->_quit_func != NULL)
-		context->_quit_func (context->_quit_data, NULL);
-	else
-		g_error ("Attempt to call _quit_func = NULL!\n");
-	soup_session_abort (context->_session);
+	URIFetchInfo* info = context->handle_msg (msg);
+	context->_pline->quit_fetch (info);
 }
 
 //----------------------------------------------------------------------
 
 SoupURIFetcher::SoupURIFetcher()
 {
-	_quit_func = NULL;
+	_pline = NULL;
 }
 
 SoupURIFetcher::~SoupURIFetcher()
 {
+	for_each (_uri_list.begin(), _uri_list.end(), soup_uri_free);
 	soup_session_abort (_session);
 }
 
-/// Do fetch
-void SoupURIFetcher::fetch (const Glib::ustring& uri)
+void SoupURIFetcher::add_uri (const Glib::ustring& uri)
 {
-	// code skeleton stolen from gtkhtml
-	_session = soup_session_async_new();
-	SoupMessage* msg = soup_message_new (SOUP_METHOD_GET, uri.c_str());
-	soup_session_queue_message (_session, msg, got_data, this);
+	SoupUri *up = soup_uri_new (uri.c_str());
+	if (up != NULL)
+		_uri_list.push_back (up);
+	else
+		g_warning (_("Could not parse URI: %s\n"), uri.c_str());
 }
 
-/// No more fetches will happen, set callback
-void SoupURIFetcher::set_quit_func (UF_quit_func_t func, void *data)
+void SoupURIFetcher::queue_uri (SoupUri *up)
 {
-	_quit_func = func;
-	_quit_data = data;
+	SoupMessage* msg = soup_message_new_from_uri (SOUP_METHOD_GET, up);
+	if (msg != NULL)
+	{
+		_msg_list.push_back (msg);
+		soup_session_queue_message (_session, msg, got_data, this);
+	}
+	else
+		g_warning (_("Error creating message.\n"));
 }
 
 void SoupURIFetcher::start()
 {
+	_session = soup_session_async_new();
+	for_each (_uri_list.begin(), _uri_list.end(), 
+		bind1st (std::mem_fun (&SoupURIFetcher::queue_uri), this));
+}
+
+URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
+{
+	const SoupUri* su = soup_message_get_uri (msg);
+	return new URIFetchInfo;
 }
 
 void SoupURIFetcher::stop()
