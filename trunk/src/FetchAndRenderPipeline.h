@@ -12,14 +12,15 @@
 #include <glibmm/ustring.h>
 
 
-/// FetchAndRenderPipeline
-
 class FetchAndRenderPipeline;
+class URIFetcher;
 class URIFetchInfo;
 
 typedef enum { NOTHING_FETCHED=0, PARTLY_FETCHED, PARTLY_WRITTEN, 
 	FULLY_WRITTEN } status_t;
 typedef void (*progress_func_t)(FetchAndRenderPipeline*, const Glib::ustring&,bool,bool);
+
+/// FetchAndRenderPipeline
 
 class FetchAndRenderPipeline
 {
@@ -44,6 +45,7 @@ private:
 					const Glib::ustring& uri);
 	void make_pdf();
 
+	URIFetcher			*_fetcher;
 	std::vector<Glib::ustring> 	_dumps;
 	Glib::ustring			_fname;
 	progress_func_t 		_progress_cb;

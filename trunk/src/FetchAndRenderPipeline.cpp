@@ -16,8 +16,6 @@
 #include "URIFetchInfo.h"
 
 
-// but when do we destroy the SoupURIFetcher?
-static URIFetcher *_fetcher = NULL;
 
 /// Creates all structures necessary for the pipeline protocol.
 FetchAndRenderPipeline::FetchAndRenderPipeline()
@@ -29,8 +27,7 @@ FetchAndRenderPipeline::FetchAndRenderPipeline()
 	_size = 0;
 	_all_fetched = false;
 	_something_dumped = false;
-	if (_fetcher == NULL)
-		_fetcher = URIFetcher::create();
+	_fetcher = URIFetcher::create();
 }
 
 /// Adds an entry for this uri to the internal database of URIs
@@ -43,6 +40,7 @@ void FetchAndRenderPipeline::add_uri (const Glib::ustring& uri)
 
 FetchAndRenderPipeline::~FetchAndRenderPipeline()
 {
+	delete _fetcher;
 }
 
 //----------------------------------------------------------------------
