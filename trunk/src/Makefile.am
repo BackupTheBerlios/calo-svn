@@ -21,6 +21,7 @@
 bin_PROGRAMS = calo
 calo_SOURCES =  exceptions.h		\
 		main.cpp		\
+		utils.cpp utils.h	\
 		CairoPDFCreator.cpp	\
 		CairoPDFCreator.h	\
 		DumpProcessor.cpp	\
@@ -55,6 +56,7 @@ testPDFCreator_SOURCES = testPDFCreator.cpp	\
 			 CairoPDFCreator.cpp CairoPDFCreator.h
 
 testPipeline_SOURCES = testPipeline.cpp	\
+		utils.cpp utils.h					\
 		FetchAndRenderPipeline.cpp FetchAndRenderPipeline.h	\
 		URIFetcher.cpp URIFetcher.h URIFetchInfo.h		\
 		SoupURIFetcher.cpp SoupURIFetcher.h			\
