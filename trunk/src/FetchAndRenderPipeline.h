@@ -8,6 +8,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <vector>
 #include <glibmm/ustring.h>
 
 
@@ -39,9 +40,11 @@ public:
 	void quit_fetch (URIFetchInfo*);
 
 private:
-	void make_dump (const Glib::ustring& html, const Glib::ustring& uri);
+	const Glib::ustring& make_dump (const Glib::ustring& html, 
+					const Glib::ustring& uri);
 	void make_pdf();
 
+	std::vector<Glib::ustring> 	_dumps;
 	Glib::ustring			_fname;
 	progress_func_t 		_progress_cb;
 	unsigned long 			_timeout_ms;

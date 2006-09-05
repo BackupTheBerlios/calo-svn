@@ -8,7 +8,8 @@
  */
 
 #include <algorithm>
-#include <bits/stl_function.h>
+#include <functional>
+//#include <bits/stl_function.h>
 
 #include "FetchAndRenderPipeline.h"
 #include "URIFetcher.h"
@@ -83,7 +84,8 @@ FetchAndRenderPipeline::quit_fetch (URIFetchInfo* info)
 	// the info struct contains bool _is_last_call;
 	// to determine if all URIs were fetched
 
-	make_dump (info->html, info->uri);
+	_dumps[info->no] = make_dump (info->html, info->uri);
+	
 	if (info->is_last)
 	{
 		make_pdf();
@@ -102,10 +104,11 @@ FetchAndRenderPipeline::stop()
 }
 
 //-----------------------------------------------------------
-void 
+const Glib::ustring&
 FetchAndRenderPipeline::make_dump (const Glib::ustring& html, const Glib::ustring& uri)
 {
 	_something_dumped = true;
+	return Glib::ustring("");
 }
 
 void 

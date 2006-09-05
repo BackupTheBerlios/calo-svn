@@ -16,6 +16,7 @@ public:
 	URIFetchInfo() : is_fetched(false), is_last(false) {}
 
 	Glib::ustring html, uri;
+	unsigned int no;
 	bool is_fetched, is_last;
 };
 

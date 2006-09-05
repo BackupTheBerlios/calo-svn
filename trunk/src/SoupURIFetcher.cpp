@@ -53,7 +53,10 @@ void SoupURIFetcher::add_uri (const Glib::ustring& uri)
 {
 	SoupUri *up = soup_uri_new (uri.c_str());
 	if (up != NULL)
+	{
 		_uri_list.push_back (up);
+		_uri_index[soup_uri_to_string (up, false)] = _uri_list.size();
+	}
 	else
 		g_warning (_("Could not parse URI: %s\n"), uri.c_str());
 }
@@ -83,7 +86,10 @@ URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 	if (++_fetched >= _uri_list.size())
 		info->is_last = true;
 	info->html = msg->response.body;
-	info->uri = soup_uri_to_string (su, false);
+	const char *str = soup_uri_to_string (su, false);
+	info->uri = str;
+	info->no = _uri_index[str];
+
 	return info;
 }
 
