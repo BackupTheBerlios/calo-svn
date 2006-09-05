@@ -9,12 +9,11 @@
 
 #include <algorithm>
 #include <functional>
-//#include <bits/stl_function.h>
 
 #include "FetchAndRenderPipeline.h"
 #include "URIFetcher.h"
 #include "URIFetchInfo.h"
-
+#include "utils.h"
 
 
 /// Creates all structures necessary for the pipeline protocol.
@@ -57,6 +56,8 @@ status_t FetchAndRenderPipeline::start()
 
 	// Now wait for timeout, then stop and maybe process further.
 	// Handle signals!!!
+
+	sleepms (_timeout_ms);
 	
 	// If all dumps are already available before timeout, writing
 	// of PDF is initiated by the last callback thread called. So,
