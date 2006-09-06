@@ -36,7 +36,7 @@ private:
 	void queue_uri (SoupUri*);
 	
 	std::list<SoupUri*> 		_uri_list;
-	std::map<const char*,int> 	_uri_index;
+	std::map<Glib::ustring,int> 	_uri_index;
 	SoupSession 			*_session;
 	FetchAndRenderPipeline		*_pline;
 	unsigned int			_fetched;
