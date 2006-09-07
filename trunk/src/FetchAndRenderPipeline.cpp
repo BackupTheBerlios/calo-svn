@@ -11,6 +11,9 @@
 #include <functional>
 
 #include "FetchAndRenderPipeline.h"
+#include "TextDumper.h"
+#include "DumpProcessor.h"
+#include "PDFCreator.h"
 #include "URIFetcher.h"
 #include "URIFetchInfo.h"
 #include "utils.h"
@@ -106,11 +109,23 @@ FetchAndRenderPipeline::stop()
 const Glib::ustring&
 FetchAndRenderPipeline::make_dump (const Glib::ustring& html, const Glib::ustring& uri)
 {
+	TextDumper *dumper = TextDumper::create();
+	const Glib::ustring& dump = dumper->render (html);
+
+	DumpProcessor *dp = DumpProcessor::create();
+	dp->set_uri (uri);
+	const Glib::ustring& res = dp->process (dump);
+	
 	_something_dumped = true;
-	return Glib::ustring("");
+	return res;
 }
 
 void 
 FetchAndRenderPipeline::make_pdf()
 {
+	PDFCreator *pdf = PDFCreator::create();
+	for (unsigned int i=1; i<=_dumps.size(); ++i)
+		*pdf << _dumps[i];
+	pdf->save();
+	delete pdf;
 }
