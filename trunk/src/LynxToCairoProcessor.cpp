@@ -12,6 +12,12 @@ LynxToCairoProcessor::LynxToCairoProcessor()
 {
 }
 
+void
+LynxToCairoProcessor::set_uri (const Glib::ustring& uri)
+{
+	_uri = uri;
+}
+
 const Glib::ustring&
 LynxToCairoProcessor::process (const Glib::ustring& dump)
 {

@@ -18,6 +18,7 @@ class DumpProcessor
 public:
 	static DumpProcessor* create();
 	virtual ~DumpProcessor() = 0;
+	virtual void set_uri (const Glib::ustring&) = 0;
 	virtual const Glib::ustring& process (const Glib::ustring& dump) = 0;
 };
 

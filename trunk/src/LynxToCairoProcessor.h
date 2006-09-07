@@ -20,7 +20,11 @@ public:
 	LynxToCairoProcessor();
 	virtual ~LynxToCairoProcessor() {}
 
+	virtual void set_uri (const Glib::ustring& uri);
 	virtual const Glib::ustring& process (const Glib::ustring& dump);
+
+private:
+	Glib::ustring _uri;
 };
 
 #endif
