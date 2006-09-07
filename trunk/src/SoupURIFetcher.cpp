@@ -40,12 +40,18 @@ std::cerr << "got data" << std::endl << std::flush;
 SoupURIFetcher::SoupURIFetcher()
 {
 	_pline = NULL;
+	_added = 0;
 	_fetched = 0;
+}
+
+static void delete_uri (std::pair<const SoupUri*,int> thePair)
+{
+	soup_uri_free (const_cast<SoupUri*> (thePair.first));
 }
 
 SoupURIFetcher::~SoupURIFetcher()
 {
-	for_each (_uri_list.begin(), _uri_list.end(), soup_uri_free);
+	for_each (_uri_index.begin(), _uri_index.end(), delete_uri);
 	soup_session_abort (_session);
 }
 
@@ -53,17 +59,15 @@ void SoupURIFetcher::add_uri (const Glib::ustring& uri)
 {
 	SoupUri *up = soup_uri_new (uri.c_str());
 	if (up != NULL)
-	{
-		_uri_list.push_back (up);
-		_uri_index[soup_uri_to_string (up, false)] = _uri_list.size();
-	}
+		_uri_index[up] = ++_added;
 	else
 		g_warning (_("Could not parse URI: %s\n"), uri.c_str());
 }
 
-void SoupURIFetcher::queue_uri (SoupUri *up)
+void SoupURIFetcher::queue_uri (std::pair<const SoupUri*,int> thePair)
 {
 	sleepms (50);
+	const SoupUri *up = thePair.first;
 	SoupMessage* msg = soup_message_new_from_uri (SOUP_METHOD_GET, up);
 	if (msg != NULL)
 		soup_session_queue_message (_session, msg, got_data, this);
@@ -74,7 +78,7 @@ void SoupURIFetcher::queue_uri (SoupUri *up)
 void SoupURIFetcher::start()
 {
 	_session = soup_session_async_new();
-	for_each (_uri_list.begin(), _uri_list.end(), 
+	for_each (_uri_index.begin(), _uri_index.end(), 
 		bind1st (std::mem_fun (&SoupURIFetcher::queue_uri), this));
 }
 
@@ -83,12 +87,11 @@ URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 	const SoupUri* su = soup_message_get_uri (msg);
 	URIFetchInfo *info = new URIFetchInfo;
 	info->is_fetched = true;
-	if (++_fetched >= _uri_list.size())
+	if (++_fetched >= _added)
 		info->is_last = true;
 	info->html = msg->response.body;
-	const char *str = soup_uri_to_string (su, false);
-	info->uri = str;
-	info->no = _uri_index[str];
+	info->uri = soup_uri_to_string (su, false);
+	info->no = _uri_index[su];
 
 	return info;
 }

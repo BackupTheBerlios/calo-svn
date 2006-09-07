@@ -8,7 +8,6 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#include <list>
 #include <map>
 #include "URIFetcher.h"
 
@@ -33,13 +32,12 @@ public:
 private:
 	friend void got_data (SoupMessage *msg, gpointer data);
 	URIFetchInfo* handle_msg (SoupMessage *msg);
-	void queue_uri (SoupUri*);
+	void queue_uri (std::pair<const SoupUri*,int>);
 	
-	std::list<SoupUri*> 		_uri_list;
-	std::map<Glib::ustring,int> 	_uri_index;
+	std::map<const SoupUri*,int> 	_uri_index;
 	SoupSession 			*_session;
 	FetchAndRenderPipeline		*_pline;
-	unsigned int			_fetched;
+	unsigned int			_added, _fetched;
 };
 
 #endif
