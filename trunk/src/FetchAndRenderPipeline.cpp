@@ -9,7 +9,6 @@
 
 #include <algorithm>
 #include <functional>
-#include <sigc++/sigc++.h>
 #include <glibmm/main.h>
 
 #include "FetchAndRenderPipeline.h"
@@ -44,6 +43,7 @@ void FetchAndRenderPipeline::add_uri (const Glib::ustring& uri)
 
 FetchAndRenderPipeline::~FetchAndRenderPipeline()
 {
+	_timeout_connection.disconnect();
 	delete _fetcher;
 }
 
@@ -54,10 +54,12 @@ status_t FetchAndRenderPipeline::start()
 	if (_size == 0)
 		return NOTHING_FETCHED;
 		
+	_dumps.assign (_size, "");
 	_fetcher->set_pline (this);
 	_fetcher->start();
-	Glib::signal_timeout().connect (
-		sigc::mem_fun (this, &FetchAndRenderPipeline::post_fetch), _timeout_ms);
+	_timeout_connection = Glib::signal_timeout().connect (
+		sigc::mem_fun (this, &FetchAndRenderPipeline::post_fetch), 
+		_timeout_ms);
 	return WAITING;
 }
 
@@ -129,7 +131,7 @@ void
 FetchAndRenderPipeline::make_pdf()
 {
 	PDFCreator *pdf = PDFCreator::create();
-	for (unsigned int i=1; i<=_dumps.size(); ++i)
+	for (unsigned int i=0; i<_dumps.size(); ++i)
 		*pdf << _dumps[i];
 	pdf->save();
 	delete pdf;

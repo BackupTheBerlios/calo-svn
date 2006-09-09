@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <glibmm/ustring.h>
+#include <sigc++/sigc++.h>
 
 
 class FetchAndRenderPipeline;
@@ -49,6 +50,7 @@ private:
 	URIFetcher			*_fetcher;
 	std::vector<Glib::ustring> 	_dumps;
 	Glib::ustring			_fname;
+	sigc::connection		_timeout_connection;
 	progress_func_t 		_progress_cb;
 	unsigned long 			_timeout_ms;
 	int				_size;
