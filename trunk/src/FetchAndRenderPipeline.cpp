@@ -9,6 +9,8 @@
 
 #include <algorithm>
 #include <functional>
+#include <sigc++/sigc++.h>
+#include <glibmm/main.h>
 
 #include "FetchAndRenderPipeline.h"
 #include "TextDumper.h"
@@ -46,9 +48,7 @@ FetchAndRenderPipeline::~FetchAndRenderPipeline()
 }
 
 //----------------------------------------------------------------------
-/// Starts fetching articles after which they are processed for the
-/// PDFCreator. Only when all dumps are available in the container,
-/// or timeout happens, the named PDF file is written.
+/// Starts fetching articles and wait for timeout.
 status_t FetchAndRenderPipeline::start()
 {
 	if (_size == 0)
@@ -56,12 +56,17 @@ status_t FetchAndRenderPipeline::start()
 		
 	_fetcher->set_pline (this);
 	_fetcher->start();
+	Glib::signal_timeout().connect (
+		sigc::mem_fun (this, &FetchAndRenderPipeline::post_fetch), _timeout_ms);
+	return WAITING;
+}
 
-	// Now wait for timeout, then stop and maybe process further.
-	// Handle signals!!!
-
-	sleepms (_timeout_ms);
-	
+/// Callback to call after timeout, after which fetch results are processed 
+/// for the PDFCreator. Only when all dumps are available in the container,
+/// or timeout happens, the named PDF file is written.
+bool
+FetchAndRenderPipeline::post_fetch()
+{
 	// If all dumps are already available before timeout, writing
 	// of PDF is initiated by the last callback thread called. So,
 	// we need to handle here only the other cases.
@@ -69,12 +74,12 @@ status_t FetchAndRenderPipeline::start()
 	{
 		_fetcher->stop();
 		if (!_something_dumped)
-			return NOTHING_FETCHED;
+			return false; // NOTHING_FETCHED;
 		make_pdf();
-		return PARTLY_WRITTEN;
+		return false; //PARTLY_WRITTEN;
 	}
 	/// all fetched, wait a bit?
-	return FULLY_WRITTEN;
+	return true; //	FULLY_WRITTEN;
 }
 
 /// Called asynchronously for every message the fetcher returns ?
