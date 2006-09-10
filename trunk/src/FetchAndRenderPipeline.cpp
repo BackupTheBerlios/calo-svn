@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <glib/gmessages.h>
 #include <glibmm/main.h>
 
 #include "FetchAndRenderPipeline.h"
@@ -93,7 +94,9 @@ FetchAndRenderPipeline::quit_fetch (URIFetchInfo* info)
 	// the info struct contains bool _is_last_call;
 	// to determine if all URIs were fetched
 
-	_dumps[info->no] = make_dump (info->html, info->uri);
+//std::cerr << "try to assign to _dumps index " << info->no << std::endl << std::flush;
+	g_assert (info->no <= _dumps.size());
+	_dumps[info->no - 1] = make_dump (info->html, info->uri);
 	
 	if (info->is_last)
 	{
