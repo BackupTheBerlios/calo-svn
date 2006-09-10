@@ -32,9 +32,9 @@ public:
 private:
 	friend void got_data (SoupMessage *msg, gpointer data);
 	URIFetchInfo* handle_msg (SoupMessage *msg);
-	void queue_uri (std::pair<const SoupUri*,int>);
+	void queue_msg (std::pair<SoupMessage*,int>);
 	
-	std::map<const SoupUri*,int> 	_uri_index;
+	std::map<SoupMessage*,int> 	_msg_index;
 	SoupSession 			*_session;
 	FetchAndRenderPipeline		*_pline;
 	unsigned int			_added, _fetched;

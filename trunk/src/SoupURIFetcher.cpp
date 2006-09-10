@@ -23,7 +23,7 @@
 /// Friend callback that puts the result in the Fetcher's UTF-8 storage
 void got_data (SoupMessage *msg, gpointer datap)
 {
-std::cerr << "got data" << std::endl << std::flush;
+//std::cerr << "got data" << std::endl << std::flush;
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code))
 	{
 		g_warning ("%d - %s", msg->status_code, msg->reason_phrase);
@@ -44,42 +44,40 @@ SoupURIFetcher::SoupURIFetcher()
 	_fetched = 0;
 }
 
-static void delete_uri (std::pair<const SoupUri*,int> thePair)
-{
-	soup_uri_free (const_cast<SoupUri*> (thePair.first));
-}
-
 SoupURIFetcher::~SoupURIFetcher()
 {
-	for_each (_uri_index.begin(), _uri_index.end(), delete_uri);
 	soup_session_abort (_session);
 }
 
 void SoupURIFetcher::add_uri (const Glib::ustring& uri)
 {
 	SoupUri *up = soup_uri_new (uri.c_str());
-	if (up != NULL)
-		_uri_index[up] = ++_added;
-	else
+	if (up == NULL)
 		g_warning (_("Could not parse URI: %s\n"), uri.c_str());
+
+	SoupMessage* msg = soup_message_new_from_uri (SOUP_METHOD_GET, up);
+	if (msg == NULL)
+		g_warning (_("Error creating message.\n"));
+	else
+		_msg_index[msg] = ++_added;
+	soup_uri_free (up);
 }
 
-void SoupURIFetcher::queue_uri (std::pair<const SoupUri*,int> thePair)
+void SoupURIFetcher::queue_msg (std::pair<SoupMessage*,int> thePair)
 {
 	sleepms (50);
-	const SoupUri *up = thePair.first;
-	SoupMessage* msg = soup_message_new_from_uri (SOUP_METHOD_GET, up);
-	if (msg != NULL)
-		soup_session_queue_message (_session, msg, got_data, this);
-	else
-		g_warning (_("Error creating message.\n"));
+	SoupMessage* msg = thePair.first;
+	soup_session_queue_message (_session, msg, got_data, this);
 }
 
 void SoupURIFetcher::start()
 {
+	if (_msg_index.size() == 0)
+		return;
+
 	_session = soup_session_async_new();
-	for_each (_uri_index.begin(), _uri_index.end(), 
-		bind1st (std::mem_fun (&SoupURIFetcher::queue_uri), this));
+	for_each (_msg_index.begin(), _msg_index.end(), 
+		bind1st (std::mem_fun (&SoupURIFetcher::queue_msg), this));
 }
 
 URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
@@ -91,7 +89,7 @@ URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 		info->is_last = true;
 	info->html = msg->response.body;
 	info->uri = soup_uri_to_string (su, false);
-	info->no = _uri_index[su];
+	info->no = (_msg_index.find (msg))->second;
 
 	return info;
 }
