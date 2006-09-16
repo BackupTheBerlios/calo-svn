@@ -1,3 +1,78 @@
+2006-09-16 14:36 +0000 [r86]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp: draw last page too
+
+2006-09-16 14:19 +0000 [r85]  rws <rws@localhost>
+
+	* src/CairoPDFCreator.cpp, src/CairoPDFCreator.h: enable multiple
+	  text append
+
+2006-09-10 08:08 +0000 [r83-84]  rws <rws@localhost>
+
+	* src/FetchAndRenderPipeline.cpp: fix off-by-one index bug
+
+	* src/SoupURIFetcher.cpp, src/SoupURIFetcher.h: use SoupMessage as
+	  key for map instead of SoupUri
+
+2006-09-09 08:52 +0000 [r82]  rws <rws@localhost>
+
+	* src/FetchAndRenderPipeline.h, src/FetchAndRenderPipeline.cpp:
+	  close timeout connection, preassign ustring vector, adjust vector
+	  index
+
+2006-09-09 07:33 +0000 [r81]  rws <rws@localhost>
+
+	* src/FetchAndRenderPipeline.h, src/FetchAndRenderPipeline.cpp: use
+	  main Glib loop for waiting
+
+2006-09-07 07:52 +0000 [r79-80]  rws <rws@localhost>
+
+	* src/DumpProcessor.h, src/LynxToCairoProcessor.cpp,
+	  src/LynxToCairoProcessor.h: add set_uri()
+
+	* src/FetchAndRenderPipeline.cpp: add all pipeline modules
+
+2006-09-07 07:25 +0000 [r78]  rws <rws@localhost>
+
+	* src/SoupURIFetcher.cpp, src/SoupURIFetcher.h: remove need for
+	  separate uri_list, use map keys
+
+2006-09-07 06:53 +0000 [r77]  rws <rws@localhost>
+
+	* src: svn:ignore
+
+2006-09-06 08:03 +0000 [r76]  rws <rws@localhost>
+
+	* src/SoupURIFetcher.h: change key of URI index to ustring
+
+2006-09-05 15:06 +0000 [r75]  rws <rws@localhost>
+
+	* src/FetchAndRenderPipeline.cpp: use sleepms
+
+2006-09-05 15:03 +0000 [r74]  rws <rws@localhost>
+
+	* src/FetchAndRenderPipeline.h, src/FetchAndRenderPipeline.cpp:
+	  allow more than one Soup/URIFetchers
+
+2006-09-05 14:47 +0000 [r73]  rws <rws@localhost>
+
+	* src/FetchAndRenderPipeline.h, src/SoupURIFetcher.cpp,
+	  src/URIFetchInfo.h, src/SoupURIFetcher.h,
+	  src/FetchAndRenderPipeline.cpp: include containers helping with
+	  return and use of running numbers with fetch info
+
+2006-09-05 07:41 +0000 [r71-72]  rws <rws@localhost>
+
+	* src/utils.h (added), src/utils.cpp (added): move sleepms code
+	  into utils.*
+
+	* src/SoupURIFetcher.cpp, src/Makefile.am: move sleepms code into
+	  utils.*
+
+2006-09-04 18:15 +0000 [r70]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-09-04 18:13 +0000 [r67-69]  rws <rws@localhost>
 
 	* src/testPipeline.cpp: fix port no
@@ -278,3 +353,5 @@
 	  (added), ChangeLog (added), src/TextRenderer.h (added), stamp-h1
 	  (added), src/InputPipe.h (added): initial import to berlios
 
+### I am indebted to the author of svn2log. Without this tool, you
+### wouldn't be able to read this.
