@@ -59,11 +59,12 @@ void CairoPDFCreator::save()
 		if (pageheight + lineheight > pctx.get_layout_height())
 		{
 			_pagebreaks.push_back (line);
-std::cerr << "line=" << line << std::endl; std::cerr.flush();
+//std::cerr << "line=" << line << std::endl; std::cerr.flush();
 			pageheight = 0;
 		}
 		pageheight += lineheight;
 	}
+	_pagebreaks.push_back (linecount);
 
 
 	double r, g, b;
