@@ -21,6 +21,7 @@ CairoPDFCreator::CairoPDFCreator()
 {
 	PDFContext& pctx = PDFContext::get();
 	_name = pctx.get_fname();
+	_text = "";
 	_w = pctx.get_pdf_width();
 	_h = pctx.get_pdf_height();
 	
@@ -36,11 +37,15 @@ CairoPDFCreator::~CairoPDFCreator()
 
 void CairoPDFCreator::operator<< (const Glib::ustring& text)
 {
+	_text += text;
+}
+void CairoPDFCreator::save()
+{	
 	PDFContext& pctx = PDFContext::get();
 	PangoFontDescription *fdesc = pango_font_description_from_string (pctx.get_font().c_str());
 	pango_layout_set_font_description (_play, fdesc);
 	pango_layout_set_width (_play, static_cast<int>(pctx.get_layout_width() * PANGO_SCALE));
-	pango_layout_set_markup (_play, text.c_str(), strlen (text.c_str()));
+	pango_layout_set_markup (_play, _text.c_str(), strlen (_text.c_str()));
 
 	const int linecount = pango_layout_get_line_count (_play);
 	PangoLayoutLine *layoutline;
@@ -59,12 +64,9 @@ std::cerr << "line=" << line << std::endl; std::cerr.flush();
 		}
 		pageheight += lineheight;
 	}
-}
 
-void CairoPDFCreator::save()
-{
+
 	double r, g, b;
-	PDFContext &pctx = PDFContext::get();
 	pctx.get_rgb_background (&r, &g, &b);
 	cairo_set_source_rgb (_cctx, r, g, b);
 	cairo_paint (_cctx);
@@ -75,6 +77,8 @@ void CairoPDFCreator::save()
 	double startpos = 0;
 	int lineindex = 0;
 	int nlines = pango_layout_get_line_count (_play);
+	if (_pagebreaks.empty())
+		_pagebreaks.push_back (nlines);
 	std::vector<int>::iterator last_line_page = _pagebreaks.begin();
 
 	do
@@ -90,9 +94,9 @@ void CairoPDFCreator::save()
 		cairo_move_to (_cctx, lrect.x/1024.0 + pctx.get_left_margin(), 
 			baseline/1024.0 - startpos + pctx.get_top_margin());
 
-std::cerr << "ypos=" << baseline/1024.0-startpos << std::endl; std::cerr.flush();
 		pango_cairo_show_layout_line (_cctx, layoutline);
-		
+
+//std::cerr << "lastline=" << *last_line_page << std::endl; std::cerr.flush();
 		if (++lineindex > *last_line_page)
 		{
 			cairo_show_page (_cctx);

@@ -25,7 +25,7 @@ public:
 	virtual void save();
 
 private:
-	Glib::ustring _name;
+	Glib::ustring _name, _text;
 	double _w, _h;
 	
 	cairo_surface_t *_csfc;
