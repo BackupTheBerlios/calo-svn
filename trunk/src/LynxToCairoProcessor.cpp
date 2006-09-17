@@ -27,10 +27,9 @@ LynxToCairoProcessor::process (const Glib::ustring& dump)
 {
 	Glib::ustring* str = new Glib::ustring (dump);
 	size_t pos = 0;
-	while ((pos = str->find_first_of ("<>&"), pos) != 
-		static_cast<size_t>(-1))
+	while ((pos = str->find_first_of ("<>&", pos)) != Glib::ustring::npos)
 	{
-		switch (dump[pos]) 
+		switch (str->at(pos)) 
 		{
 		case '<': str->replace (pos, 1, "&lt;", 4); break;
 		case '>': str->replace (pos, 1, "&gt;", 4); break;
