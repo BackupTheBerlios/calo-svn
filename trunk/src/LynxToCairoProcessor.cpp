@@ -25,6 +25,7 @@ LynxToCairoProcessor::set_uri (const Glib::ustring& uri)
 const Glib::ustring&
 LynxToCairoProcessor::process (const Glib::ustring& dump)
 {
+	// Replace possible HTML syntax characters
 	Glib::ustring* str = new Glib::ustring (dump);
 	size_t pos = 0;
 	while ((pos = str->find_first_of ("<>&", pos)) != Glib::ustring::npos)
@@ -40,6 +41,12 @@ LynxToCairoProcessor::process (const Glib::ustring& dump)
 
 		++pos;
 	}
+
+	// Crop at bottom
+	pos = str->find ("\n\n   Related Links"); // newsforge
+	if (pos != Glib::ustring::npos)
+		str->erase (pos);
+	
 	return *str;
 }
 
