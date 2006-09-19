@@ -67,6 +67,8 @@ void SoupURIFetcher::queue_msg (std::pair<SoupMessage*,int> thePair)
 {
 	sleepms (50);
 	SoupMessage* msg = thePair.first;
+	soup_message_set_http_version (msg, SOUP_HTTP_1_1);
+	soup_message_add_header (msg->request_headers, "User-Agent", "Calo-0.25/pre-alpha libsoup-2.2.96");
 	soup_session_queue_message (_session, msg, got_data, this);
 }
 
