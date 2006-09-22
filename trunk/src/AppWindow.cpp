@@ -5,6 +5,8 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <gtkmm/box.h>
+#include <gtkmm/separator.h>
 #include "AppWindow.h"
 
 
@@ -13,8 +15,12 @@ AppWindow::AppWindow()
 	set_title ("Calo");
 	set_border_width (10);
 	set_default_size (450, 400);
-
-	add (_vpaned);
+	
+	Gtk::VBox *_vbox = new Gtk::VBox;
+	add (*manage (_vbox));
+	_vbox->pack_start (_entry, false, false, 0);
+	_vbox->pack_start (*manage (new Gtk::HSeparator()), false, false, 2);
+	_vbox->add (_vpaned);
 
 	_vpaned.add1 (_flist);
 	_vpaned.add2 (_hlist);

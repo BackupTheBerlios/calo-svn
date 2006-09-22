@@ -10,6 +10,7 @@
 
 #include <gtkmm/window.h>
 #include <gtkmm/paned.h>
+#include <gtkmm/entry.h>
 #include "FeedList.h"
 #include "HeaderList.h"
 
@@ -23,6 +24,7 @@ public:
 	virtual ~AppWindow();
 
 private:
+	Gtk::Entry _entry;
 	Gtk::HPaned _vpaned;
 	FeedList _flist;
 	HeaderList _hlist;
