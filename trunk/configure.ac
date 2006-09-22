@@ -53,7 +53,7 @@ dnl internationalization macros
 dnl AM_GNU_GETTEXT
 
 AC_CONFIG_FILES([Makefile doc/Makefile man/Makefile po/Makefile.in \
-	   po/Makefile src/Makefile tests/Makefile])
+	   po/Makefile share/Makefile src/Makefile tests/Makefile])
 AC_CONFIG_COMMANDS([default],[[ echo timestamp > stamp-h ]],[[]])
 AC_OUTPUT
 

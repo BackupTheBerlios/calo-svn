@@ -27,7 +27,7 @@ ke_PRE = @ke_PRE@
 
 EXTRA_DIST = BUGS ChangeLog.O config.rpath
 
-SUBDIRS = src doc man po tests
+SUBDIRS = src doc man po share tests
 
 # To produce a diff against the previous version, untar this version
 # and the previous version in the same directory and run `make diff'.
