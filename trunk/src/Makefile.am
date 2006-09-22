@@ -22,12 +22,18 @@ bin_PROGRAMS = calo
 calo_SOURCES =  exceptions.h		\
 		main.cpp		\
 		utils.cpp utils.h	\
+		AppWindow.cpp		\
+		AppWindow.h		\
 		CairoPDFCreator.cpp	\
 		CairoPDFCreator.h	\
 		DumpProcessor.cpp	\
 		DumpProcessor.h		\
+		FeedList.cpp		\
+		FeedList.h		\
 		FetchAndRenderPipeline.cpp\
 		FetchAndRenderPipeline.h\
+		HeaderList.cpp		\
+		HeaderList.h		\
 		InputPipe.cpp		\
 		InputPipe.h		\
 		LynxTextDumper.cpp	\

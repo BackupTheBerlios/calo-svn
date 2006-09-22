@@ -6,18 +6,17 @@
  */
 
 #include <gtkmm/main.h>
-
+#include "AppWindow.h"
 
 Glib::RefPtr< Glib::MainLoop > loop;
 
 int main (int argc , char **argv)
 {
-	g_type_init();
-	g_thread_init (NULL);           // needed by libsoup
+	Gtk::Main kit (argc, argv);
+	AppWindow aw;
+	Gtk::Main::run (aw);
 
-	loop = Glib::MainLoop::create();
-	loop->run();
-
+	return 0;
 }
 
 //static void quit (URIFetcher* fetcher)
