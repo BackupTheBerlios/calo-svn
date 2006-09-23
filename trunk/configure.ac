@@ -37,6 +37,7 @@ pkg_modules="
 		glibmm-2.4 >= 2.11.3
 		gtkmm-2.4 >= 2.9.0
 		cairo >= 1.2.0
+		libxml++-2.6
 		libsoup-2.2"
 
 PKG_CHECK_MODULES(PACKAGE,$pkg_modules)
