@@ -9,6 +9,9 @@
  */
 
 #include <gtkmm/scrolledwindow.h>
+#include <gtkmm/treemodelcolumn.h>
+#include <gtkmm/treestore.h>
+#include <gtkmm/treeview.h>
 
 
 /// FeedList
@@ -19,7 +22,18 @@ public:
 	FeedList();
 	virtual ~FeedList();
 
-private:
+protected:
+	class StringModelColumn : public Gtk::TreeModelColumnRecord
+	{
+	public:
+		StringModelColumn() { add (_col_string); }
+
+		Gtk::TreeModelColumn<Glib::ustring> _col_string;
+	};
+
+	StringModelColumn 		_smcol;
+	Glib::RefPtr<Gtk::TreeStore> 	_tstore;
+	Gtk::TreeView 			_tview;
 };
 
 
