@@ -30,6 +30,8 @@ calo_SOURCES =  exceptions.h		\
 		CairoPDFCreator.h	\
 		DumpProcessor.cpp	\
 		DumpProcessor.h		\
+		FeedFileParser.cpp	\
+		FeedFileParser.h	\
 		FeedList.cpp		\
 		FeedList.h		\
 		FetchAndRenderPipeline.cpp\
