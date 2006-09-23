@@ -21,4 +21,9 @@ AppContext::AppContext()
 {
 }
 
+const Glib::ustring&
+AppContext::get_feeds_filename()
+{
+	return "/home/ralf/.calo/feeds.opml";
+}
 

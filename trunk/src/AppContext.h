@@ -8,7 +8,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-//#include <glibmm/ustring.h>
+#include <glibmm/ustring.h>
 
 /// AppContext
 
@@ -17,8 +17,10 @@ class AppContext
 public:
 	static AppContext& get();
 
+	const Glib::ustring& get_feeds_filename();
+
 private:
-	PDFContext();
+	AppContext();
 	
 };
 
