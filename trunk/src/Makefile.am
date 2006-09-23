@@ -22,6 +22,8 @@ bin_PROGRAMS = calo
 calo_SOURCES =  exceptions.h		\
 		main.cpp		\
 		utils.cpp utils.h	\
+		AppContext.cpp		\
+		AppContext.h		\
 		AppWindow.cpp		\
 		AppWindow.h		\
 		CairoPDFCreator.cpp	\
