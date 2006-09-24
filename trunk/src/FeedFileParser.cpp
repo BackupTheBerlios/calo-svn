@@ -45,18 +45,21 @@ void FeedFileParser::on_start_element(const Glib::ustring& name,
 
 void FeedFileParser::on_end_element(const Glib::ustring& name)
 {
-	Gtk::TreeModel::iterator iter = _store->append();
-	(*iter)[_rec->_col_string] = _stringmap["text"];
+	std::map<Glib::ustring,Glib::ustring>::iterator miter;
+	miter = _stringmap.find ("text");
+	if (miter != _stringmap.end())
+	{
+		Gtk::TreeModel::iterator iter = _store->append();
+		(*iter)[_rec->_col_string] = miter->second;
+	}
 }
 
 void FeedFileParser::on_characters(const Glib::ustring& text)
 {
-  std::cout << "on_characters(): " << text << std::endl;
 }
 
 void FeedFileParser::on_comment(const Glib::ustring& text)
 {
-  std::cout << "on_comment(): " << text << std::endl;
 }
 
 void FeedFileParser::on_warning(const Glib::ustring& text)
