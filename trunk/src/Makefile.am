@@ -34,6 +34,7 @@ calo_SOURCES =  exceptions.h		\
 		FeedFileParser.h	\
 		FeedList.cpp		\
 		FeedList.h		\
+		FeedListColumnRecord.h	\
 		FetchAndRenderPipeline.cpp\
 		FetchAndRenderPipeline.h\
 		HeaderList.cpp		\

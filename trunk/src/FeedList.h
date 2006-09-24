@@ -12,7 +12,7 @@
 #include <gtkmm/treemodelcolumn.h>
 #include <gtkmm/treestore.h>
 #include <gtkmm/treeview.h>
-
+#include "FeedListColumnRecord.h"
 
 /// FeedList
 
@@ -23,15 +23,7 @@ public:
 	virtual ~FeedList();
 
 protected:
-	class StringModelColumn : public Gtk::TreeModelColumnRecord
-	{
-	public:
-		StringModelColumn() { add (_col_string); }
-
-		Gtk::TreeModelColumn<Glib::ustring> _col_string;
-	};
-
-	StringModelColumn 		_smcol;
+	FeedListColumnRecord 		_smcol;
 	Glib::RefPtr<Gtk::TreeStore> 	_tstore;
 	Gtk::TreeView 			_tview;
 };
