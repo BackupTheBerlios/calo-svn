@@ -5,6 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <iostream>
 #include "AppContext.h"
 #include "FeedList.h"
 #include "FeedFileParser.h"
@@ -17,9 +18,16 @@ FeedList::FeedList()
 	_tview.set_model (_tstore);
 	_tview.set_reorderable();
 
-	FeedFileParser _parser (_tstore);
-	_parser.set_substitute_entities (true);
-	_parser.parse_file (AppContext::get().get_feeds_filename());
+	try 
+	{
+		FeedFileParser _parser (_tstore);
+		_parser.set_substitute_entities (true);
+		_parser.parse_file (AppContext::get().get_feeds_filename());
+	}
+	catch (const xmlpp::exception& ex)
+	{
+		std::cerr << "parse exception: " << ex.what() << std::endl;
+	}
 
 	show_all_children();
 }

@@ -9,8 +9,7 @@
  */
 
 #include <glibmm/ustring.h>
-//#include <libxml++/parsers/saxparser.h>
-#include <libxml++/libxml++.h>
+#include <libxml++/parsers/saxparser.h>
 
 /// FeedFileParser
 
