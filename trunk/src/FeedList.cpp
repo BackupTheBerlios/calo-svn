@@ -21,6 +21,7 @@ FeedList::FeedList()
 	try 
 	{
 		FeedFileParser _parser (_tstore);
+		_parser.set_column_record (&_smcol);
 		_parser.set_substitute_entities (true);
 		_parser.parse_file (AppContext::get().get_feeds_filename());
 	}

@@ -6,12 +6,12 @@
  */
 
 #include <iostream>
-#include <gtkmm/treestore.h>
 #include "FeedFileParser.h"
 
 FeedFileParser::FeedFileParser (Glib::RefPtr<Gtk::TreeStore>& theStore)
 : xmlpp::SaxParser()
 {
+	_store = theStore;
 }
 
 FeedFileParser::~FeedFileParser()
@@ -32,18 +32,21 @@ void FeedFileParser::on_end_document()
 void FeedFileParser::on_start_element(const Glib::ustring& name,
                                    const AttributeList& attributes)
 {
-  std::cout << "node name=" << name << std::endl;
-
-  // Print attributes:
-  for(xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
-  {
-    std::cout << "  Attribute " << iter->name << " = " << iter->value << std::endl;
-  }
+	if (name == "outline")
+	{
+		_stringmap.clear();
+		for (xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
+		{
+			_stringmap[iter->name] = iter->value;
+//    std::cout << "  Attribute " << iter->name << " = " << iter->value << std::endl;
+		}
+	}
 }
 
 void FeedFileParser::on_end_element(const Glib::ustring& name)
 {
-  std::cout << "on_end_element()" << std::endl;
+	Gtk::TreeModel::iterator iter = _store->append();
+	(*iter)[_rec->_col_string] = _stringmap["text"];
 }
 
 void FeedFileParser::on_characters(const Glib::ustring& text)

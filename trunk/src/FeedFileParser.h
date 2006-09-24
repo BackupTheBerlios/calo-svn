@@ -8,8 +8,11 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <map>
 #include <glibmm/ustring.h>
+#include <gtkmm/treestore.h>
 #include <libxml++/parsers/saxparser.h>
+#include "FeedListColumnRecord.h"
 
 /// FeedFileParser
 
@@ -18,6 +21,9 @@ class FeedFileParser : public xmlpp::SaxParser
 public:
 	FeedFileParser (Glib::RefPtr<Gtk::TreeStore>& theStore);
 	virtual ~FeedFileParser();
+
+	void set_column_record (const FeedListColumnRecord* theRec)
+		{ _rec = theRec; }
 
 protected:
   //overrides:
@@ -31,6 +37,10 @@ protected:
   virtual void on_warning(const Glib::ustring& text);
   virtual void on_error(const Glib::ustring& text);
   virtual void on_fatal_error(const Glib::ustring& text);
+
+	std::map<Glib::ustring,Glib::ustring> 	_stringmap;
+	const FeedListColumnRecord 		*_rec;
+	Glib::RefPtr<Gtk::TreeStore> 		_store;
 };
 
 
