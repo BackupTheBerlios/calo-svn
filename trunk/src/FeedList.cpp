@@ -30,6 +30,8 @@ FeedList::FeedList()
 		std::cerr << "parse exception: " << ex.what() << std::endl;
 	}
 
+	_tview.append_column ("Feeds", _smcol._col_string);
+
 	show_all_children();
 }
 
