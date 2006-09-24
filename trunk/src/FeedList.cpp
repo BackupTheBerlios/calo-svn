@@ -5,8 +5,9 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include "AppContext.h"
 #include "FeedList.h"
-
+#include "FeedFileParser.h"
 
 FeedList::FeedList()
 {
@@ -15,6 +16,10 @@ FeedList::FeedList()
 	_tstore = Gtk::TreeStore::create (_smcol);
 	_tview.set_model (_tstore);
 	_tview.set_reorderable();
+
+	FeedFileParser _parser (_tstore);
+	_parser.set_substitute_entities (true);
+	_parser.parse_file (AppContext::get().get_feeds_filename());
 
 	show_all_children();
 }
