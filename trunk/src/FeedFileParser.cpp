@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <functional>
 #include "FeedFileParser.h"
 
 FeedFileParser::FeedFileParser (Glib::RefPtr<Gtk::TreeStore>& theStore)
@@ -35,23 +36,31 @@ void FeedFileParser::on_start_element(const Glib::ustring& name,
 	if (name == "outline")
 	{
 		_stringmap.clear();
+		_curr_miter = _store->append();
 		for (xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
 		{
 			_stringmap[iter->name] = iter->value;
-//    std::cout << "  Attribute " << iter->name << " = " << iter->value << std::endl;
+    std::cout << "  Attribute " << iter->name << " = " << iter->value << std::endl;
 		}
+	}
+}
+
+void FeedFileParser::set_model (std::pair<Glib::ustring,Glib::ustring> thePair)
+{
+	if (thePair.first == "text")
+	{
+		(*_curr_miter)[_rec->_col_string] = thePair.second;
+	}
+	if (thePair.first == "xmlUrl")
+	{
+		(*_curr_miter)[_rec->_col_url] = thePair.second;
 	}
 }
 
 void FeedFileParser::on_end_element(const Glib::ustring& name)
 {
-	std::map<Glib::ustring,Glib::ustring>::iterator miter;
-	miter = _stringmap.find ("text");
-	if (miter != _stringmap.end())
-	{
-		Gtk::TreeModel::iterator iter = _store->append();
-		(*iter)[_rec->_col_string] = miter->second;
-	}
+	for_each (_stringmap.begin(), _stringmap.end(),
+		bind1st (std::mem_fun (&FeedFileParser::set_model), this));
 }
 
 void FeedFileParser::on_characters(const Glib::ustring& text)

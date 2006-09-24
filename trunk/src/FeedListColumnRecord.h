@@ -15,9 +15,14 @@
 class FeedListColumnRecord : public Gtk::TreeModelColumnRecord
 {
 public:
-	FeedListColumnRecord() { add (_col_string); }
+	FeedListColumnRecord() 
+	{ 
+		add (_col_string); 
+		add (_col_url);
+	}
 
 	Gtk::TreeModelColumn<Glib::ustring> _col_string;
+	Gtk::TreeModelColumn<Glib::ustring> _col_url;
 };
 
 

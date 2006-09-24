@@ -23,6 +23,8 @@ public:
 	virtual ~FeedList();
 
 protected:
+	void on_selection_changed();
+
 	FeedListColumnRecord 		_smcol;
 	Glib::RefPtr<Gtk::TreeStore> 	_tstore;
 	Gtk::TreeView 			_tview;

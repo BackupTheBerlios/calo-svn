@@ -6,6 +6,8 @@
  */
 
 #include <iostream>
+//#include <sigc++/sigc++.h>
+#include <gtkmm/treeselection.h>
 #include "AppContext.h"
 #include "FeedList.h"
 #include "FeedFileParser.h"
@@ -33,8 +35,20 @@ FeedList::FeedList()
 	_tview.append_column ("Feeds", _smcol._col_string);
 
 	show_all_children();
+
+	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+	_slctn->signal_changed().connect (sigc::mem_fun (*this, &FeedList::on_selection_changed));
 }
 
 FeedList::~FeedList()
 {
+}
+
+void 
+FeedList::on_selection_changed()
+{
+	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+	Gtk::TreeModel::iterator iter = _slctn->get_selected();
+	Glib::ustring str = (*iter)[_smcol._col_url];
+std::cout<<"selected: " << str << std::endl;
 }

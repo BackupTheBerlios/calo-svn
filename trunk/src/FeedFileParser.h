@@ -38,9 +38,12 @@ protected:
   virtual void on_error(const Glib::ustring& text);
   virtual void on_fatal_error(const Glib::ustring& text);
 
+	void set_model (std::pair<Glib::ustring,Glib::ustring> thePair);
+
 	std::map<Glib::ustring,Glib::ustring> 	_stringmap;
 	const FeedListColumnRecord 		*_rec;
 	Glib::RefPtr<Gtk::TreeStore> 		_store;
+	Gtk::TreeModel::iterator 		_curr_miter;
 };
 
 
