@@ -15,7 +15,7 @@
 #include <libsoup/soup.h>
 
 #include "SoupURIFetcher.h"
-#include "FetchAndRenderPipeline.h"
+#include "FetchInfoHandler.h"
 #include "URIFetchInfo.h"
 #include "utils.h"
 

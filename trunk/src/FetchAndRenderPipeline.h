@@ -11,11 +11,10 @@
 #include <vector>
 #include <glibmm/ustring.h>
 #include <sigc++/sigc++.h>
-
+#include "FetchInfoHandler.h"
 
 class FetchAndRenderPipeline;
 class URIFetcher;
-class URIFetchInfo;
 
 typedef enum { NOTHING_FETCHED=0, WAITING, PARTLY_FETCHED, PARTLY_WRITTEN, 
 	FULLY_WRITTEN } status_t;
@@ -23,7 +22,7 @@ typedef void (*progress_func_t)(FetchAndRenderPipeline*, const Glib::ustring&,bo
 
 /// FetchAndRenderPipeline
 
-class FetchAndRenderPipeline
+class FetchAndRenderPipeline : public FetchInfoHandler
 {
 public:
 	FetchAndRenderPipeline();
@@ -39,7 +38,9 @@ public:
  	
 	status_t start();
 	status_t stop();
-	void quit_fetch (URIFetchInfo*);
+
+	// Override
+	virtual void quit_fetch (URIFetchInfo*);
 
 private:
 	bool post_fetch();

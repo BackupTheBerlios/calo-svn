@@ -11,7 +11,7 @@
 #include <glibmm/ustring.h>
 
 class URIFetchInfo;
-class FetchAndRenderPipeline;
+class FetchInfoHandler;
 
 /// URIFetcher
 
@@ -25,7 +25,7 @@ public:
 	virtual void add_uri (const Glib::ustring&) = 0;
 	
 	/// Set callback to call after URI is fetched.
-	virtual void set_pline (FetchAndRenderPipeline*) = 0;
+	virtual void set_pline (FetchInfoHandler*) = 0;
 
 	/// Start session and try to get all URIs.
 	virtual void start() = 0;

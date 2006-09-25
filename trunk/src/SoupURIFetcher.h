@@ -14,7 +14,7 @@
 struct SoupUri;
 struct SoupMessage;
 struct SoupSession;
-class FetchAndRenderPipeline;
+class FetchInfoHandler;
 
 
 /// SoupURIFetcher
@@ -25,7 +25,7 @@ public:
 	virtual ~SoupURIFetcher();
 	
 	virtual void add_uri (const Glib::ustring& uri);
-	virtual void set_pline (FetchAndRenderPipeline* p) { _pline = p; }
+	virtual void set_pline (FetchInfoHandler* p) { _pline = p; }
 	virtual void start();
 	virtual void stop();
 
@@ -36,7 +36,7 @@ private:
 	
 	std::map<SoupMessage*,int> 	_msg_index;
 	SoupSession 			*_session;
-	FetchAndRenderPipeline		*_pline;
+	FetchInfoHandler		*_pline;
 	unsigned int			_added, _fetched;
 };
 
