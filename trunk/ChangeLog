@@ -1,3 +1,106 @@
+2006-09-25 08:53 +0000 [r110-111]  rws <rws@localhost>
+
+	* src/FeedFileParser.cpp: remove logging
+
+	* src/URIFetcher.h, src/FetchAndRenderPipeline.h,
+	  src/SoupURIFetcher.cpp, src/FetchInfoHandler.h (added),
+	  src/Makefile.am, src/SoupURIFetcher.h: abstract out fetch info
+	  handler callback
+
+2006-09-24 17:55 +0000 [r109]  rws <rws@localhost>
+
+	* src/FeedFileParser.h, src/FeedList.cpp, src/FeedFileParser.cpp,
+	  src/FeedListColumnRecord.h, src/FeedList.h: enable handling of
+	  all outline attrs
+
+2006-09-24 17:05 +0000 [r107-108]  rws <rws@localhost>
+
+	* src/FeedFileParser.cpp: do not show elemwents without text attr
+
+	* src/FeedList.cpp: show feed list
+
+2006-09-24 09:09 +0000 [r106]  rws <rws@localhost>
+
+	* src/FeedFileParser.h, src/FeedList.cpp, src/FeedFileParser.cpp:
+	  parser fills tree model
+
+2006-09-24 09:01 +0000 [r105]  rws <rws@localhost>
+
+	* src/Makefile.am, src/FeedListColumnRecord.h (added),
+	  src/FeedList.h: separate out inner Record class
+
+2006-09-24 08:07 +0000 [r103-104]  rws <rws@localhost>
+
+	* src/FeedFileParser.h, src/FeedList.cpp: catch libxml++ exceptions
+	  stub
+
+	* src/AppContext.cpp: fix string bug
+
+2006-09-24 07:57 +0000 [r102]  rws <rws@localhost>
+
+	* src/FeedFileParser.h, src/FeedList.cpp, src/FeedFileParser.cpp:
+	  parser skeleton
+
+2006-09-23 16:41 +0000 [r100-101]  rws <rws@localhost>
+
+	* configure.ac: add dependency on libxml++
+
+	* src/FeedFileParser.h (added), src/Makefile.am,
+	  src/FeedFileParser.cpp (added): add feed file parser class
+
+2006-09-23 16:06 +0000 [r98-99]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/AppContext.h: feed file name stub
+
+	* src/FeedList.cpp, src/FeedList.h: prepare for tree view
+
+2006-09-23 15:04 +0000 [r97]  rws <rws@localhost>
+
+	* src/AppContext.cpp (added), src/Makefile.am, src/AppContext.h
+	  (added): add an app context
+
+2006-09-23 14:03 +0000 [r96]  rws <rws@localhost>
+
+	* share: svn:ignore
+
+2006-09-22 14:36 +0000 [r95]  rws <rws@localhost>
+
+	* src/AppWindow.cpp, src/AppWindow.h: add text entry
+
+2006-09-22 09:45 +0000 [r93-94]  rws <rws@localhost>
+
+	* src/AppWindow.cpp (added), src/Makefile.am, src/HeaderList.h
+	  (added), src/AppWindow.h (added), src/FeedList.cpp (added),
+	  src/FeedList.h (added), src/HeaderList.cpp (added), src/main.cpp:
+	  GUI skeleton
+
+	* src/testPipeline.cpp: more manual test cases
+
+2006-09-22 07:55 +0000 [r92]  rws <rws@localhost>
+
+	* share/README (added), share (added), configure.ac, Makefile.am,
+	  share/Makefile.am (added): add share directory
+
+2006-09-19 15:56 +0000 [r91]  rws <rws@localhost>
+
+	* src/SoupURIFetcher.cpp: identify ourselves with User-Agent:
+
+2006-09-19 15:24 +0000 [r90]  rws <rws@localhost>
+
+	* src/LynxToCairoProcessor.cpp: first try at cropping dumps
+
+2006-09-17 18:28 +0000 [r89]  rws <rws@localhost>
+
+	* src/LynxToCairoProcessor.cpp: fix infinite loop, better wording
+
+2006-09-17 16:59 +0000 [r88]  rws <rws@localhost>
+
+	* src/LynxToCairoProcessor.cpp: handle <>& characters in dump
+
+2006-09-16 14:39 +0000 [r87]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-09-16 14:36 +0000 [r86]  rws <rws@localhost>
 
 	* src/CairoPDFCreator.cpp: draw last page too
