@@ -46,6 +46,8 @@ calo_SOURCES =  exceptions.h		\
 		LynxTextDumper.h	\
 		LynxToCairoProcessor.cpp\
 		LynxToCairoProcessor.h	\
+		MenuBar.cpp		\
+		MenuBar.h		\
 		PDFContext.cpp		\
 		PDFContext.h		\
 		PDFCreator.cpp		\

@@ -7,8 +7,9 @@
 
 #include <gtkmm/box.h>
 #include <gtkmm/separator.h>
+#include <gtkmm/uimanager.h>
 #include "AppWindow.h"
-
+#include "MenuBar.h"
 
 AppWindow::AppWindow()
 {
@@ -18,12 +19,15 @@ AppWindow::AppWindow()
 	
 	Gtk::VBox *_vbox = new Gtk::VBox;
 	add (*manage (_vbox));
+	_vbox->pack_start (*MenuBar::create(), Gtk::PACK_SHRINK);
 	_vbox->pack_start (_entry, false, false, 0);
 	_vbox->pack_start (*manage (new Gtk::HSeparator()), false, false, 2);
 	_vbox->add (_vpaned);
 
 	_vpaned.add1 (_flist);
 	_vpaned.add2 (_hlist);
+
+	add_accel_group (Gtk::UIManager::create()->get_accel_group());
 
 	show_all_children();
 }
