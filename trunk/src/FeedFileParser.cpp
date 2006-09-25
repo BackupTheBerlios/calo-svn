@@ -40,7 +40,7 @@ void FeedFileParser::on_start_element(const Glib::ustring& name,
 		for (xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
 		{
 			_stringmap[iter->name] = iter->value;
-    std::cout << "  Attribute " << iter->name << " = " << iter->value << std::endl;
+// std::cout << "  Attribute " << iter->name << " = " << iter->value << std::endl;
 		}
 	}
 }
