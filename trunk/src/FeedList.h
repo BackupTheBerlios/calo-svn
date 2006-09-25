@@ -13,14 +13,16 @@
 #include <gtkmm/treestore.h>
 #include <gtkmm/treeview.h>
 #include "FeedListColumnRecord.h"
+#include "FetchInfoHandler.h"
 
 /// FeedList
 
-class FeedList : public Gtk::ScrolledWindow
+class FeedList : public Gtk::ScrolledWindow, FetchInfoHandler
 {
 public:
 	FeedList();
 	virtual ~FeedList();
+	virtual void quit_fetch (URIFetchInfo* info);
 
 protected:
 	void on_selection_changed();

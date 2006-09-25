@@ -11,6 +11,7 @@
 #include "AppContext.h"
 #include "FeedList.h"
 #include "FeedFileParser.h"
+#include "URIFetcher.h"
 
 FeedList::FeedList()
 {
@@ -45,10 +46,20 @@ FeedList::~FeedList()
 }
 
 void 
+FeedList::quit_fetch (URIFetchInfo* info)
+{
+std::cout<< info->html <<std::endl;
+}
+
+void 
 FeedList::on_selection_changed()
 {
 	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
 	Gtk::TreeModel::iterator iter = _slctn->get_selected();
 	Glib::ustring str = (*iter)[_smcol._col_url];
 std::cout<<"selected: " << str << std::endl;
+	URIFetcher *fetcher = URIFetcher::create();
+	fetcher->add_uri (str);
+	fetcher->set_pline (this);
+	fetcher->start();
 }
