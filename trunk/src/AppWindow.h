@@ -23,7 +23,9 @@ public:
 	AppWindow();
 	virtual ~AppWindow();
 
-private:
+protected:
+	virtual void on_realize();
+
 	Gtk::Entry _entry;
 	Gtk::HPaned _vpaned;
 	FeedList _flist;

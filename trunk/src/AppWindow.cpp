@@ -10,6 +10,7 @@
 #include <gtkmm/statusbar.h>
 #include <gtkmm/uimanager.h>
 #include "AppWindow.h"
+#include "AppContext.h"
 #include "MenuBar.h"
 
 AppWindow::AppWindow()
@@ -20,9 +21,9 @@ AppWindow::AppWindow()
 	
 	Gtk::VBox *_vbox = new Gtk::VBox;
 	add (*manage (_vbox));
-	Gtk::Widget *w  = MenuBar::create (this);
-	if (w != NULL)
-		_vbox->pack_start (*w, Gtk::PACK_SHRINK);
+	Gtk::Widget *wid  = MenuBar::create (this);
+	if (wid != NULL)
+		_vbox->pack_start (*wid, Gtk::PACK_SHRINK);
 	_vbox->pack_start (_entry, false, false, 0);
 	_vbox->pack_start (*manage (new Gtk::HSeparator()), false, false, 2);
 	_vbox->add (_vpaned);
@@ -34,9 +35,23 @@ AppWindow::AppWindow()
 	_vbox->pack_end (*manage (bar), Gtk::PACK_SHRINK);
 	bar->set_has_resize_grip();
 
+	unsigned int x, y, w, h;
+	AppContext::get().get_appwindow_pos (&x, &y, &w, &h);
+	set_default_size (w? w:-1, h? h:-1);
 	show_all_children();
 }
 
 AppWindow::~AppWindow()
 {
 }
+
+void
+AppWindow::on_realize()
+{
+	unsigned int x, y, w, h;
+	AppContext::get().get_appwindow_pos (&x, &y, &w, &h);
+	if (w)
+		move (x, y);
+	Gtk::Widget::on_realize();
+}
+

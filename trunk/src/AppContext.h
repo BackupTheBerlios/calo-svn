@@ -18,10 +18,17 @@ public:
 	static AppContext& get();
 
 	const Glib::ustring& get_feeds_filename();
+	bool get_appwindow_pos (unsigned int* x, unsigned int* y,
+			unsigned int* w, unsigned int* h);
+	void set_appwindow_pos (unsigned int x, unsigned int y,
+			unsigned int w, unsigned int h);
+	bool cfg_was_read() { return _cfg_was_read; }
 
 private:
 	AppContext();
 	
+	unsigned int _app_x, _app_y, _app_w, _app_h;
+	bool _cfg_was_read;
 };
 
 #endif
