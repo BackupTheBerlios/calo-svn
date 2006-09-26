@@ -7,6 +7,7 @@
 
 #include <gtkmm/box.h>
 #include <gtkmm/separator.h>
+#include <gtkmm/statusbar.h>
 #include <gtkmm/uimanager.h>
 #include "AppWindow.h"
 #include "MenuBar.h"
@@ -14,7 +15,7 @@
 AppWindow::AppWindow()
 {
 	set_title ("Calo");
-	set_border_width (10);
+	set_border_width (0);
 	set_default_size (450, 400);
 	
 	Gtk::VBox *_vbox = new Gtk::VBox;
@@ -28,6 +29,10 @@ AppWindow::AppWindow()
 
 	_vpaned.add1 (_flist);
 	_vpaned.add2 (_hlist);
+
+	Gtk::Statusbar *bar = new Gtk::Statusbar();
+	_vbox->pack_end (*manage (bar), Gtk::PACK_SHRINK);
+	bar->set_has_resize_grip();
 
 	show_all_children();
 }
