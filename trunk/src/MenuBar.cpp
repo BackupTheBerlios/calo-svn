@@ -8,51 +8,54 @@
 #include <iostream>
 #include <gtkmm/actiongroup.h>
 #include <gtkmm/stock.h>
-#include <gtkmm/widget.h>
+//#include <gtkmm/widget.h>
+#include <gtkmm/window.h>
 #include "MenuBar.h"
 
 static MenuBar* _theContext = NULL;
 
-Gtk::Widget* MenuBar::create()
+Gtk::Widget* MenuBar::create (Gtk::Window* theWindow)
 {
 	if (_theContext == NULL)
-		_theContext = new MenuBar;
-	return _theContext->_uim->get_widget ("/Menubar");
+		_theContext = new MenuBar (theWindow);
+	Gtk::Widget* w = _theContext->_uim->get_widget ("/MenuBar");
+	return w;
 }
 
-MenuBar::MenuBar()
+MenuBar::MenuBar (Gtk::Window* theWindow)
 {
-	Glib::RefPtr<Gtk::ActionGroup> ag = Gtk::ActionGroup::create();
+	_ag = Gtk::ActionGroup::create();
 
 	//File menu:
-	ag->add( Gtk::Action::create("FileNew", 
-			Gtk::Stock::NEW, "_New", "Create a new file"),
+	_ag->add( Gtk::Action::create("FileNew", 
+			Gtk::Stock::NEW, "_New Feed List", "Clear the feed list"),
 		sigc::mem_fun(*this, &MenuBar::on_menu_file_new) );
-	ag->add( Gtk::Action::create("FileSaveAsDefault", 
-			Gtk::Stock::SAVE, "_Save as Default", "Save file as default feed file"),
+	_ag->add( Gtk::Action::create("FileSaveAsDefault", 
+			Gtk::Stock::SAVE, "_Save List as Default", "Save feed list as default feed file"),
 		sigc::mem_fun(*this, &MenuBar::on_menu_file_save_as_default) );
-	ag->add( Gtk::Action::create("FileQuit", 
+	_ag->add( Gtk::Action::create("FileQuit", 
 			Gtk::Stock::QUIT, "_Quit", "Leave the program"),
 		sigc::mem_fun(*this, &MenuBar::on_menu_file_quit) );
 
-	ag->add( Gtk::Action::create("FileMenu", "File") );
+	_ag->add( Gtk::Action::create("FileMenu", "File") );
 
 	//Edit menu:
-	ag->add( Gtk::Action::create("EditMenu", "Edit") );
-	ag->add( Gtk::Action::create("EditCopy", Gtk::Stock::COPY),
+	_ag->add( Gtk::Action::create("EditMenu", "Edit") );
+	_ag->add( Gtk::Action::create("EditCopy", Gtk::Stock::COPY),
     		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
-	ag->add( Gtk::Action::create("EditPaste", Gtk::Stock::PASTE),
+	_ag->add( Gtk::Action::create("EditPaste", Gtk::Stock::PASTE),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
-	ag->add( Gtk::Action::create("EditFeed", "Edit the selected feed entry"), Gtk::AccelKey("<control>E"),
+	_ag->add( Gtk::Action::create("EditFeed", "Edit the selected feed entry"), Gtk::AccelKey("<control>E"),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
 
 	//Help menu:
-	ag->add( Gtk::Action::create("HelpMenu", "Help") );
-	ag->add( Gtk::Action::create("HelpAbout", Gtk::Stock::HELP),
+	_ag->add( Gtk::Action::create("HelpMenu", "Help") );
+	_ag->add( Gtk::Action::create("HelpAbout", Gtk::Stock::HELP),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
 
 	_uim = Gtk::UIManager::create();
-	_uim->insert_action_group (ag);
+	_uim->insert_action_group (_ag);
+	theWindow->add_accel_group (_uim->get_accel_group());
 
 	//Layout the actions in the menubar
   

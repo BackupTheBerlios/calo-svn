@@ -13,6 +13,7 @@
 namespace Gtk
 {
 	class Widget;
+	class Window;
 }
 
 /// MenuBar
@@ -20,12 +21,12 @@ namespace Gtk
 class MenuBar
 {
 public:
-	static Gtk::Widget* create();
+	static Gtk::Widget* create (Gtk::Window*);
 
 	Glib::RefPtr<Gtk::UIManager> _uim;
 
 protected:
-	MenuBar();
+	MenuBar (Gtk::Window*);
 
 	void on_menu_file_new();
 	void on_menu_file_save_as_default();
@@ -35,6 +36,8 @@ protected:
 	void on_menu_edit_feed();
 	void on_menu_help_about();
 	void on_menu_others();
+	
+	Glib::RefPtr<Gtk::ActionGroup> _ag;
 };
 
 
