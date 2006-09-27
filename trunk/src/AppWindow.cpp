@@ -37,7 +37,7 @@ AppWindow::AppWindow()
 
 	unsigned int x, y, w, h;
 	AppContext::get().get_appwindow_pos (&x, &y, &w, &h);
-	set_default_size (w? w:-1, h? h:-1);
+	set_default_size (w? w:400, h? h:300);
 	show_all_children();
 }
 

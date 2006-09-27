@@ -8,9 +8,10 @@
 #include <iostream>
 #include <gtkmm/actiongroup.h>
 #include <gtkmm/stock.h>
-//#include <gtkmm/widget.h>
 #include <gtkmm/window.h>
 #include "MenuBar.h"
+#include "AppContext.h"
+
 
 static MenuBar* _theContext = NULL;
 
@@ -108,6 +109,8 @@ void MenuBar::on_menu_file_save_as_default()
 
 void MenuBar::on_menu_file_quit()
 {
+	AppContext::get().save();
+	AppContext::destroy();
 }
 
 void MenuBar::on_menu_edit_copy()

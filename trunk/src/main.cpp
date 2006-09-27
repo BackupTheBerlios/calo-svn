@@ -6,6 +6,7 @@
  */
 
 #include <gtkmm/main.h>
+#include "AppContext.h"
 #include "AppWindow.h"
 
 Glib::RefPtr< Glib::MainLoop > loop;
@@ -14,6 +15,7 @@ int main (int argc , char **argv)
 {
 	g_thread_init (NULL);
 	Gtk::Main kit (argc, argv);
+	AppContext::get().init();
 	AppWindow aw;
 	Gtk::Main::run (aw);
 

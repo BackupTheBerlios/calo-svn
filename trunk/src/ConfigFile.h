@@ -8,11 +8,14 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <map>
 #include <glibmm/ustring.h>
+#include <libxml++/parsers/saxparser.h>
+
 
 /// ConfigFile
 
-class ConfigFile
+class ConfigFile : public xmlpp::SaxParser
 {
 public:
 	ConfigFile (const Glib::ustring& fname);
@@ -27,6 +30,7 @@ public:
 	
 
 private:
+	std::map<Glib::ustring,Glib::ustring> _map;
 	Glib::ustring _fname;
 };
 

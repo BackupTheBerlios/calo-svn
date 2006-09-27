@@ -13,6 +13,7 @@
 class FetchInfoHandler
 {
 public:
+	virtual ~FetchInfoHandler() {}
 	virtual void quit_fetch (URIFetchInfo* info) = 0;
 };
 
