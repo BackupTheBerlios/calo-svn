@@ -9,7 +9,6 @@
 #include "ConfigFile.h"
 
 static AppContext* _theContext = NULL;
-static bool _destroyed = false;
 
 AppContext& AppContext::get()
 {
@@ -21,7 +20,7 @@ AppContext& AppContext::get()
 
 void AppContext::destroy()
 {
-	if (_theContext == NULL || _destroyed)
+	if (_theContext == NULL)
 		return;
 	delete _theContext;
 	_theContext = NULL;
@@ -29,7 +28,6 @@ void AppContext::destroy()
 
 AppContext::AppContext()
 {
-	if (_destroyed) return;
 	_app_x = _app_y = _app_w = _app_h = 0;
 	_cfg = new ConfigFile (get_config_filename());
 }
@@ -47,7 +45,6 @@ void AppContext::init()
 
 void AppContext::save()
 {
-	if (_destroyed) return;
 	_cfg->set ("app_x", _app_x);
 	_cfg->set ("app_y", _app_y);
 	_cfg->set ("app_w", _app_w);
