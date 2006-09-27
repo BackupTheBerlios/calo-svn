@@ -110,8 +110,8 @@ void MenuBar::on_menu_file_save_as_default()
 
 void MenuBar::on_menu_file_quit()
 {
-	AppContext::get().save();
-	AppContext::destroy();
+	// Do not put anything here. Use quit() in main.cpp!
+
 	Gtk::Main::quit();
 }
 

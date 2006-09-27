@@ -9,22 +9,25 @@
 #include "AppContext.h"
 #include "AppWindow.h"
 
-Glib::RefPtr< Glib::MainLoop > loop;
+static bool quit();
 
 int main (int argc , char **argv)
 {
 	g_thread_init (NULL);
 	Gtk::Main kit (argc, argv);
 	AppContext::get().init();
+	Gtk::Main::signal_quit().connect (sigc::ptr_fun (quit));
 	AppWindow aw;
 	Gtk::Main::run (aw);
 
 	return 0;
 }
 
-//static void quit (URIFetcher* fetcher)
-//{
-//	loop->quit();
-//}
+static bool quit()
+{
+	AppContext::get().save();
+	AppContext::destroy();
+	return true;
+}
 
 
