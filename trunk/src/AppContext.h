@@ -10,25 +10,33 @@
 
 #include <glibmm/ustring.h>
 
+
+class ConfigFile;
+
 /// AppContext
 
 class AppContext
 {
 public:
 	static AppContext& get();
+	static void destroy();
 
+	void init();
+	void save();
 	const Glib::ustring& get_feeds_filename();
-	bool get_appwindow_pos (unsigned int* x, unsigned int* y,
+	const Glib::ustring& get_config_filename();
+	void get_appwindow_pos (unsigned int* x, unsigned int* y,
 			unsigned int* w, unsigned int* h);
 	void set_appwindow_pos (unsigned int x, unsigned int y,
 			unsigned int w, unsigned int h);
-	bool cfg_was_read() { return _cfg_was_read; }
 
 private:
 	AppContext();
+	~AppContext();
 	
-	unsigned int _app_x, _app_y, _app_w, _app_h;
-	bool _cfg_was_read;
+	ConfigFile	*_cfg;
+	unsigned int 	_app_x, _app_y, _app_w, _app_h;
+	bool 		_cfg_was_read;
 };
 
 #endif
