@@ -64,5 +64,8 @@ int ConfigFile::get_i (const Glib::ustring& prop)
 
 void ConfigFile::set (const Glib::ustring& prop, int i)
 {
+	char str[16];
+	sprintf (str, "%d", i);
+	_map[prop] = Glib::ustring (str);
 }
 
