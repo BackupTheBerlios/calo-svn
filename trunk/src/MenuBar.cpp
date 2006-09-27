@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <gtkmm/main.h>
 #include <gtkmm/actiongroup.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/window.h>
@@ -111,6 +112,7 @@ void MenuBar::on_menu_file_quit()
 {
 	AppContext::get().save();
 	AppContext::destroy();
+	Gtk::Main::quit();
 }
 
 void MenuBar::on_menu_edit_copy()
