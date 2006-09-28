@@ -1,3 +1,75 @@
+
+2006-09-28 18:25 +0000 [r127]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/AppWindow.cpp, src/AppContext.h: add left
+	  pane width to saved properties
+
+2006-09-28 18:07 +0000 [r126]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/ConfigFile.cpp, src/ConfigFile.h: make
+	  config file reading work
+
+2006-09-28 14:49 +0000 [r125]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/AppWindow.cpp, src/MenuBar.cpp,
+	  src/AppContext.h, src/AppWindow.h, src/main.cpp: catch both menu
+	  and window quit events the same way, before window is destroyed
+
+2006-09-27 18:05 +0000 [r124]  rws <rws@localhost>
+
+	* src/AppContext.cpp: rm useless code
+
+2006-09-27 18:02 +0000 [r122-123]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/MenuBar.cpp, src/main.cpp: quit handling
+	  should be safe now
+
+	* src/ConfigFile.cpp: implement set()
+
+2006-09-27 17:12 +0000 [r121]  rws <rws@localhost>
+
+	* src/MenuBar.cpp: really quit app
+
+2006-09-27 17:06 +0000 [r120]  rws <rws@localhost>
+
+	* src/ConfigFile.cpp, src/AppWindow.cpp, src/FetchInfoHandler.h,
+	  src/MenuBar.cpp, src/ConfigFile.h, src/main.cpp: init app context
+
+2006-09-27 13:42 +0000 [r119]  rws <rws@localhost>
+
+	* src/ConfigFile.cpp (added), src/AppContext.cpp, src/Makefile.am,
+	  src/ConfigFile.h (added), src/AppContext.h: app context uses
+	  config file
+
+2006-09-26 17:56 +0000 [r118]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/AppWindow.cpp, src/AppContext.h,
+	  src/AppWindow.h: implement half of window pos memory
+
+2006-09-26 16:36 +0000 [r117]  rws <rws@localhost>
+
+	* src/AppWindow.cpp: add status bar / resize grip
+
+2006-09-26 16:07 +0000 [r116]  rws <rws@localhost>
+
+	* src/AppWindow.cpp, src/MenuBar.cpp, src/MenuBar.h: make menu work
+
+2006-09-25 16:13 +0000 [r115]  rws <rws@localhost>
+
+	* src/AppWindow.cpp, src/Makefile.am, src/MenuBar.cpp (added),
+	  src/MenuBar.h (added): add menu bar
+
+2006-09-25 09:07 +0000 [r113-114]  rws <rws@localhost>
+
+	* src/FeedList.cpp, src/FeedList.h: use uri fetch machinery to try
+	  to get rss page
+
+	* src/main.cpp: revert previous delete of thread init code
+
+2006-09-25 08:55 +0000 [r112]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-09-25 08:53 +0000 [r110-111]  rws <rws@localhost>
 
 	* src/FeedFileParser.cpp: remove logging
