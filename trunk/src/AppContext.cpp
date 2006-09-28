@@ -60,6 +60,7 @@ void AppContext::save()
 	_cfg->set ("app_y", _app_y);
 	_cfg->set ("app_w", _app_w);
 	_cfg->set ("app_h", _app_h);
+	_cfg->set ("lpane_w", _lpane_w);
 	_cfg->save();
 }
 
@@ -104,5 +105,17 @@ AppContext::set_appwindow_pos (unsigned int x, unsigned int y,	unsigned int w, u
 	_app_h = h;
 }
 
+int
+AppContext::get_lpanew()
+{
+	if (_cfg->has ("lpane_w"))
+		_lpane_w = _cfg->get_i ("lpane_w");
+	return _lpane_w;
+}
 
+void 
+AppContext::set_lpanew (int i)
+{
+	_lpane_w = i;
+}
 

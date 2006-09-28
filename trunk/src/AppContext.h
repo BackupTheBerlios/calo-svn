@@ -31,6 +31,8 @@ public:
 			unsigned int w, unsigned int h);
 	AppWindow* get_appwindow() const { return _aw; }
 	void set_appwindow (AppWindow* theWindow) { _aw = theWindow; } 
+	int get_lpanew();
+	void set_lpanew (int i);
 
 private:
 	AppContext();
@@ -38,8 +40,7 @@ private:
 	
 	AppWindow	*_aw;
 	ConfigFile	*_cfg;
-	unsigned int 	_app_x, _app_y, _app_w, _app_h;
-	bool 		_cfg_was_read;
+	unsigned int 	_app_x, _app_y, _app_w, _app_h, _lpane_w;
 };
 
 #endif

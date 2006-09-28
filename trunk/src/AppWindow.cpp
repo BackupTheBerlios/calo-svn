@@ -39,6 +39,9 @@ AppWindow::AppWindow()
 	unsigned int x, y, w, h;
 	AppContext::get().get_appwindow_pos (&x, &y, &w, &h);
 	set_default_size (w? w:400, h? h:300);
+	w = AppContext::get().get_lpanew();
+	_flist.set_size_request (w? w:150, -1);
+
 	show_all_children();
 }
 
@@ -53,7 +56,9 @@ AppWindow::save_geometry()
 	get_position (x, y);
 	Gtk::Allocation all = get_allocation();
 	AppContext::get().set_appwindow_pos (x, y, all.get_width(), all.get_height());
-std::cerr<<x<<" "<<y<<" "<<all.get_width()<<" "<<all.get_height()<<std::endl;
+
+	all = _flist.get_allocation();
+	AppContext::get().set_lpanew (all.get_width());
 }
 
 //--------------------------------------------------------------
