@@ -10,7 +10,7 @@
 
 #include <glibmm/ustring.h>
 
-
+class AppWindow;
 class ConfigFile;
 
 /// AppContext
@@ -29,11 +29,14 @@ public:
 			unsigned int* w, unsigned int* h);
 	void set_appwindow_pos (unsigned int x, unsigned int y,
 			unsigned int w, unsigned int h);
+	AppWindow* get_appwindow() const { return _aw; }
+	void set_appwindow (AppWindow* theWindow) { _aw = theWindow; } 
 
 private:
 	AppContext();
 	~AppContext();
 	
+	AppWindow	*_aw;
 	ConfigFile	*_cfg;
 	unsigned int 	_app_x, _app_y, _app_w, _app_h;
 	bool 		_cfg_was_read;

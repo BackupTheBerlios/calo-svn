@@ -5,6 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <iostream>
 #include <gtkmm/box.h>
 #include <gtkmm/separator.h>
 #include <gtkmm/statusbar.h>
@@ -46,6 +47,17 @@ AppWindow::~AppWindow()
 }
 
 void
+AppWindow::save_geometry()
+{
+	int x, y;
+	get_position (x, y);
+	Gtk::Allocation all = get_allocation();
+	AppContext::get().set_appwindow_pos (x, y, all.get_width(), all.get_height());
+std::cerr<<x<<" "<<y<<" "<<all.get_width()<<" "<<all.get_height()<<std::endl;
+}
+
+//--------------------------------------------------------------
+void
 AppWindow::on_realize()
 {
 	unsigned int x, y, w, h;
@@ -55,3 +67,9 @@ AppWindow::on_realize()
 	Gtk::Widget::on_realize();
 }
 
+bool
+AppWindow::on_delete_event (GdkEventAny*)
+{
+	save_geometry();
+	return false;
+}

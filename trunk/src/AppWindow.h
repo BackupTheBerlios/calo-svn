@@ -23,8 +23,11 @@ public:
 	AppWindow();
 	virtual ~AppWindow();
 
+	void save_geometry();
+
 protected:
 	virtual void on_realize();
+	virtual bool on_delete_event (GdkEventAny*);
 
 	Gtk::Entry _entry;
 	Gtk::HPaned _vpaned;

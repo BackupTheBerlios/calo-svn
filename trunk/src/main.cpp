@@ -11,6 +11,7 @@
 
 static bool quit();
 
+
 int main (int argc , char **argv)
 {
 	g_thread_init (NULL);
@@ -18,6 +19,7 @@ int main (int argc , char **argv)
 	AppContext::get().init();
 	Gtk::Main::signal_quit().connect (sigc::ptr_fun (quit));
 	AppWindow aw;
+	AppContext::get().set_appwindow (&aw);
 	Gtk::Main::run (aw);
 
 	return 0;
