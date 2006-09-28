@@ -5,6 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <iostream>
 #include "AppContext.h"
 #include "ConfigFile.h"
 
@@ -42,6 +43,15 @@ AppContext::~AppContext()
 void AppContext::init()
 {
 	_cfg->init();
+	try 
+	{
+		_cfg->set_substitute_entities (true);
+		_cfg->parse_file (get_config_filename());
+	}
+	catch (const xmlpp::exception& ex)
+	{
+		std::cerr << "parse exception: " << ex.what() << std::endl;
+	}
 }
 
 void AppContext::save()
@@ -74,11 +84,11 @@ AppContext::get_appwindow_pos (unsigned int* x, unsigned int* y, unsigned int* w
 	if (_cfg->has ("app_x"))
 		_app_x = _cfg->get_i ("app_x");
 	if (_cfg->has ("app_y"))
-		_app_x = _cfg->get_i ("app_y");
+		_app_y = _cfg->get_i ("app_y");
 	if (_cfg->has ("app_w"))
-		_app_x = _cfg->get_i ("app_w");
+		_app_w = _cfg->get_i ("app_w");
 	if (_cfg->has ("app_h"))
-		_app_x = _cfg->get_i ("app_h");
+		_app_h = _cfg->get_i ("app_h");
 	*x = _app_x;
 	*y = _app_y;
 	*w = _app_w;
@@ -93,5 +103,6 @@ AppContext::set_appwindow_pos (unsigned int x, unsigned int y,	unsigned int w, u
 	_app_w = w;
 	_app_h = h;
 }
+
 
 
