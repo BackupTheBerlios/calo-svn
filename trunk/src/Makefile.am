@@ -40,8 +40,6 @@ calo_SOURCES =  exceptions.h		\
 		FetchInfoHandler.h	\
 		FetchAndRenderPipeline.cpp\
 		FetchAndRenderPipeline.h\
-		HeaderList.cpp		\
-		HeaderList.h		\
 		InputPipe.cpp		\
 		InputPipe.h		\
 		LynxTextDumper.cpp	\
@@ -62,7 +60,11 @@ calo_SOURCES =  exceptions.h		\
 		TextDumper.h		\
 		URIFetcher.cpp		\
 		URIFetcher.h		\
-		URIFetchInfo.h
+		URIFetchInfo.h		\
+		ViewContainer.cpp	\
+		ViewContainer.h		\
+		ViewWindow.cpp		\
+		ViewWindow.h
 
 check_PROGRAMS = testPDFCreator	testPipeline
 

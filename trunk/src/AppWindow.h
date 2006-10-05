@@ -12,7 +12,7 @@
 #include <gtkmm/paned.h>
 #include <gtkmm/entry.h>
 #include "FeedList.h"
-#include "HeaderList.h"
+#include "ViewContainer.h"
 
 
 /// AppWindow
@@ -32,7 +32,7 @@ protected:
 	Gtk::Entry _entry;
 	Gtk::HPaned _vpaned;
 	FeedList _flist;
-	HeaderList _hlist;
+	ViewContainer _vc;
 };
 
 

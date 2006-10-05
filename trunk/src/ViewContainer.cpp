@@ -1,18 +1,19 @@
 /* \file
- * Implementing the main info pane.
+ * Implementing the main view pane.
  *
  * Copyright (c) 2006 R Stephan <ralf@ark.in-berlin.de>
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#include "HeaderList.h"
+#include "ViewContainer.h"
 
 
-HeaderList::HeaderList()
+ViewContainer::ViewContainer()
 {
+	add (_vw);
 	show_all_children();
 }
 
-HeaderList::~HeaderList()
+ViewContainer::~ViewContainer()
 {
 }

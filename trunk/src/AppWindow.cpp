@@ -30,7 +30,7 @@ AppWindow::AppWindow()
 	_vbox->add (_vpaned);
 
 	_vpaned.add1 (_flist);
-	_vpaned.add2 (_hlist);
+	_vpaned.add2 (_vc);
 
 	Gtk::Statusbar *bar = new Gtk::Statusbar();
 	_vbox->pack_end (*manage (bar), Gtk::PACK_SHRINK);

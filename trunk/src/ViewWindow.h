@@ -1,8 +1,8 @@
-#ifndef __HEADER_LIST_H
-#define __HEADER_LIST_H
+#ifndef __VIEW_WINDOW_H
+#define __VIEW_WINDOW_H
 
 /* \file
- * Pane containing the main view.
+ * Part of the main view showing titles and other text.
  *
  * Copyright (c) 2006 R Stephan <ralf@ark.in-berlin.de>
  * Released under GNU GPL2, read the file 'COPYING' for more information.
@@ -11,13 +11,13 @@
 #include <gtkmm/scrolledwindow.h>
 
 
-/// HeaderList
+/// ViewWindow
 
-class HeaderList : public Gtk::ScrolledWindow
+class ViewWindow : public Gtk::ScrolledWindow
 {
 public:
-	HeaderList();
-	virtual ~HeaderList();
+	ViewWindow();
+	virtual ~ViewWindow();
 
 private:
 };

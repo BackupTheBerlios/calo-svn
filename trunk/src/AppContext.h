@@ -33,6 +33,8 @@ public:
 	void set_appwindow (AppWindow* theWindow) { _aw = theWindow; } 
 	int get_lpanew();
 	void set_lpanew (int i);
+	bool get_view_is_opened() { return _view_is_opened; }
+	void set_view_is_opened (bool opened) { _view_is_opened = opened; }
 
 private:
 	AppContext();
@@ -41,6 +43,7 @@ private:
 	AppWindow	*_aw;
 	ConfigFile	*_cfg;
 	unsigned int 	_app_x, _app_y, _app_w, _app_h, _lpane_w;
+	bool		_view_is_opened;
 };
 
 #endif
