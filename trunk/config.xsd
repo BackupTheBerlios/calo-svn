@@ -1,0 +1,19 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:annotation>
+	  <xsd:documentation xml:lang="en">
+		  Calo config file schema. (c) 2006 ralf@ark.in-berlin.de
+		  No restrictions.
+    </xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:element name="property" type="PropertyType"/>
+
+  <xsd:element name="PropertyType">
+    <xsd:complexType>
+      <xsd:attribute name="name" type="xsd:string"/>
+      <xsd:attribute name="value" type="xsd:string"/>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>
