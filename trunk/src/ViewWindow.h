@@ -8,8 +8,19 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <gtkmm/drawingarea.h>
 #include <gtkmm/scrolledwindow.h>
+#include <cairomm/refptr.h>
+#include <cairomm/context.h>
 
+
+/// ViewDrawingArea
+
+class ViewDrawingArea : public Gtk::DrawingArea
+{
+public:
+	bool on_expose_event (GdkEventExpose* event);
+};
 
 /// ViewWindow
 
@@ -20,6 +31,8 @@ public:
 	virtual ~ViewWindow();
 
 private:
+	ViewDrawingArea _darea;
+	Cairo::RefPtr<Cairo::Context> _cctx;
 };
 
 
