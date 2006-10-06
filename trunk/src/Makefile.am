@@ -52,6 +52,8 @@ calo_SOURCES =  exceptions.h		\
 		PDFContext.h		\
 		PDFCreator.cpp		\
 		PDFCreator.h		\
+		RSSParser.cpp		\
+		RSSParser.h		\
 		SoupURIFetcher.cpp	\
 		SoupURIFetcher.h	\
 		TempFile.cpp		\
