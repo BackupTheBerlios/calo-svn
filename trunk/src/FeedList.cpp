@@ -50,5 +50,6 @@ FeedList::on_selection_changed()
 	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
 	Gtk::TreeModel::iterator iter = _slctn->get_selected();
 	Glib::ustring uri = (*iter)[_smcol._col_url];
-	FetchProtocol::get()->run (uri);
+	Feed* feed = (*iter)[_smcol._col_feed];
+	FetchProtocol::get()->run (uri, feed);
 }

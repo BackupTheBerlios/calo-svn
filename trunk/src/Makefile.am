@@ -32,6 +32,8 @@ calo_SOURCES =  exceptions.h		\
 		ConfigFile.h		\
 		DumpProcessor.cpp	\
 		DumpProcessor.h		\
+		Feed.cpp		\
+		Feed.h			\
 		FeedFileParser.cpp	\
 		FeedFileParser.h	\
 		FeedList.cpp		\

@@ -12,12 +12,14 @@
 #include <glibmm/ustring.h>
 #include "FetchInfoHandler.h"
 
+class Feed;
+
 class FetchProtocol : public FetchInfoHandler 
 {
 public:
 	static FetchProtocol* get();
 	virtual void quit_fetch (URIFetchInfo* info);
-	void run (Glib::ustring& uri);
+	void run (Glib::ustring& uri, Feed* theFeed);
 
 private:
 	FetchProtocol();

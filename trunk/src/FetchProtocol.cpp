@@ -8,6 +8,7 @@
 #include "FetchProtocol.h"
 #include "URIFetcher.h"
 #include "URIFetchInfo.h"
+#include "Feed.h"
 
 static FetchProtocol* _instance = NULL;
 
@@ -27,7 +28,7 @@ FetchProtocol::quit_fetch (URIFetchInfo* info)
 std::cout<< info->html <<std::endl;
 }
 
-void FetchProtocol::run (Glib::ustring& uri)
+void FetchProtocol::run (Glib::ustring& uri, Feed* theFeed)
 {
 	URIFetcher *fetcher = URIFetcher::create();
 	fetcher->add_uri (uri);
