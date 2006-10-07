@@ -40,6 +40,8 @@ calo_SOURCES =  exceptions.h		\
 		FetchInfoHandler.h	\
 		FetchAndRenderPipeline.cpp\
 		FetchAndRenderPipeline.h\
+		FetchProtocol.cpp	\
+		FetchProtocol.h		\
 		InputPipe.cpp		\
 		InputPipe.h		\
 		LynxTextDumper.cpp	\
