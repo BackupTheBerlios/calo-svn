@@ -8,10 +8,13 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <list>
 #include <glibmm/ustring.h>
 
 class URIFetchInfo;
 class FetchInfoHandler;
+
+typedef std::list <std::pair <Glib::ustring,Glib::ustring> > str_pair_list_t;
 
 /// URIFetcher
 
@@ -22,7 +25,7 @@ public:
 	virtual ~URIFetcher() = 0;
 	
 	/// Name a URI to fetch
-	virtual void add_uri (const Glib::ustring&) = 0;
+	virtual void add_uri (const Glib::ustring&, str_pair_list_t* = NULL) = 0;
 	
 	/// Set callback to call after URI is fetched.
 	virtual void set_pline (FetchInfoHandler*) = 0;

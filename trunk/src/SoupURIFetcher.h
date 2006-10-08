@@ -24,7 +24,7 @@ public:
 	SoupURIFetcher();
 	virtual ~SoupURIFetcher();
 	
-	virtual void add_uri (const Glib::ustring& uri);
+	virtual void add_uri (const Glib::ustring& uri, str_pair_list_t* list = NULL);
 	virtual void set_pline (FetchInfoHandler* p) { _pline = p; }
 	virtual void start();
 	virtual void stop();

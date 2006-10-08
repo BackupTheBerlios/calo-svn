@@ -49,7 +49,8 @@ SoupURIFetcher::~SoupURIFetcher()
 	soup_session_abort (_session);
 }
 
-void SoupURIFetcher::add_uri (const Glib::ustring& uri)
+void 
+SoupURIFetcher::add_uri (const Glib::ustring& uri, str_pair_list_t* theHeaders)
 {
 	SoupUri *up = soup_uri_new (uri.c_str());
 	if (up == NULL)
@@ -57,9 +58,16 @@ void SoupURIFetcher::add_uri (const Glib::ustring& uri)
 
 	SoupMessage* msg = soup_message_new_from_uri (SOUP_METHOD_GET, up);
 	if (msg == NULL)
-		g_warning (_("Error creating message.\n"));
+		g_error (_("Error creating message.\n"));
 	else
 		_msg_index[msg] = ++_added;
+
+	soup_message_set_http_version (msg, SOUP_HTTP_1_1);
+	soup_message_add_header (msg->request_headers, "User-Agent", "Calo/0.25pre-alpha libsoup/2.2.96");
+	if (theHeaders != NULL)
+		for (str_pair_list_t::iterator it = theHeaders->begin();
+			it != theHeaders->end(); ++it) 
+			soup_message_add_header (msg->request_headers, it->first.c_str(), it->second.c_str());
 	soup_uri_free (up);
 }
 
@@ -67,8 +75,6 @@ void SoupURIFetcher::queue_msg (std::pair<SoupMessage*,int> thePair)
 {
 	sleepms (50);
 	SoupMessage* msg = thePair.first;
-	soup_message_set_http_version (msg, SOUP_HTTP_1_1);
-	soup_message_add_header (msg->request_headers, "User-Agent", "Calo-0.25/pre-alpha libsoup-2.2.96");
 	soup_session_queue_message (_session, msg, got_data, this);
 }
 
