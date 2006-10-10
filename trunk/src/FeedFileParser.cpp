@@ -47,6 +47,8 @@ void FeedFileParser::on_start_element(const Glib::ustring& name,
 
 void FeedFileParser::set_model (std::pair<Glib::ustring,Glib::ustring> thePair)
 {
+	(*_curr_miter)[_rec->_col_feed] = new Feed;
+
 	if (thePair.first == "text")
 	{
 		(*_curr_miter)[_rec->_col_string] = thePair.second;
