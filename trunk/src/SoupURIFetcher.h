@@ -31,6 +31,7 @@ public:
 
 private:
 	friend void got_data (SoupMessage *msg, gpointer data);
+	friend void handle_header (gpointer key, gpointer val, gpointer datap);
 	URIFetchInfo* handle_msg (SoupMessage *msg);
 	void queue_msg (std::pair<SoupMessage*,int>);
 	

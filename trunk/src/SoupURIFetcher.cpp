@@ -35,6 +35,12 @@ void got_data (SoupMessage *msg, gpointer datap)
 	context->_pline->quit_fetch (info);
 }
 
+void handle_header (gpointer key, gpointer val, gpointer datap)
+{
+	SoupURIFetcher* context = static_cast<SoupURIFetcher*>(datap);
+	context->_pline->handle_header ((char*)key, (char*)val);
+}
+
 //----------------------------------------------------------------------
 
 SoupURIFetcher::SoupURIFetcher()
@@ -98,6 +104,7 @@ URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 	info->html = msg->response.body;
 	info->uri = soup_uri_to_string (su, false);
 	info->no = (_msg_index.find (msg))->second;
+	soup_message_foreach_header (msg->response_headers, handle_header, this);
 
 	return info;
 }
