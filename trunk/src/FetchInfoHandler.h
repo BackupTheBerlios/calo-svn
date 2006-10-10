@@ -14,6 +14,7 @@ class FetchInfoHandler
 {
 public:
 	virtual ~FetchInfoHandler() {}
+	virtual void handle_header (const Glib::ustring&, const Glib::ustring&) = 0;
 	virtual void quit_fetch (URIFetchInfo* info) = 0;
 };
 
