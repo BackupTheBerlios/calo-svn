@@ -9,8 +9,7 @@
  */
 
 #include <gtkmm/treemodelcolumn.h>
-
-class Feed;
+#include "Feed.h"
 
 /// FeedListColumnRecord
 
@@ -21,6 +20,7 @@ public:
 	{ 
 		add (_col_string); 
 		add (_col_url);
+		add (_col_feed);
 	}
 
 	Gtk::TreeModelColumn<Glib::ustring> _col_string;
