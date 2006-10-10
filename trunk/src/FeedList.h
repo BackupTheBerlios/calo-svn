@@ -23,6 +23,7 @@ public:
 	virtual ~FeedList();
 
 protected:
+	virtual void on_delete();
 	void on_selection_changed();
 
 	FeedListColumnRecord 		_smcol;

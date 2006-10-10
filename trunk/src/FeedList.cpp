@@ -53,3 +53,10 @@ FeedList::on_selection_changed()
 	Feed* feed = (*iter)[_smcol._col_feed];
 	FetchProtocol::get()->run (uri, feed);
 }
+
+void
+FeedList::on_delete()
+{
+std::cerr<<"FeedList::on_delete()"<<std::endl;
+}
+
