@@ -29,7 +29,10 @@ FetchProtocol::FetchProtocol() {}
 void 
 FetchProtocol::handle_header (const Glib::ustring& key, const Glib::ustring& val)
 {
-	_curr_feed->set_property (key, val);
+	if (key == "Date") 
+		_curr_feed->set_property (Glib::ustring ("Last-Visited"), val);
+	else
+		_curr_feed->set_property (key, val);
 //std::cout<< key << ": " << val <<std::endl;
 }
 
