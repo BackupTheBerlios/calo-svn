@@ -5,6 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <iostream>
 #include "Feed.h"
 
 
@@ -30,7 +31,7 @@ Feed::~Feed() {}
 bool
 Feed::is_unset()
 {
-	return _props[_possible_props[0]].length() == 0;
+	return _props["ETag"].length() == 0;
 }
 
 void 
