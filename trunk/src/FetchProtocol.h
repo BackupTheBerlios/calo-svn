@@ -18,11 +18,14 @@ class FetchProtocol : public FetchInfoHandler
 {
 public:
 	static FetchProtocol* get();
+	virtual void handle_header (const Glib::ustring&, const Glib::ustring&);
 	virtual void quit_fetch (URIFetchInfo* info);
 	void run (Glib::ustring& uri, Feed* theFeed);
 
 private:
 	FetchProtocol();
+
+	Feed *_curr_feed;
 };
 
 #endif
