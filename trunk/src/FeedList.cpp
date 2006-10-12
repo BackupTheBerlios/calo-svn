@@ -9,7 +9,7 @@
 #include <gtkmm/treeselection.h>
 #include "AppContext.h"
 #include "FeedList.h"
-#include "FeedFileParser.h"
+#include "OPMLParser.h"
 #include "FetchProtocol.h"
 
 FeedList::FeedList()
@@ -22,7 +22,7 @@ FeedList::FeedList()
 
 	try 
 	{
-		FeedFileParser _parser (_tstore);
+		OPMLParser _parser (_tstore);
 		_parser.set_column_record (&_smcol);
 		_parser.set_substitute_entities (true);
 		_parser.parse_file (AppContext::get().get_feeds_filename());
@@ -38,6 +38,7 @@ FeedList::FeedList()
 
 	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
 	_slctn->signal_changed().connect (sigc::mem_fun (*this, &FeedList::on_selection_changed));
+	_tview.signal_event().connect (sigc::mem_fun (*this, &FeedList::on_event));
 }
 
 FeedList::~FeedList()
@@ -57,6 +58,13 @@ FeedList::on_selection_changed()
 void
 FeedList::on_delete()
 {
-std::cerr<<"FeedList::on_delete()"<<std::endl;
+std::cerr<<"FeedList::on_delete()"<<std::endl<<std::flush;
+}
+
+bool
+FeedList::on_event (GdkEvent* event)
+{
+std::cerr<<"FeedList::on_event()"<<std::endl<<std::flush;
+	return true;
 }
 

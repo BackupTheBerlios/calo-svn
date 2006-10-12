@@ -34,8 +34,6 @@ calo_SOURCES =  exceptions.h		\
 		DumpProcessor.h		\
 		Feed.cpp		\
 		Feed.h			\
-		FeedFileParser.cpp	\
-		FeedFileParser.h	\
 		FeedList.cpp		\
 		FeedList.h		\
 		FeedListColumnRecord.h	\
@@ -52,6 +50,8 @@ calo_SOURCES =  exceptions.h		\
 		LynxToCairoProcessor.h	\
 		MenuBar.cpp		\
 		MenuBar.h		\
+		OPMLParser.cpp		\
+		OPMLParser.h		\
 		PDFContext.cpp		\
 		PDFContext.h		\
 		PDFCreator.cpp		\
