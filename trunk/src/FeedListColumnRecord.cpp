@@ -17,7 +17,7 @@ FeedListColumnRecord& FeedListColumnRecord::get()
 	return *_theColumnRcord;
 }
 
-FeedListColumnRecord() 
+FeedListColumnRecord::FeedListColumnRecord() 
 { 
 	add (_col_string); 
 	add (_col_url);
