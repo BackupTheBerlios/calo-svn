@@ -16,14 +16,15 @@ FeedList::FeedList()
 {
 	add (_tview);
 	set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-	_tstore = Gtk::TreeStore::create (_smcol);
+	_smcol = &FeedListColumnRecord::get();
+	_tstore = Gtk::TreeStore::create (*_smcol);
 	_tview.set_model (_tstore);
 	_tview.set_reorderable();
 
 	try 
 	{
 		OPMLParser _parser (_tstore);
-		_parser.set_column_record (&_smcol);
+		_parser.set_column_record (_smcol);
 		_parser.set_substitute_entities (true);
 		_parser.parse_file (AppContext::get().get_feeds_filename());
 	}
@@ -32,7 +33,7 @@ FeedList::FeedList()
 		std::cerr << "parse exception: " << ex.what() << std::endl;
 	}
 
-	_tview.append_column ("Feeds", _smcol._col_string);
+	_tview.append_column ("Feeds", _smcol->_col_string);
 
 	show_all_children();
 
@@ -50,8 +51,8 @@ FeedList::on_selection_changed()
 {
 	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
 	Gtk::TreeModel::iterator iter = _slctn->get_selected();
-	Glib::ustring uri = (*iter)[_smcol._col_url];
-	Feed* feed = (*iter)[_smcol._col_feed];
+	Glib::ustring uri = (*iter)[_smcol->_col_url];
+	Feed* feed = (*iter)[_smcol->_col_feed];
 	FetchProtocol::get()->run (uri, feed);
 }
 
