@@ -8,6 +8,7 @@
 #include <iostream>
 #include <functional>
 #include "OPMLParser.h"
+#include "Feed.h"
 
 OPMLParser::OPMLParser (Glib::RefPtr<Gtk::TreeStore>& theStore)
 : xmlpp::SaxParser()
@@ -37,6 +38,7 @@ void OPMLParser::on_start_element(const Glib::ustring& name,
 	{
 		_stringmap.clear();
 		_curr_miter = _store->append();
+		(*_curr_miter)[_rec->_col_feed] = new Feed;
 		for (xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
 		{
 			_stringmap[iter->name] = iter->value;
@@ -47,15 +49,18 @@ void OPMLParser::on_start_element(const Glib::ustring& name,
 
 void OPMLParser::set_model (std::pair<Glib::ustring,Glib::ustring> thePair)
 {
-	(*_curr_miter)[_rec->_col_feed] = new Feed;
-
 	if (thePair.first == "text")
 	{
 		(*_curr_miter)[_rec->_col_string] = thePair.second;
 	}
-	if (thePair.first == "xmlUrl")
+	else if (thePair.first == "xmlUrl")
 	{
 		(*_curr_miter)[_rec->_col_url] = thePair.second;
+	}
+	else
+	{
+		Feed *fp = (*_curr_miter)[_rec->_col_feed];
+		fp->set_property (thePair.first, thePair.second);
 	}
 }
 
