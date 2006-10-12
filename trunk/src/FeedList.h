@@ -22,11 +22,14 @@ public:
 	FeedList();
 	virtual ~FeedList();
 
+	Glib::RefPtr<Gtk::TreeModel> get_tmodel() { return _tview.get_model(); }
+
 protected:
 	virtual void on_delete();
+	bool on_event (GdkEvent*);
 	void on_selection_changed();
 
-	FeedListColumnRecord 		_smcol;
+	FeedListColumnRecord 		*_smcol;
 	Glib::RefPtr<Gtk::TreeStore> 	_tstore;
 	Gtk::TreeView 			_tview;
 };
