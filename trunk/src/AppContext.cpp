@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include "AppContext.h"
+#include "AppWindow.h"
+#include "FeedListColumnRecord.h"
 #include "ConfigFile.h"
 
 static AppContext* _theContext = NULL;
@@ -55,7 +57,23 @@ void AppContext::init()
 	}
 }
 
-void AppContext::save()
+static bool
+save_treenode (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& it, xmlpp::Element* root)
+{
+	xmlpp::Element* child = root->add_child ("outline");
+	const FeedListColumnRecord& cr = FeedListColumnRecord::get();
+	child->set_attribute ("text", (*it)[cr._col_string]);
+	child->set_attribute ("xmlUrl", (*it)[cr._col_url]);
+	const Feed* feed = ((*it)[cr._col_feed]);
+	const str_str_map_t& map = feed->get_map();
+	for (str_str_map_t::const_iterator iit = map.begin(); iit != map.end(); ++iit)
+		if (iit->second.length() > 0)
+			child->set_attribute (iit->first, iit->second);
+	return false;
+}
+
+void 
+AppContext::save()
 {
 	_cfg->set ("app_x", _app_x);
 	_cfg->set ("app_y", _app_y);
@@ -63,8 +81,24 @@ void AppContext::save()
 	_cfg->set ("app_h", _app_h);
 	_cfg->set ("lpane_w", _lpane_w);
 	_cfg->save();
+
+	xmlpp::Document doc;
+	Glib::RefPtr<Gtk::TreeModel> tmodel = _aw->get_feedlist()->get_tmodel();
+	xmlpp::Element* root = doc.create_root_node ("root");
+	tmodel->foreach (sigc::bind (sigc::ptr_fun (&save_treenode), root));
+
+	try
+	{
+		doc.write_to_file_formatted (get_feeds_filename());
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << "Exception while writing feeds file: " << ex.what()
+			<< std::endl;
+	}
 }
 
+// TODO: remove hardcoded paths before 1st release
 const Glib::ustring&
 AppContext::get_feeds_filename()
 {
