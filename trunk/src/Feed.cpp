@@ -30,14 +30,15 @@ Feed::~Feed() {}
 //-------------------------------------------------------------------
 bool
 Feed::is_unset()
+const
 {
-	return _props["ETag"].length() == 0;
+	return _props.find ("ETag")->second.length() == 0;
 }
 
 void 
 Feed::set_property (const Glib::ustring& key, const Glib::ustring& val)
 {
-	std::map<Glib::ustring,Glib::ustring>::iterator it = _props.find (key);
+	str_str_map_t::iterator it = _props.find (key);
 	if (it == _props.end())
 		return;
 
@@ -46,8 +47,9 @@ Feed::set_property (const Glib::ustring& key, const Glib::ustring& val)
 
 const Glib::ustring& 
 Feed::get_property (const Glib::ustring& key)
+const
 {	
-	std::map<Glib::ustring,Glib::ustring>::iterator it = _props.find (key);
+	str_str_map_t::const_iterator it = _props.find (key);
 	if (it == _props.end())
 		return "";
 

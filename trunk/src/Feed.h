@@ -13,6 +13,8 @@
 
 class Feed;
 
+typedef std::map<Glib::ustring,Glib::ustring> str_str_map_t;
+
 /// Feed
 /// TODO: delete all feeds
 //
@@ -26,12 +28,14 @@ public:
 	//Feed *next();
 	//Feed *child();
 
-	bool is_unset();
+	bool is_unset() const;
 	void set_property (const Glib::ustring& key, const Glib::ustring& val);
-	const Glib::ustring& get_property (const Glib::ustring& key);
+	const Glib::ustring& get_property (const Glib::ustring& key) const; 
+	const str_str_map_t& get_map() const { return _props; }
+
 
 protected:
-	std::map<Glib::ustring,Glib::ustring> _props;
+	str_str_map_t _props;
 };
 
 
