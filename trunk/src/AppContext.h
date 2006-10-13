@@ -8,10 +8,14 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <map>
 #include <glibmm/ustring.h>
 
 class AppWindow;
 class ConfigFile;
+class Item;
+
+typedef std::map<Glib::ustring,Item*> item_map_t;
 
 /// AppContext
 
@@ -42,6 +46,7 @@ private:
 	
 	AppWindow	*_aw;
 	ConfigFile	*_cfg;
+	item_map_t	_items;
 	unsigned int 	_app_x, _app_y, _app_w, _app_h, _lpane_w;
 	bool		_view_is_opened;
 };
