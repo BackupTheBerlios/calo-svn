@@ -65,7 +65,7 @@ std::cerr<<"FeedList::on_delete()"<<std::endl<<std::flush;
 bool
 FeedList::on_event (GdkEvent* event)
 {
-std::cerr<<"FeedList::on_event()"<<std::endl<<std::flush;
-	return true;
+//std::cerr<<"FeedList::on_event()"<<std::endl<<std::flush;
+	return false;
 }
 
