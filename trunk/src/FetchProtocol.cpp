@@ -10,6 +10,7 @@
 #include "FetchProtocol.h"
 #include "URIFetcher.h"
 #include "URIFetchInfo.h"
+#include "RSSParser.h"
 #include "Feed.h"
 
 static FetchProtocol* _instance = NULL;
@@ -33,12 +34,13 @@ FetchProtocol::handle_header (const Glib::ustring& key, const Glib::ustring& val
 		_curr_feed->set_property (Glib::ustring ("Last-Visited"), val);
 	else
 		_curr_feed->set_property (key, val);
-//std::cout<< key << ": " << val <<std::endl;
 }
 
 void 
 FetchProtocol::quit_fetch (URIFetchInfo* info)
 {
+	RSSParser parser (info->html);
+	_curr_feed->get_items().push_back (parser.get_item());
 //std::cout<< info->html <<std::endl;
 }
 
