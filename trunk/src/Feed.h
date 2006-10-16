@@ -9,11 +9,15 @@
  */
 
 #include <map>
+#include <list>
 #include <glibmm/ustring.h>
+#include "Item.h"
+
 
 class Feed;
 
 typedef std::map<Glib::ustring,Glib::ustring> str_str_map_t;
+typedef std::list<Item*> item_list_t;
 
 /// Feed
 /// TODO: delete all feeds
@@ -32,10 +36,12 @@ public:
 	void set_property (const Glib::ustring& key, const Glib::ustring& val);
 	const Glib::ustring& get_property (const Glib::ustring& key) const; 
 	const str_str_map_t& get_map() const { return _props; }
+	item_list_t& get_items() { return _items; }
 
 
 protected:
 	str_str_map_t _props;
+	item_list_t _items;
 };
 
 
