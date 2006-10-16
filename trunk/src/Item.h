@@ -15,7 +15,7 @@
 class Item
 {
 public:
-	Glib::ustring _title, _description, _pubdate;
+	Glib::ustring _title, _description, _link, _pubdate;
 };
 
 #endif

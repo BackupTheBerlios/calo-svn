@@ -8,12 +8,14 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <list>
 #include <glibmm/ustring.h>
 #include <libxml++/parsers/saxparser.h>
+#include "ItemAccumulator.h"
 
-class Item;
 
-typedef std::map<Glib::ustring,Glib::ustring> str_str_map_t;
+//typedef std::map<Glib::ustring,Glib::ustring> str_str_map_t;
+typedef std::list<ItemAccumulator*> item_listener_list_t;
 
 
 /// RSSParser
@@ -25,6 +27,7 @@ public:
 	virtual ~RSSParser();
 	
 	Item* get_item() { return _item; }
+	void add_item_listener (ItemAccumulator* acc) {_listeners.push_back (acc); }
 
 protected:
   //overrides:
@@ -40,6 +43,7 @@ protected:
   virtual void on_fatal_error(const Glib::ustring& text);
 
 // 	str_str_map_t	_stringmap;
+	item_listener_list_t _listeners;
 	Glib::ustring	*_curr_string;
 	Item		*_item;
 	bool		_channel, _in_item;

@@ -10,6 +10,7 @@
 
 #include <list>
 #include <glibmm/ustring.h>
+#include "ItemAccumulator.h"
 
 class AppWindow;
 class ConfigFile;
@@ -19,7 +20,7 @@ typedef std::list<Item*> item_list_t;
 
 /// AppContext
 
-class AppContext
+class AppContext : public ItemAccumulator
 {
 public:
 	static AppContext& get();
@@ -39,7 +40,8 @@ public:
 	void set_lpanew (int i);
 	bool get_view_is_opened() 			{ return _view_is_opened; }
 	void set_view_is_opened (bool opened) 		{ _view_is_opened = opened; }
-	void add_item (Item* i) 			{ _all_items.push_back (i); }
+	
+	virtual void add_item (Item* i) 		{ _all_items.push_back (i); }
 
 private:
 	AppContext();

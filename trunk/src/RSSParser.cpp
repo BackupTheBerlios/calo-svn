@@ -9,7 +9,6 @@
 #include <functional>
 #include <glib/gmessages.h>
 #include "Item.h"
-#include "AppContext.h"
 #include "RSSParser.h"
 
 RSSParser::RSSParser (const Glib::ustring& str)
@@ -34,8 +33,8 @@ void RSSParser::on_end_document()
   std::cout << "on_end_document()" << std::endl;
 }
 
-void RSSParser::on_start_element(const Glib::ustring& name,
-                                   const AttributeList& attributes)
+void 
+RSSParser::on_start_element(const Glib::ustring& name, const AttributeList& attributes)
 {
 	if (_in_item)
 	{
@@ -43,6 +42,8 @@ void RSSParser::on_start_element(const Glib::ustring& name,
 			_curr_string = &_item->_title;
 		else if (name == "description")
 			_curr_string = &_item->_description;
+		else if (name == "link")
+			_curr_string = &_item->_link;
 		else if (name == "pubDate")
 			_curr_string = &_item->_pubdate;
 	}
@@ -57,20 +58,30 @@ void RSSParser::on_start_element(const Glib::ustring& name,
 			g_warning ("Multiple channel elements: not implemented.\n");
 		_channel = true;
 	}
-	
 }
 
-void RSSParser::on_end_element(const Glib::ustring& name)
+//void
+//RSSParser::add_item (_item_listener_t listener_func)
+//{
+//	listener_func (_item);
+//}
+
+void 
+RSSParser::on_end_element(const Glib::ustring& name)
 {
 	if (name == "item")
 	{
 		_in_item = false;
 		_curr_string = NULL;
-		AppContext::get().add_item (_item);
+		for_each (_listeners.begin(), _listeners.end(), 
+			std::bind2nd (std::mem_fun (&ItemAccumulator::add_item), 
+				_item));
+//			bind1st (std::mem_fun (&RSSParser::add_item), this));
 	}
 }
 
-void RSSParser::on_characters(const Glib::ustring& text)
+void 
+RSSParser::on_characters(const Glib::ustring& text)
 {
 	if (_curr_string != NULL)
 	{

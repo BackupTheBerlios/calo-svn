@@ -11,7 +11,7 @@
 #include <map>
 #include <list>
 #include <glibmm/ustring.h>
-#include "Item.h"
+#include "ItemAccumulator.h"
 
 
 class Feed;
@@ -23,11 +23,11 @@ typedef std::list<Item*> item_list_t;
 /// TODO: delete all feeds
 //
 
-class Feed
+class Feed : public ItemAccumulator
 {
 public:
 	Feed();
-	~Feed();
+	virtual ~Feed();
 
 	//Feed *next();
 	//Feed *child();
@@ -35,8 +35,10 @@ public:
 	bool is_unset() const;
 	void set_property (const Glib::ustring& key, const Glib::ustring& val);
 	const Glib::ustring& get_property (const Glib::ustring& key) const; 
-	const str_str_map_t& get_map() const { return _props; }
-	item_list_t& get_items() { return _items; }
+	const str_str_map_t& get_map() const 	{ return _props; }
+	item_list_t& get_items() 		{ return _items; }
+
+	virtual void add_item (Item *i)		{ _items.push_back (i); }
 
 
 protected:

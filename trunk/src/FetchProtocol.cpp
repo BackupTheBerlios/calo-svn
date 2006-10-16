@@ -11,6 +11,7 @@
 #include "URIFetcher.h"
 #include "URIFetchInfo.h"
 #include "RSSParser.h"
+#include "AppContext.h"
 #include "Feed.h"
 
 static FetchProtocol* _instance = NULL;
@@ -40,7 +41,8 @@ void
 FetchProtocol::quit_fetch (URIFetchInfo* info)
 {
 	RSSParser parser (info->html);
-	_curr_feed->get_items().push_back (parser.get_item());
+	parser.add_item_listener (_curr_feed);
+	parser.add_item_listener (&AppContext::get());
 //std::cout<< info->html <<std::endl;
 }
 
