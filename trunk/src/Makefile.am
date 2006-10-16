@@ -46,6 +46,7 @@ calo_SOURCES =  exceptions.h		\
 		InputPipe.cpp		\
 		InputPipe.h		\
 		Item.h			\
+		ItemAccumulator.h	\
 		LynxTextDumper.cpp	\
 		LynxTextDumper.h	\
 		LynxToCairoProcessor.cpp\
