@@ -40,9 +40,10 @@ FetchProtocol::handle_header (const Glib::ustring& key, const Glib::ustring& val
 void 
 FetchProtocol::quit_fetch (URIFetchInfo* info)
 {
-	RSSParser parser (info->html);
+	RSSParser parser;
 	parser.add_item_listener (_curr_feed);
 	parser.add_item_listener (&AppContext::get());
+	parser.parse_memory (info->html);
 //std::cout<< info->html <<std::endl;
 }
 

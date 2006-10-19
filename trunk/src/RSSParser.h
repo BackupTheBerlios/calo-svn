@@ -23,7 +23,7 @@ typedef std::list<ItemAccumulator*> item_listener_list_t;
 class RSSParser : public xmlpp::SaxParser
 {
 public:
-	RSSParser (const Glib::ustring& str);
+	RSSParser();
 	virtual ~RSSParser();
 	
 	Item* get_item() { return _item; }
