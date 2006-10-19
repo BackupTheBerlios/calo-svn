@@ -8,6 +8,9 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <string>
+
 extern void sleepms (unsigned long ms);
+extern std::string conv (const std::string& str);
 
 #endif

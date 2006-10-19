@@ -10,6 +10,7 @@
 #endif
 
 #include <time.h>
+#include <glibmm/convert.h>
 
 
 void sleepms (unsigned long ms)
@@ -18,5 +19,14 @@ void sleepms (unsigned long ms)
 	ti.tv_sec = ms / 1000L;
 	ti.tv_nsec = (ms - 1000L*int(ms/1000L)) * 1000000L;
 	nanosleep (&ti, &ti);
+}
+
+std::string conv (const std::string& str)
+{
+	const std::string& to = "";
+	const std::string& from = "UTF-8";
+	const Glib::ustring& fallback = "?";
+	
+	return Glib::convert_with_fallback (str, to, from, fallback);
 }
 
