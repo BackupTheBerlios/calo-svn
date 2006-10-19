@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "Feed.h"
+#include "Item.h"
 
 
 static char* _possible_props[] = { 
@@ -49,11 +50,20 @@ const Glib::ustring&
 Feed::get_property (const Glib::ustring& key)
 const
 {	
+	static const Glib::ustring empty = "";
 	str_str_map_t::const_iterator it = _props.find (key);
 	if (it == _props.end())
-		return "";
+		return empty;
 
 	return it->second;
 
+}
+
+//------------------------------------------------------------------
+void 
+Feed::add_item (Item *i)
+{
+std::cerr << "Added " << i->_title << std::endl << i->_description << std::flush;
+	_items.push_back (i); 
 }
 
