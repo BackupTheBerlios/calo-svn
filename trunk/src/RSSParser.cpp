@@ -8,19 +8,18 @@
 #include <iostream>
 #include <functional>
 #include <glib/gmessages.h>
+#include <glibmm/convert.h>
 #include "Item.h"
 #include "RSSParser.h"
+#include "utils.h"
 
-RSSParser::RSSParser (const Glib::ustring& str)
-: xmlpp::SaxParser()
+RSSParser::RSSParser() : xmlpp::SaxParser()
 {
 	_curr_string = NULL;
 	_channel = _in_item = false;
-	xmlpp::SaxParser::parse_memory (str);
 }
 
 RSSParser::~RSSParser() {}
-
 
 //-------------------------------------------------------------
 void RSSParser::on_start_document()
@@ -34,25 +33,29 @@ void RSSParser::on_end_document()
 }
 
 void 
-RSSParser::on_start_element(const Glib::ustring& name, const AttributeList& attributes)
+RSSParser::on_start_element(const Glib::ustring& theName, const AttributeList& attributes)
 {
+std::cerr << "on_start_element: " << theName << std::endl << std::flush;
 	if (_in_item)
 	{
+		const Glib::ustring& name = theName.lowercase();
 		if (name == "title")
 			_curr_string = &_item->_title;
 		else if (name == "description")
 			_curr_string = &_item->_description;
 		else if (name == "link")
 			_curr_string = &_item->_link;
-		else if (name == "pubDate")
+		else if (name == "pubdate")
 			_curr_string = &_item->_pubdate;
+		else _curr_string = NULL;
 	}
-	else if (name == "item")
+	else if (theName == "item")
 	{
+//std::cerr << "Item start." << std::endl << std::flush;
 		_in_item = true;
 		_item = new Item;
 	}
-	if (name == "channel")
+	else if (theName == "channel")
 	{
 		if (_channel)
 			g_warning ("Multiple channel elements: not implemented.\n");
@@ -60,33 +63,29 @@ RSSParser::on_start_element(const Glib::ustring& name, const AttributeList& attr
 	}
 }
 
-//void
-//RSSParser::add_item (_item_listener_t listener_func)
-//{
-//	listener_func (_item);
-//}
-
 void 
-RSSParser::on_end_element(const Glib::ustring& name)
+RSSParser::on_characters(const Glib::ustring& text)
 {
-	if (name == "item")
+//std::cerr << "on_characters, _in_item " << Glib::ustring(_in_item?"1":"0") << ", cs: " << Glib::ustring(_curr_string!=NULL?"1":"0") << std::endl << std::flush;
+	if (_in_item && _curr_string != NULL)
 	{
-		_in_item = false;
-		_curr_string = NULL;
-		for_each (_listeners.begin(), _listeners.end(), 
-			std::bind2nd (std::mem_fun (&ItemAccumulator::add_item), 
-				_item));
-//			bind1st (std::mem_fun (&RSSParser::add_item), this));
+//std::cerr << text << std::endl << std::flush;
+		*_curr_string += text;
+//		_curr_string = NULL;
 	}
 }
 
 void 
-RSSParser::on_characters(const Glib::ustring& text)
+RSSParser::on_end_element(const Glib::ustring& name)
 {
-	if (_curr_string != NULL)
+if (_curr_string) std::cerr << conv (*_curr_string) << std::endl << std::flush;
+	if (name == "item")
 	{
-		*_curr_string = text;
+		_in_item = false;
 		_curr_string = NULL;
+		for (item_listener_list_t::iterator it = _listeners.begin();
+			it != _listeners.end(); ++it)
+			(*it)->add_item (_item);
 	}
 }
 
