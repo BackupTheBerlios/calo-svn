@@ -22,6 +22,14 @@ RSSParser::RSSParser() : xmlpp::SaxParser()
 RSSParser::~RSSParser() {}
 
 //-------------------------------------------------------------
+void
+RSSParser::parse_memory (const Glib::ustring& str)
+{
+	_str = str;
+	xmlpp::SaxParser::parse_memory (str);
+}
+
+
 void RSSParser::on_start_document()
 {
   std::cout << "on_start_document()" << std::endl;
@@ -35,7 +43,7 @@ void RSSParser::on_end_document()
 void 
 RSSParser::on_start_element(const Glib::ustring& theName, const AttributeList& attributes)
 {
-std::cerr << "on_start_element: " << theName << std::endl << std::flush;
+std::cerr << "----> " << theName << std::endl << std::flush;
 	if (_in_item)
 	{
 		const Glib::ustring& name = theName.lowercase();
@@ -101,6 +109,7 @@ void RSSParser::on_warning(const Glib::ustring& text)
 void RSSParser::on_error(const Glib::ustring& text)
 {
   std::cout << "on_error(): " << text << std::endl;
+  std::cout << conv(_str) << std::endl << std::flush;
 }
 
 void RSSParser::on_fatal_error(const Glib::ustring& text)

@@ -28,9 +28,11 @@ public:
 	
 	Item* get_item() { return _item; }
 	void add_item_listener (ItemAccumulator* acc) {_listeners.push_back (acc); }
+	virtual void parse_memory (const Glib::ustring& str);
 
 protected:
   //overrides:
+  
   virtual void on_start_document();
   virtual void on_end_document();
   virtual void on_start_element(const Glib::ustring& name,
@@ -44,7 +46,7 @@ protected:
 
 // 	str_str_map_t	_stringmap;
 	item_listener_list_t _listeners;
-	Glib::ustring	*_curr_string;
+	Glib::ustring	*_curr_string, _str;
 	Item		*_item;
 	bool		_channel, _in_item;
 };
