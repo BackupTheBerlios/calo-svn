@@ -23,7 +23,6 @@
 /// Friend callback that puts the result in the Fetcher's UTF-8 storage
 void got_data (SoupMessage *msg, gpointer datap)
 {
-//std::cerr << "got data" << std::endl << std::flush;
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code))
 	{
 		g_warning ("%d - %s", msg->status_code, msg->reason_phrase);
@@ -101,6 +100,8 @@ URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 	info->is_fetched = true;
 	if (++_fetched >= _added)
 		info->is_last = true;
+	char *buf = msg->response.body;
+	buf[msg->response.length] = '\0';
 	info->html = msg->response.body;
 	info->uri = soup_uri_to_string (su, false);
 	info->no = (_msg_index.find (msg))->second;
