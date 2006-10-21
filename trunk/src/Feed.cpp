@@ -63,7 +63,6 @@ const
 void 
 Feed::add_item (Item *i)
 {
-std::cerr << "Added " << i->_title << std::endl << i->_description << std::flush;
 	_items.push_back (i); 
 }
 
