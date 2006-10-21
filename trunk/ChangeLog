@@ -1,4 +1,58 @@
 
+2006-10-21 09:48 +0000 [r170-173]  rws <rws@localhost>
+
+	* src/FetchProtocol.cpp, src/Feed.cpp: remove debug output
+
+	* src/RSSParser.h, src/RSSParser.cpp: override parse_memory for
+	  error handling
+
+	* src/SoupURIFetcher.cpp: fix html buf/body length bug
+
+2006-10-19 09:10 +0000 [r166-169]  rws <rws@localhost>
+
+	* src/RSSParser.cpp: several changes
+
+	* src/RSSParser.h, src/FetchProtocol.cpp: change order of parser
+	  calls
+
+	* src/utils.h, src/utils.cpp: add conv()
+
+	* src/Feed.cpp: remove compiler warning
+
+2006-10-16 18:52 +0000 [r164-165]  rws <rws@localhost>
+
+	* src/Feed.h, src/RSSParser.h, src/AppContext.h,
+	  src/FetchProtocol.cpp, src/Item.h, src/RSSParser.cpp: use
+	  listener idiom
+
+	* src/Makefile.am, src/ItemAccumulator.h (added): add listener
+	  idiom
+
+2006-10-16 16:32 +0000 [r159-163]  rws <rws@localhost>
+
+	* src/RSSParser.h, src/RSSParser.cpp: first stab at rss parser
+
+	* src/Feed.h: establish feed item list
+
+	* src/AppContext.h: establish item list
+
+	* src/FetchProtocol.cpp: hook to RSS parser
+
+	* src/FeedList.cpp: remove debug output
+
+2006-10-13 17:22 +0000 [r158]  rws <rws@localhost>
+
+	* src/Makefile.am, src/AppContext.h, src/Item.h (added): add Item
+	  class and map holding it
+
+2006-10-12 18:13 +0000 [r157]  rws <rws@localhost>
+
+	* src/OPMLParser.cpp: fix reading of feed data
+
+2006-10-12 16:09 +0000 [r156]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-10-12 16:08 +0000 [r149-155]  rws <rws@localhost>
 
 	* src/FeedList.h: misc changes
