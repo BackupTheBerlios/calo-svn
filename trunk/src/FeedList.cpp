@@ -54,6 +54,7 @@ FeedList::on_selection_changed()
 	Glib::ustring uri = (*iter)[_smcol->_col_url];
 	Feed* feed = (*iter)[_smcol->_col_feed];
 	FetchProtocol::get()->run (uri, feed);
+	AppContext::get().set_feed (feed);
 }
 
 void
@@ -65,7 +66,24 @@ std::cerr<<"FeedList::on_delete()"<<std::endl<<std::flush;
 bool
 FeedList::on_event (GdkEvent* event)
 {
-//std::cerr<<"FeedList::on_event()"<<std::endl<<std::flush;
+	Gdk::Event ev (event);
+	GdkEventType type = event->type;
+	if (type == GDK_BUTTON_PRESS)
+	{
+		double dx, dy;
+		int x, y, cell_x, cell_y;
+		ev.get_coords (dx, dy);
+		x = dx;
+		y = dy;
+		Gtk::TreeModel::Path path;
+		Gtk::TreeViewColumn *col;
+		_tview.get_path_at_pos (x, y, path, col, cell_x, cell_y);
+		Gtk::TreeModel::iterator it = _tstore->get_iter (path);
+		Glib::ustring uri = (*it)[_smcol->_col_url];
+		Feed* feed = (*it)[_smcol->_col_feed];
+		FetchProtocol::get()->run (uri, feed);
+		return true;
+	}
 	return false;
 }
 
