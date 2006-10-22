@@ -47,6 +47,8 @@ calo_SOURCES =  exceptions.h		\
 		InputPipe.h		\
 		Item.cpp		\
 		Item.h			\
+		ItemDisplayUnit.cpp	\
+		ItemDisplayUnit.h	\
 		ItemAccumulator.h	\
 		LynxTextDumper.cpp	\
 		LynxTextDumper.h	\
@@ -62,6 +64,8 @@ calo_SOURCES =  exceptions.h		\
 		PDFCreator.h		\
 		RSSParser.cpp		\
 		RSSParser.h		\
+		SimpleItemDU.cpp	\
+		SimpleItemDU.h		\
 		SoupURIFetcher.cpp	\
 		SoupURIFetcher.h	\
 		TempFile.cpp		\
