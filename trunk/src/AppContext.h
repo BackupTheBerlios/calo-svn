@@ -14,6 +14,7 @@
 
 class AppWindow;
 class ConfigFile;
+class Feed;
 class Item;
 
 typedef std::list<Item*> item_list_t;
@@ -36,6 +37,8 @@ public:
 			unsigned int w, unsigned int h);
 	AppWindow* get_appwindow() const 		{ return _aw; }
 	void set_appwindow (AppWindow* theWindow) 	{ _aw = theWindow; } 
+	Feed* get_feed() const				{ return _curr_feed; }
+	void set_feed (Feed* theFeed)			{ _curr_feed = theFeed; }
 	int get_lpanew();
 	void set_lpanew (int i);
 	bool get_view_is_opened() 			{ return _view_is_opened; }
@@ -49,6 +52,7 @@ private:
 	
 	AppWindow	*_aw;
 	ConfigFile	*_cfg;
+	Feed		*_curr_feed;
 	item_list_t	_all_items;
 	unsigned int 	_app_x, _app_y, _app_w, _app_h, _lpane_w;
 	bool		_view_is_opened;
