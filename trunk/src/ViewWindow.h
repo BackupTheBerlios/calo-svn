@@ -30,6 +30,8 @@ public:
 	ViewWindow();
 	virtual ~ViewWindow();
 
+	Cairo::RefPtr<Cairo::Context> get_cairo_context() { return _cctx; }
+
 private:
 	ViewDrawingArea _darea;
 	Cairo::RefPtr<Cairo::Context> _cctx;

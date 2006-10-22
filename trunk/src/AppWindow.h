@@ -24,7 +24,8 @@ public:
 	virtual ~AppWindow();
 
 	void save_geometry();
-	FeedList* get_feedlist() { return &_flist; }
+	ViewContainer* get_viewcontainer() 	{ return &_vc; }
+	FeedList* get_feedlist() 		{ return &_flist; }
 
 protected:
 	virtual void on_realize();

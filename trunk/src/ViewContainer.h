@@ -20,6 +20,8 @@ public:
 	ViewContainer();
 	virtual ~ViewContainer();
 
+	ViewWindow* get_viewwindow() { return &_vw; }
+
 private:
 	ViewWindow _vw;
 };
