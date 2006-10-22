@@ -73,8 +73,8 @@ FeedList::on_event (GdkEvent* event)
 		double dx, dy;
 		int x, y, cell_x, cell_y;
 		ev.get_coords (dx, dy);
-		x = dx;
-		y = dy;
+		x = static_cast<int> (dx);
+		y = static_cast<int> (dy);
 		Gtk::TreeModel::Path path;
 		Gtk::TreeViewColumn *col;
 		_tview.get_path_at_pos (x, y, path, col, cell_x, cell_y);
