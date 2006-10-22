@@ -66,3 +66,9 @@ Feed::add_item (Item *i)
 	_items.push_back (i); 
 }
 
+void
+Feed::layout_items()
+{
+	for (item_list_t::iterator it = _items.begin(); it != _items.end(); ++it)
+		(*it)->make_display_unit();
+}

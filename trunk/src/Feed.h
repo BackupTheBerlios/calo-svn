@@ -37,6 +37,7 @@ public:
 	const Glib::ustring& get_property (const Glib::ustring& key) const; 
 	const str_str_map_t& get_map() const 	{ return _props; }
 	item_list_t& get_items() 		{ return _items; }
+	void layout_items();
 
 	virtual void add_item (Item*);
 
