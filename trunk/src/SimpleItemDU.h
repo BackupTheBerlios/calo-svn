@@ -22,6 +22,9 @@ public:
 	virtual ~SimpleItemDU();
 	virtual void layout();
 	virtual void render();
+
+private:
+	Item *_item;
 };
 
 #endif

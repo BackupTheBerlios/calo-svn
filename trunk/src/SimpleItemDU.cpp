@@ -11,6 +11,7 @@
 
 SimpleItemDU::SimpleItemDU (Item *theItem)
 {
+	_item = theItem;
 }
 
 SimpleItemDU::~SimpleItemDU()
