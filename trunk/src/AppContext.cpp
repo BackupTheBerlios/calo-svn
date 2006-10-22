@@ -13,6 +13,7 @@
 
 static AppContext* _theContext = NULL;
 
+/// Make sure the app context is created once only.
 AppContext& AppContext::get()
 {
 	if (_theContext != NULL)
@@ -43,6 +44,7 @@ AppContext::~AppContext()
 }
 
 //-------------------------------------------------------------
+/// Initialize app context by loading the config file.
 void AppContext::init()
 {
 	_cfg->init();
@@ -57,6 +59,7 @@ void AppContext::init()
 	}
 }
 
+/// Helper for saving the feed list that gets called for every feed
 static bool
 save_treenode (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& it, xmlpp::Element* root)
 {
@@ -72,6 +75,7 @@ save_treenode (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator&
 	return false;
 }
 
+/// Save config file, feed file
 void 
 AppContext::save()
 {
