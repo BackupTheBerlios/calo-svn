@@ -6,8 +6,12 @@
  */
 
 #include <iostream>
+#include "AppContext.h"
 #include "Item.h"
 #include "ItemDisplayUnit.h"
+#include "SimpleItemDU.h"
+#include "exceptions.h"
+
 
 Item::~Item() 
 { 
@@ -18,4 +22,32 @@ Item::~Item()
 	} 
 }
 
+//------------------------------------------------------------
+ItemDisplayUnit* 
+Item::get_display_unit()
+{
+	switch (AppContext::get().get_display_type())
+	{
+	case SIMPLE_ITEM_DU: return _simple_du;
+	default: throw MiscException ("Item::get_display-unit(): can't happen");
+	}
+
+	return NULL;
+}
+
+void 
+Item::make_display_unit()
+{
+	switch (AppContext::get().get_display_type())
+	{
+	case SIMPLE_ITEM_DU: 
+		if (_simple_du == NULL) 
+			_simple_du = new SimpleItemDU (this);
+		_simple_du->layout();
+		break;
+
+	default: throw MiscException ("Item::get_display-unit(): can't happen");
+	}
+
+}
 
