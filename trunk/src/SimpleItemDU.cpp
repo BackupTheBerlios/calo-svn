@@ -6,8 +6,10 @@
  */
 
 #include "SimpleItemDU.h"
+#include "Item.h"
 
-SimpleItemDU::SimpleItemDU()
+
+SimpleItemDU::SimpleItemDU (Item *theItem)
 {
 }
 

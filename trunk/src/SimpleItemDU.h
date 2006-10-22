@@ -10,13 +10,15 @@
 
 #include "ItemDisplayUnit.h"
 
+class Item;
+
 
 /// SimpleItemDU
 
 class SimpleItemDU : public ItemDisplayUnit
 {
 public:
-	SimpleItemDU();
+	SimpleItemDU (Item*);
 	virtual ~SimpleItemDU();
 	virtual void layout();
 	virtual void render();
