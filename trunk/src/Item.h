@@ -18,11 +18,15 @@ class ItemDisplayUnit;
 class Item
 {
 public:
-	Item() { _dunit = NULL; }
+	Item() { _simple_du = NULL; }
 	~Item();
+	void make_display_unit();
+	ItemDisplayUnit* get_display_unit();
 
 	Glib::ustring _title, _description, _link, _pubdate;
-	ItemDisplayUnit *_dunit;
+
+private:
+	ItemDisplayUnit *_simple_du;
 };
 
 #endif

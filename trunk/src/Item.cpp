@@ -11,10 +11,10 @@
 
 Item::~Item() 
 { 
-	if (_dunit != NULL) 
+	if (_simple_du != NULL) 
 	{ 
-		delete _dunit; 
-		_dunit = NULL; 
+		delete _simple_du; 
+		_simple_du = NULL; 
 	} 
 }
 
