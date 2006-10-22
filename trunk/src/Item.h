@@ -10,12 +10,19 @@
 
 #include <glibmm/ustring.h>
 
+class ItemDisplayUnit;
+
+
 /// Item
 
 class Item
 {
 public:
+	Item() { _dunit = NULL; }
+	~Item();
+
 	Glib::ustring _title, _description, _link, _pubdate;
+	ItemDisplayUnit *_dunit;
 };
 
 #endif
