@@ -38,7 +38,7 @@ public:
 	const str_str_map_t& get_map() const 	{ return _props; }
 	item_list_t& get_items() 		{ return _items; }
 
-	virtual void add_item (Item *i)		{ _items.push_back (i); }
+	virtual void add_item (Item*);
 
 
 protected:
