@@ -20,7 +20,6 @@ typedef enum { SIMPLE_ITEM_DU } item_display_unit_t;
 class ItemDisplayUnit
 {
 public:
-	static ItemDisplayUnit* create (item_display_unit_t type);
 	virtual ~ItemDisplayUnit();
 
 	double get_pos_y() const 	{ return _pos_y; }

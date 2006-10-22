@@ -10,7 +10,7 @@
 #include "SimpleItemDU.h"
 #include "exceptions.h"
 
-
+/*
 ItemDisplayUnit* ItemDisplayUnit::create (item_display_unit_t type)
 {
 	ItemDisplayUnit* du;
@@ -26,6 +26,7 @@ ItemDisplayUnit* ItemDisplayUnit::create (item_display_unit_t type)
 	du->_has_layout = false;
 	return du;
 }
+*/
 
 ItemDisplayUnit::~ItemDisplayUnit()
 {
