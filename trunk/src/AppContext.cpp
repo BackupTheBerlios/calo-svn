@@ -118,6 +118,13 @@ AppContext::get_config_filename()
 	return name;
 }
 
+void
+AppContext::draw_view() const
+{
+	ViewWindow *vw = _aw->get_viewcontainer()->get_viewwindow();
+	vw->queue_draw();
+}
+
 //-------------------------------------------------------------
 void 
 AppContext::get_appwindow_pos (unsigned int* x, unsigned int* y, unsigned int* w, unsigned int* h)

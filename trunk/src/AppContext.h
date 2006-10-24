@@ -38,6 +38,7 @@ public:
 			unsigned int w, unsigned int h);
 	AppWindow* get_appwindow() const 		{ return _aw; }
 	void set_appwindow (AppWindow* theWindow) 	{ _aw = theWindow; } 
+	void draw_view() const;
 	Feed* get_feed() const				{ return _curr_feed; }
 	void set_feed (Feed* theFeed)			{ _curr_feed = theFeed; }
 	int get_lpanew();
