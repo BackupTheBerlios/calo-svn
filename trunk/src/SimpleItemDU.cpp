@@ -59,7 +59,10 @@ SimpleItemDU::render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, doubl
 	std::cerr << "rendering " << conv(_item->_title) << std::endl << std::flush;
 #endif
 	Glib::RefPtr<Pango::LayoutLine> line = _play->get_line (0);
-	cctx->move_to (x, y);
+	Pango::LayoutIter iter;
+	_play->get_iter (iter);
+	int baseline = iter.get_baseline();
+	cctx->move_to (x, y + baseline/1024.0);
 	line->show_in_cairo_context (cctx);
 }
 
