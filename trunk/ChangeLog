@@ -1,4 +1,86 @@
 
+2006-10-24 08:43 +0000 [r193-199]  rws <rws@localhost>
+
+	* src/ViewWindow.cpp: add rendering, #ifdef DEBUG
+
+	* src/AppContext.cpp, src/AppContext.h: add convenience draw_view()
+
+	* src/OPMLParser.cpp, src/RSSParser.cpp: add #ifdef DEBUG
+
+	* src/FeedList.cpp, src/FeedList.h: some reorg
+
+	* src/FetchProtocol.cpp: at end, make view redraw itself
+
+	* src/SimpleItemDU.cpp: get the right cairo context, add debug code
+
+2006-10-23 16:43 +0000 [r192]  rws <rws@localhost>
+
+	* src/ViewWindow.cpp: first implementation of on_expose()
+
+2006-10-23 10:47 +0000 [r191]  rws <rws@localhost>
+
+	* src/SimpleItemDU.h, src/ItemDisplayUnit.h, src/SimpleItemDU.cpp:
+	  convert pango code to pangomm, convert to widget's signals, adapt
+	  interface
+
+2006-10-22 17:52 +0000 [r190]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/AppWindow.h, src/SimpleItemDU.cpp,
+	  src/ViewContainer.h: add helpers to get the cairo context out of
+	  the view window
+
+2006-10-22 15:54 +0000 [r185-189]  rws <rws@localhost>
+
+	* src/SimpleItemDU.h, src/SimpleItemDU.cpp: add item field
+
+	* src/Feed.h, src/FetchProtocol.cpp, src/Feed.cpp: layout items
+
+	* src/SimpleItemDU.h, src/SimpleItemDU.cpp: add item parameter
+
+	* src/Item.cpp: prepare layouting of item DUs
+
+	* src/ItemDisplayUnit.h, src/ItemDisplayUnit.cpp: remove creator
+
+2006-10-22 14:47 +0000 [r183-184]  rws <rws@localhost>
+
+	* src/Item.cpp, src/Item.h: add first item display type
+
+	* src/AppContext.cpp, src/AppContext.h: add app-wide item display
+	  type
+
+2006-10-22 09:13 +0000 [r181-182]  rws <rws@localhost>
+
+	* src/SimpleItemDU.h (added), src/Makefile.am,
+	  src/ItemDisplayUnit.h (added), src/SimpleItemDU.cpp (added),
+	  src/ItemDisplayUnit.cpp (added): add ItemDisplayUnit,
+	  SimpleItemDU
+
+	* src/exceptions.h: add MiscException, derive exceptions from
+	  Glib::Exception
+
+2006-10-22 08:11 +0000 [r180]  rws <rws@localhost>
+
+	* src/FeedList.cpp: remove compiler warnings
+
+2006-10-22 07:46 +0000 [r176-179]  rws <rws@localhost>
+
+	* src/Makefile.am, src/Item.cpp (added), src/Item.h: add cpp file,
+	  link back to display unit
+
+	* src/Feed.h: move add_item() definition out of header
+
+	* src/AppContext.h: get/set current feed
+
+	* src/AppContext.cpp: comments
+
+2006-10-21 14:35 +0000 [r175]  rws <rws@localhost>
+
+	* src/FeedList.cpp: allow clicking of selected feed
+
+2006-10-21 09:50 +0000 [r174]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-10-21 09:48 +0000 [r170-173]  rws <rws@localhost>
 
 	* src/FetchProtocol.cpp, src/Feed.cpp: remove debug output
