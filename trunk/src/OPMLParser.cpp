@@ -23,12 +23,16 @@ OPMLParser::~OPMLParser()
 //-------------------------------------------------------------
 void OPMLParser::on_start_document()
 {
-  std::cout << "on_start_document()" << std::endl;
+#ifdef DEBUG
+	std::cout << "on_start_document()" << std::endl;
+#endif
 }
 
 void OPMLParser::on_end_document()
 {
-  std::cout << "on_end_document()" << std::endl;
+#ifdef DEBUG
+	std::cout << "on_end_document()" << std::endl;
+#endif
 }
 
 void OPMLParser::on_start_element(const Glib::ustring& name,
@@ -42,7 +46,9 @@ void OPMLParser::on_start_element(const Glib::ustring& name,
 		for (xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
 		{
 			_stringmap[iter->name] = iter->value;
-// std::cout << "  Attribute " << iter->name << " = " << iter->value << std::endl;
+#ifdef DEBUG
+	std::cout << "  Attribute " << iter->name << " = " << iter->value << std::endl;
+#endif
 		}
 	}
 }
@@ -80,16 +86,16 @@ void OPMLParser::on_comment(const Glib::ustring& text)
 
 void OPMLParser::on_warning(const Glib::ustring& text)
 {
-  std::cout << "on_warning(): " << text << std::endl;
+	std::cout << "on_warning(): " << text << std::endl;
 }
 
 void OPMLParser::on_error(const Glib::ustring& text)
 {
-  std::cout << "on_error(): " << text << std::endl;
+	std::cout << "on_error(): " << text << std::endl;
 }
 
 void OPMLParser::on_fatal_error(const Glib::ustring& text)
 {
-  std::cout << "on_fatal_error(): " << text << std::endl;
+	std::cout << "on_fatal_error(): " << text << std::endl;
 }
 
