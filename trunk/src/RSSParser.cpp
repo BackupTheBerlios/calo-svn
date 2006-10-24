@@ -32,18 +32,24 @@ RSSParser::parse_memory (const Glib::ustring& str)
 
 void RSSParser::on_start_document()
 {
-  std::cout << "on_start_document()" << std::endl;
+#ifdef DEBUG
+	std::cout << "on_start_document()" << std::endl;
+#endif
 }
 
 void RSSParser::on_end_document()
 {
-  std::cout << "on_end_document()" << std::endl;
+#ifdef DEBUG
+	std::cout << "on_end_document()" << std::endl;
+#endif
 }
 
 void 
 RSSParser::on_start_element(const Glib::ustring& theName, const AttributeList& attributes)
 {
-std::cerr << "----> " << theName << std::endl << std::flush;
+#ifdef DEBUG
+	std::cerr << "----> " << theName << std::endl << std::flush;
+#endif
 	if (_in_item)
 	{
 		const Glib::ustring& name = theName.lowercase();
@@ -59,7 +65,6 @@ std::cerr << "----> " << theName << std::endl << std::flush;
 	}
 	else if (theName == "item")
 	{
-//std::cerr << "Item start." << std::endl << std::flush;
 		_in_item = true;
 		_item = new Item;
 	}
@@ -74,19 +79,19 @@ std::cerr << "----> " << theName << std::endl << std::flush;
 void 
 RSSParser::on_characters(const Glib::ustring& text)
 {
-//std::cerr << "on_characters, _in_item " << Glib::ustring(_in_item?"1":"0") << ", cs: " << Glib::ustring(_curr_string!=NULL?"1":"0") << std::endl << std::flush;
 	if (_in_item && _curr_string != NULL)
 	{
-//std::cerr << text << std::endl << std::flush;
 		*_curr_string += text;
-//		_curr_string = NULL;
 	}
 }
 
 void 
 RSSParser::on_end_element(const Glib::ustring& name)
 {
-if (_curr_string) std::cerr << conv (*_curr_string) << std::endl << std::flush;
+#ifdef DEBUG
+	if (_curr_string) 
+		std::cerr << conv (*_curr_string) << std::endl << std::flush;
+#endif
 	if (name == "item")
 	{
 		_in_item = false;
@@ -103,18 +108,18 @@ void RSSParser::on_comment(const Glib::ustring& text)
 
 void RSSParser::on_warning(const Glib::ustring& text)
 {
-  std::cout << "on_warning(): " << text << std::endl;
+	std::cout << "on_warning(): " << text << std::endl;
 }
 
 void RSSParser::on_error(const Glib::ustring& text)
 {
-  std::cout << "on_error(): " << text << std::endl;
-  std::cout << conv(_str) << std::endl << std::flush;
+	std::cout << "on_error(): " << text << std::endl;
+	std::cout << conv(_str) << std::endl << std::flush;
 }
 
 void RSSParser::on_fatal_error(const Glib::ustring& text)
 {
-  std::cout << "on_fatal_error(): " << text << std::endl;
+	 std::cout << "on_fatal_error(): " << text << std::endl;
 }
 
 
