@@ -47,14 +47,20 @@ FeedList::~FeedList()
 }
 
 void 
+FeedList::select (Gtk::TreeModel::iterator it)
+{
+	Glib::ustring uri = (*it)[_smcol->_col_url];
+	Feed* feed = (*it)[_smcol->_col_feed];
+	AppContext::get().set_feed (feed);
+	FetchProtocol::get()->run (uri, feed);
+}
+
+//-----------------------------------------------------------------------
+void 
 FeedList::on_selection_changed()
 {
-	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-	Gtk::TreeModel::iterator iter = _slctn->get_selected();
-	Glib::ustring uri = (*iter)[_smcol->_col_url];
-	Feed* feed = (*iter)[_smcol->_col_feed];
-	FetchProtocol::get()->run (uri, feed);
-	AppContext::get().set_feed (feed);
+//	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+//	select (_slctn->get_selected());
 }
 
 void
@@ -78,10 +84,10 @@ FeedList::on_event (GdkEvent* event)
 		Gtk::TreeModel::Path path;
 		Gtk::TreeViewColumn *col;
 		_tview.get_path_at_pos (x, y, path, col, cell_x, cell_y);
-		Gtk::TreeModel::iterator it = _tstore->get_iter (path);
-		Glib::ustring uri = (*it)[_smcol->_col_url];
-		Feed* feed = (*it)[_smcol->_col_feed];
-		FetchProtocol::get()->run (uri, feed);
+		Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+		select (_tstore->get_iter (path));
+		if (!_slctn->is_selected (path))
+			_slctn->select (path);
 		return true;
 	}
 	return false;

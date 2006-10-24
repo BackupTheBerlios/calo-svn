@@ -25,6 +25,8 @@ public:
 	Glib::RefPtr<Gtk::TreeModel> get_tmodel() { return _tview.get_model(); }
 
 protected:
+	void select (Gtk::TreeModel::iterator);
+
 	virtual void on_delete();
 	bool on_event (GdkEvent*);
 	void on_selection_changed();
