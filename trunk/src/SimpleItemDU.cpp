@@ -5,6 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <iostream>
 #include <cairomm/context.h>
 
 #include "AppContext.h"
@@ -13,13 +14,15 @@
 #include "ViewWindow.h"
 #include "SimpleItemDU.h"
 #include "Item.h"
+#include "utils.h"
 
 
 SimpleItemDU::SimpleItemDU (Item *theItem)
 {
 	_item = theItem;
 	ViewWindow *vw = AppContext::get().get_appwindow()->get_viewcontainer()->get_viewwindow();
-	_play = Pango::Layout::create (vw->get_cairo_context());
+	Cairo::RefPtr<Cairo::Context> cc = vw->get_window()->create_cairo_context();
+	_play = Pango::Layout::create (cc);
 
 	// Link layout to widget
 	Pango::Layout *p = _play.operator->();
@@ -36,6 +39,9 @@ SimpleItemDU::~SimpleItemDU()
 void
 SimpleItemDU::layout()
 {
+#ifdef DEBUG
+	std::cerr << "layouting " << conv(_item->_title) << std::endl << std::flush;
+#endif
 	Pango::FontDescription fdesc ("Sans 14");
 	_play->set_font_description (fdesc);
 	_play->set_markup (_item->_title.c_str());
@@ -49,6 +55,9 @@ SimpleItemDU::layout()
 void 
 SimpleItemDU::render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, double y)
 {
+#ifdef DEBUG
+	std::cerr << "rendering " << conv(_item->_title) << std::endl << std::flush;
+#endif
 	Glib::RefPtr<Pango::LayoutLine> line = _play->get_line (0);
 	cctx->move_to (x, y);
 	line->show_in_cairo_context (cctx);
