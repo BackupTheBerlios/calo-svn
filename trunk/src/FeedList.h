@@ -27,8 +27,8 @@ public:
 protected:
 	void select (Gtk::TreeModel::iterator);
 
-	virtual void on_delete();
-	bool on_event (GdkEvent*);
+	void on_tview_button_press (GdkEventButton*);
+	void on_tview_motion_notify (GdkEventMotion*);
 	void on_selection_changed();
 
 	FeedListColumnRecord 		*_smcol;

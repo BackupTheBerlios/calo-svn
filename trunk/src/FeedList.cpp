@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <gtkmm/tooltips.h>
 #include <gtkmm/treeselection.h>
 #include "AppContext.h"
 #include "FeedList.h"
@@ -13,6 +14,7 @@
 #include "FetchProtocol.h"
 
 FeedList::FeedList()
+: _tview()
 {
 	add (_tview);
 	set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
@@ -34,12 +36,18 @@ FeedList::FeedList()
 	}
 
 	_tview.append_column ("Feeds", _smcol->_col_string);
+	_tview.set_headers_visible (true);
+
+//	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+//	_slctn->signal_changed().connect (sigc::mem_fun (*this, &FeedList::on_selection_changed));
+//	_tview.set_events (Gdk::BUTTON_PRESS_MASK|Gdk::POINTER_MOTION_MASK);
+	_tview.signal_button_press_event().connect_notify (sigc::mem_fun (*this, &FeedList::on_tview_button_press));
+	_tview.signal_motion_notify_event().connect_notify (sigc::mem_fun (*this, &FeedList::on_tview_motion_notify));
+
+	AppContext::get().get_tooltips()->set_tip (_tview, Glib::ustring(""));
+	AppContext::get().get_tooltips()->enable();
 
 	show_all_children();
-
-	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-	_slctn->signal_changed().connect (sigc::mem_fun (*this, &FeedList::on_selection_changed));
-	_tview.signal_event().connect (sigc::mem_fun (*this, &FeedList::on_event));
 }
 
 FeedList::~FeedList()
@@ -55,7 +63,7 @@ FeedList::select (Gtk::TreeModel::iterator it)
 	FetchProtocol::get()->run (uri, feed);
 }
 
-//-----------------------------------------------------------------------
+//-Overrides-------------------------------------------------------------
 void 
 FeedList::on_selection_changed()
 {
@@ -63,33 +71,48 @@ FeedList::on_selection_changed()
 //	select (_slctn->get_selected());
 }
 
+//-Callbacks-------------------------------------------------------------
 void
-FeedList::on_delete()
+FeedList::on_tview_button_press (GdkEventButton* event)
 {
-std::cerr<<"FeedList::on_delete()"<<std::endl<<std::flush;
+	int x, y, cell_x, cell_y;
+	x = static_cast<int> (event->x);
+	y = static_cast<int> (event->y);
+	Gtk::TreeModel::Path path;
+	Gtk::TreeViewColumn *col;
+	_tview.get_path_at_pos (x, y, path, col, cell_x, cell_y);
+	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+	select (_tstore->get_iter (path));
+	if (!_slctn->is_selected (path))
+		_slctn->select (path);
 }
 
-bool
-FeedList::on_event (GdkEvent* event)
+void
+FeedList::on_tview_motion_notify (GdkEventMotion* event)
 {
-	Gdk::Event ev (event);
-	GdkEventType type = event->type;
-	if (type == GDK_BUTTON_PRESS)
-	{
-		double dx, dy;
-		int x, y, cell_x, cell_y;
-		ev.get_coords (dx, dy);
-		x = static_cast<int> (dx);
-		y = static_cast<int> (dy);
-		Gtk::TreeModel::Path path;
-		Gtk::TreeViewColumn *col;
-		_tview.get_path_at_pos (x, y, path, col, cell_x, cell_y);
-		Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-		select (_tstore->get_iter (path));
-		if (!_slctn->is_selected (path))
-			_slctn->select (path);
-		return true;
-	}
-	return false;
+	static Gtk::TreeModel::Path _old_path;
+	int x, y, cell_x, cell_y;
+	x = static_cast<int> (event->x);
+	y = static_cast<int> (event->y);
+	Gtk::TreeModel::Path path;
+	Gtk::TreeViewColumn *col;
+	_tview.get_path_at_pos (x, y, path, col, cell_x, cell_y);
+	if (_old_path.to_string() == path.to_string())
+		return;
+	
+	Gtk::TreeModel::iterator it = _tstore->get_iter (path);
+	Feed* feed = (*it) [_smcol->_col_feed];
+	Glib::ustring br = "\n";
+	Glib::ustring tipstr = "";
+	tipstr += (*it)[_smcol->_col_string] + br; 
+	tipstr += (*it)[_smcol->_col_url] + br; 
+	tipstr += "Last-Visited: " + feed->get_property ("Last-Visited") + br;
+	tipstr += "Last-Modified: " + feed->get_property ("Last-Modified") + br;
+	tipstr += "Content-Encoding: " + feed->get_property ("Content-Encoding") + br;
+	tipstr += "Content-Language: " + feed->get_property ("Content-Language") + br;
+	AppContext::get().get_tooltips()->set_tip (_tview, tipstr);
+	AppContext::get().get_tooltips()->enable();
+	_old_path = path;
 }
+
 
