@@ -17,6 +17,7 @@ class AppWindow;
 class ConfigFile;
 class Feed;
 class Item;
+namespace Gtk { class Tooltips; }
 
 typedef std::list<Item*> item_list_t;
 
@@ -32,6 +33,7 @@ public:
 	void save();
 	const Glib::ustring& get_feeds_filename();
 	const Glib::ustring& get_config_filename();
+	Gtk::Tooltips* get_tooltips()			{ return _ttips; }
 	void get_appwindow_pos (unsigned int* x, unsigned int* y,
 			unsigned int* w, unsigned int* h);
 	void set_appwindow_pos (unsigned int x, unsigned int y,
@@ -53,7 +55,8 @@ public:
 private:
 	AppContext();
 	~AppContext();
-	
+
+	Gtk::Tooltips		*_ttips;
 	AppWindow		*_aw;
 	ConfigFile		*_cfg;
 	Feed			*_curr_feed;

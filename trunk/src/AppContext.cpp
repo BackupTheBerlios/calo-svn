@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <gtkmm/tooltips.h>
 #include "AppContext.h"
 #include "AppWindow.h"
 #include "FeedListColumnRecord.h"
@@ -35,6 +36,7 @@ AppContext::AppContext()
 	_curr_display_type = SIMPLE_ITEM_DU;
 	_app_x = _app_y = _app_w = _app_h = 0;
 	_aw = NULL;
+	_ttips = new Gtk::Tooltips;
 	_view_is_opened = false;
 	_cfg = new ConfigFile (get_config_filename());
 }
