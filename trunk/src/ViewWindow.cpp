@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <gtkmm/adjustment.h>
 #include <gtkmm/widget.h>
 #include <gdkmm/drawable.h>
 #include "ViewWindow.h"
@@ -17,7 +18,15 @@
 ViewWindow::ViewWindow()
 {
 	add (_darea);
-
+	
+	_darea._hadj = get_hadjustment();
+	_darea._vadj = get_vadjustment();
+	_darea._vadj->set_lower (0.0);
+	_darea._hadj->set_lower (0.0);
+	_darea._vadj->set_value (0.0);
+	_darea._hadj->set_value (0.0);
+	
+	set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
 	show_all_children();
 }
@@ -35,10 +44,6 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 #ifdef DEBUG
 		std::cerr << "on_expose_event()" << std::endl << std::flush;
 #endif
-		Gtk::Allocation allocation = get_allocation();
-		const int width = allocation.get_width();
-		const int height = allocation.get_height();
-
 		Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
 	// clip to the area indicated by the expose event so that we only redraw
 	// the portion of the window that needs to be redrawn
@@ -57,14 +62,41 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 		std::cerr << "Rendering..." << std::endl << std::flush;
 #endif
 		item_list_t items = feed->get_items();
-		double h = 0.0;
+		double h = 0.0, w = 0.0;
 		for (item_list_t::iterator it = items.begin(); it != items.end(); ++it)
 		{
 			ItemDisplayUnit *du = (*it)->get_display_unit();
 			du->render (cr, 0, h);
 			h += du->get_height();
+			if (du->get_width() > w)
+				w = du->get_width();
 		}
 	
+		Gtk::Allocation allocation = get_allocation();
+		const int width = allocation.get_width();
+		const int height = allocation.get_height();
+		static double oldh = 0.0, oldw = 0.0;
+		static int oldhh = 0, oldww = 0;
+		if (h != oldh || height != oldhh)
+		{
+			_vadj->set_upper (h);
+			_vadj->set_page_size (height);
+			_vadj->set_step_increment (height/16.0);
+			_vadj->set_page_increment (height*15.0/16.0);
+			_vadj->changed();
+			oldh = h; 
+			oldhh = height;
+		}
+		if (w != oldw || width != oldww)
+		{
+			_hadj->set_upper (w);
+			_hadj->set_page_size (width);
+			_hadj->set_step_increment (width/16.0);
+			_hadj->set_page_increment (width*15.0/16.0);
+			_hadj->changed();
+			oldw = w;
+			oldww = width;
+		}
 	}
 
   return true;

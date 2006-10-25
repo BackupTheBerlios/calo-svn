@@ -20,6 +20,7 @@ class ViewDrawingArea : public Gtk::DrawingArea
 {
 public:
 	bool on_expose_event (GdkEventExpose* event);
+	Gtk::Adjustment *_hadj, *_vadj;
 };
 
 /// ViewWindow
