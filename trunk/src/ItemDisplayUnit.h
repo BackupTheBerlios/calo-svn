@@ -26,13 +26,14 @@ public:
 	double get_pos_y() const 	{ return _pos_y; }
 	void set_pos_y (double y)	{ _pos_y = y; }
 	double get_height() const 	{ return _height; }
+	double get_width() const        { return _width; }
 
 	virtual void layout() = 0;
 	virtual void render (const Cairo::RefPtr<Cairo::Context>&, double, double) = 0;
 
 protected:
 	Item 	*_item;
-	double 	_pos_y, _height;
+	double 	_pos_y, _height, _width;
 };
 
 #endif

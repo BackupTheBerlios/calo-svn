@@ -49,6 +49,7 @@ SimpleItemDU::layout()
 	Pango::Rectangle irect, lrect;
 	line->get_extents (irect, lrect);
 	_height = lrect.get_height()/1024.0;
+	_width = lrect.get_width()/1024.0;
 }
 
 /// Render the PangoLayout (a single line of text)
