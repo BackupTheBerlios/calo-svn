@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <gtkmm/adjustment.h>
+#include <gtkmm/scrollbar.h>
 #include <gtkmm/widget.h>
 #include <gdkmm/drawable.h>
 #include "ViewWindow.h"
@@ -26,8 +27,6 @@ ViewWindow::ViewWindow()
 	_darea._vadj->set_value (0.0);
 	_darea._hadj->set_value (0.0);
 	
-	set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-
 	show_all_children();
 }
 
@@ -71,32 +70,26 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 			if (du->get_width() > w)
 				w = du->get_width();
 		}
-	
+
 		Gtk::Allocation allocation = get_allocation();
 		const int width = allocation.get_width();
 		const int height = allocation.get_height();
 		static double oldh = 0.0, oldw = 0.0;
 		static int oldhh = 0, oldww = 0;
-		if (h != oldh || height != oldhh)
-		{
-			_vadj->set_upper (h);
-			_vadj->set_page_size (height);
-			_vadj->set_step_increment (height/16.0);
-			_vadj->set_page_increment (height*15.0/16.0);
-			_vadj->changed();
-			oldh = h; 
-			oldhh = height;
-		}
-		if (w != oldw || width != oldww)
-		{
-			_hadj->set_upper (w);
-			_hadj->set_page_size (width);
-			_hadj->set_step_increment (width/16.0);
-			_hadj->set_page_increment (width*15.0/16.0);
-			_hadj->changed();
-			oldw = w;
-			oldww = width;
-		}
+		_vadj->set_upper (h);
+		_vadj->set_page_size (height);
+		_vadj->set_step_increment (height/16.0);
+		_vadj->set_page_increment (height*15.0/16.0);
+		_vadj->changed();
+		oldh = h; 
+		oldhh = height;
+		_hadj->set_upper (w);
+		_hadj->set_page_size (width);
+		_hadj->set_step_increment (width/16.0);
+		_hadj->set_page_increment (width*15.0/16.0);
+		_hadj->changed();
+		oldw = w;
+		oldww = width;
 	}
 
   return true;
