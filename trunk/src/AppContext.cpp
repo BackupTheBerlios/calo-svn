@@ -5,6 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <sys/stat.h>
 #include <iostream>
 #include <gtkmm/tooltips.h>
 #include "AppContext.h"
@@ -12,6 +13,7 @@
 #include "FeedListColumnRecord.h"
 #include "ConfigFile.h"
 #include "Item.h"
+#include "exceptions.h"
 
 
 static AppContext* _theContext = NULL;
@@ -40,7 +42,7 @@ AppContext::AppContext()
 	_aw = NULL;
 	_ttips = new Gtk::Tooltips;
 	_view_is_opened = false;
-	_cfg = new ConfigFile (get_config_filename());
+	_cfg = new ConfigFile;
 }
 
 AppContext::~AppContext()
@@ -52,11 +54,16 @@ AppContext::~AppContext()
 /// Initialize app context by loading the config file.
 void AppContext::init()
 {
-	_cfg->init();
+	_calodir = Glib::build_filename 
+		(Glib::get_home_dir(), std::string (".calo"));
+	if (mkdir (_calodir.c_str(), 432) < 0 && errno != EEXIST)
+		throw FileException();
+	_cfg->init (Glib::ustring (Glib::build_filename 
+			(_calodir, std::string ("config.xml"))));
 	try 
 	{
 		_cfg->set_substitute_entities (true);
-		_cfg->parse_file (get_config_filename());
+		_cfg->do_parse();
 	}
 	catch (const xmlpp::exception& ex)
 	{
@@ -107,19 +114,13 @@ AppContext::save()
 	}
 }
 
-// TODO: remove hardcoded paths before 1st release
-const Glib::ustring&
+
+const std::string&
 AppContext::get_feeds_filename()
 {
-	static Glib::ustring name ("/home/ralf/.calo/feeds.opml");
-	return name;
-}
-
-const Glib::ustring&
-AppContext::get_config_filename()
-{
-	static Glib::ustring name ("/home/ralf/.calo/config.xml");
-	return name;
+	static const std::string str (Glib::build_filename 
+			(_calodir, std::string ("feeds.xml")));
+	return str;
 }
 
 void
@@ -171,4 +172,3 @@ AppContext::set_lpanew (int i)
 {
 	_lpane_w = i;
 }
-

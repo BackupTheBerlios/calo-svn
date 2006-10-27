@@ -9,6 +9,7 @@
  */
 
 #include <list>
+#include <string>
 #include <glibmm/ustring.h>
 #include "ItemAccumulator.h"
 #include "ItemDisplayUnit.h"
@@ -31,8 +32,7 @@ public:
 
 	void init();
 	void save();
-	const Glib::ustring& get_feeds_filename();
-	const Glib::ustring& get_config_filename();
+	const std::string& get_feeds_filename();
 	Gtk::Tooltips* get_tooltips()			{ return _ttips; }
 	void get_appwindow_pos (unsigned int* x, unsigned int* y,
 			unsigned int* w, unsigned int* h);
@@ -62,6 +62,7 @@ private:
 	Feed			*_curr_feed;
 	item_display_unit_t 	_curr_display_type;
 	item_list_t		_all_items;
+	std::string		_calodir;
 	unsigned int 		_app_x, _app_y, _app_w, _app_h, _lpane_w;
 	bool			_view_is_opened;
 };
