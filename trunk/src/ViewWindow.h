@@ -9,9 +9,12 @@
  */
 
 #include <gtkmm/drawingarea.h>
-#include <gtkmm/scrolledwindow.h>
+#include <gtkmm/scrollbar.h>
+#include <gtkmm/table.h>
 #include <cairomm/refptr.h>
 #include <cairomm/context.h>
+
+namespace Gtk { class Scrollbar; }
 
 
 /// ViewDrawingArea
@@ -25,7 +28,7 @@ public:
 
 /// ViewWindow
 
-class ViewWindow : public Gtk::ScrolledWindow
+class ViewWindow : public Gtk::Table
 {
 public:
 	ViewWindow();
@@ -33,9 +36,13 @@ public:
 
 	Cairo::RefPtr<Cairo::Context> get_cairo_context() { return _cctx; }
 
-private:
 	ViewDrawingArea _darea;
+private:
 	Cairo::RefPtr<Cairo::Context> _cctx;
+	Gtk::HScrollbar _hbar;
+	Gtk::VScrollbar _vbar;
+
+	void on_value_changed (Gtk::Scrollbar* theBar);
 };
 
 
