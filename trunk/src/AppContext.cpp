@@ -11,6 +11,8 @@
 #include "AppWindow.h"
 #include "FeedListColumnRecord.h"
 #include "ConfigFile.h"
+#include "Item.h"
+
 
 static AppContext* _theContext = NULL;
 
@@ -123,6 +125,8 @@ AppContext::get_config_filename()
 void
 AppContext::draw_view() const
 {
+	if (_curr_feed == NULL) 
+		return;
 	ViewWindow *vw = _aw->get_viewcontainer()->get_viewwindow();
 	vw->queue_draw();
 }
