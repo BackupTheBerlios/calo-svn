@@ -10,9 +10,8 @@
 #include <libxml++/document.h>
 #include "ConfigFile.h"
 
-ConfigFile::ConfigFile (const Glib::ustring& fname)
+ConfigFile::ConfigFile()
 {
-	_fname = fname;
 }
 
 ConfigFile::~ConfigFile()
@@ -20,8 +19,10 @@ ConfigFile::~ConfigFile()
 }
 
 //--------------------------------------------------------
-void ConfigFile::init()
+void 
+ConfigFile::init (const Glib::ustring& fname)
 {
+	_fname = fname;
 	read();
 }
 
@@ -77,12 +78,16 @@ void ConfigFile::set (const Glib::ustring& prop, int i)
 //-------------------------------------------------------------
 void ConfigFile::on_start_document()
 {
-  std::cout << "on_start_document()" << std::endl;
+#ifdef DEBUG
+	std::cout << "on_start_document()" << std::endl;
+#endif
 }
 
 void ConfigFile::on_end_document()
 {
-  std::cout << "on_end_document()" << std::endl;
+#ifdef DEBUG
+	 std::cout << "on_end_document()" << std::endl;
+#endif
 }
 
 void ConfigFile::on_start_element(const Glib::ustring& name,
@@ -116,16 +121,16 @@ void ConfigFile::on_comment(const Glib::ustring& text)
 
 void ConfigFile::on_warning(const Glib::ustring& text)
 {
-  std::cout << "on_warning(): " << text << std::endl;
+  std::cout << "ConfigFile::on_warning(): " << text << std::endl;
 }
 
 void ConfigFile::on_error(const Glib::ustring& text)
 {
-  std::cout << "on_error(): " << text << std::endl;
+  std::cout << "ConfigFile::on_error(): " << text << std::endl;
 }
 
 void ConfigFile::on_fatal_error(const Glib::ustring& text)
 {
-  std::cout << "on_fatal_error(): " << text << std::endl;
+  std::cout << "ConfigFile::on_fatal_error(): " << text << std::endl;
 }
 

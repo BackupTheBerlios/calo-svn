@@ -18,15 +18,16 @@
 class ConfigFile : public xmlpp::SaxParser
 {
 public:
-	ConfigFile (const Glib::ustring& fname);
+	ConfigFile();
 	~ConfigFile();
 
-	void init();
+	void init (const Glib::ustring& fname);
 	void read();
 	void save();
 	bool has (const Glib::ustring& prop);
 	int get_i (const Glib::ustring& prop);
 	void set (const Glib::ustring& prop, int i);
+	void do_parse() { parse_file (_fname); }
 	
 
 private:
