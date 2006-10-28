@@ -78,54 +78,93 @@ bool
 ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 {
 	Glib::RefPtr<Gdk::Window> window = get_window();
-	if (window)
-	{
+	if (window == NULL)
+		return false;
 #ifdef DEBUG
-		std::cerr << "on_expose_event()" << std::endl << std::flush;
+	std::cerr << "on_expose_event()" << std::endl << std::flush;
 #endif
-		Feed *feed = AppContext::get().get_feed();
-		if (feed == NULL) 
-			return true;
+	Feed *feed = AppContext::get().get_feed();
+	if (feed == NULL) 
+		return true;
+
 #ifdef DEBUG
 		std::cerr << "VA->val:"<<_vadj->get_value() <<" VA->lower:"<<_vadj->get_lower() <<" ev->y:"<<event->area.y <<" ev->h:"<<event->area.height << std::endl << std::flush;
 #endif
-		Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
-	// clip to the area indicated by the expose event so that we only redraw
-	// the portion of the window that needs to be redrawn
-		cr->reset_clip();
-		cr->rectangle (event->area.x, event->area.y,
-			event->area.width, event->area.height);
-		cr->clip();
 
-		cr->set_source_rgb (1.0, 1.0, 1.0);
-		cr->paint();
-		cr->set_source_rgb (0.0, 0.0, 0.0);
-
-		item_list_t items = feed->get_items();
-		double h = -_vadj->get_value(), w = 0.0;
-		for (item_list_t::iterator it = items.begin(); it != items.end(); ++it)
-		{
-			ItemDisplayUnit *du = (*it)->get_display_unit();
-			du->render (cr, -_hadj->get_value(), h);
-			h += du->get_height();
-			if (du->get_width() > w)
-				w = du->get_width();
-		}
-
-		Gtk::Allocation allocation = get_allocation();
-		const int width = allocation.get_width();
-		const int height = allocation.get_height();
-		_vadj->set_upper (h);
-		_vadj->set_page_size (height);
-		_vadj->set_step_increment (height/16.0);
-		_vadj->set_page_increment (height*15.0/16.0);
-		_vadj->changed();
-		_hadj->set_upper (w);
-		_hadj->set_page_size (width);
-		_hadj->set_step_increment (width/16.0);
-		_hadj->set_page_increment (width*15.0/16.0);
-		_hadj->changed();
+	// First determine dimensions of text area
+	item_list_t items = feed->get_items();
+	double h = 0.0, w = 0.0;
+	for (item_list_t::iterator it = items.begin(); it != items.end(); ++it)
+	{
+		ItemDisplayUnit *du = (*it)->get_display_unit();
+		h += du->get_height();
+		if (du->get_width() > w)
+			w = du->get_width();
 	}
 
-  return false;
+	// Dimensions of drawing area
+	Gtk::Allocation allocation = get_allocation();
+	const int width = allocation.get_width();
+	const int height = allocation.get_height();
+
+	// Scrollbar settings can now be specified
+	_vadj->set_upper (h);
+	_vadj->set_page_size (height);
+	_vadj->set_step_increment (height/16.0);
+	_vadj->set_page_increment (height*15.0/16.0);
+	_hadj->set_upper (w);
+	_hadj->set_page_size (width);
+	_hadj->set_step_increment (width/16.0);
+	_hadj->set_page_increment (width*15.0/16.0);
+		
+	// Set position of text top (<=0.0) and scrollbar value.
+	// Several cases are necessary to get the behaviour right.
+	double x, y;
+	if (h < height)
+	{
+		y = 0.0;
+		_vadj->set_value (0.0);
+	}
+	else if (h - _vadj->get_value() < height)
+	{
+		y = height - h;
+		_vadj->set_value (-h);
+	}
+	else
+		y = -_vadj->get_value();
+		
+	if (w < width)
+	{
+		x = 0.0;
+		_hadj->set_value (0.0);
+	}
+	else
+		x = -_hadj->get_value();
+	_vadj->changed();
+	_hadj->changed();
+		
+	// clip to the area indicated by the expose event so that we only redraw
+	// the portion of the window that needs to be redrawn
+	/// TODO: more efficiently, start with the right line
+
+	Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
+	cr->reset_clip();
+	cr->rectangle (event->area.x, event->area.y,
+			event->area.width, event->area.height);
+	cr->clip();
+
+	// Black on white
+	cr->set_source_rgb (1.0, 1.0, 1.0);
+	cr->paint();
+	cr->set_source_rgb (0.0, 0.0, 0.0);
+
+	// Render text
+	for (item_list_t::iterator it = items.begin(); it != items.end(); ++it)
+	{
+		ItemDisplayUnit *du = (*it)->get_display_unit();
+		du->render (cr, x, y);
+		y += du->get_height();
+	}
+
+	return false;
 }
