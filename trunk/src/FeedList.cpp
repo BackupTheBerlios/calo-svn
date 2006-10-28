@@ -90,6 +90,12 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 void
 FeedList::on_tview_motion_notify (GdkEventMotion* event)
 {
+	if (!AppContext::get().get_has_feed_tips())
+	{
+		AppContext::get().get_tooltips()->unset_tip (_tview);
+		return;
+	}
+
 	static Gtk::TreeModel::Path _old_path;
 	int x, y, cell_x, cell_y;
 	x = static_cast<int> (event->x);

@@ -34,6 +34,7 @@ protected:
 	void on_menu_edit_copy();
 	void on_menu_edit_paste();
 	void on_menu_edit_feed();
+	void on_menu_feed_tooltips();
 	void on_menu_help_about();
 	void on_menu_others();
 	

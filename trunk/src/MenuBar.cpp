@@ -8,6 +8,7 @@
 #include <iostream>
 #include <gtkmm/main.h>
 #include <gtkmm/actiongroup.h>
+#include <gtkmm/toggleaction.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/window.h>
 #include "MenuBar.h"
@@ -51,6 +52,11 @@ MenuBar::MenuBar (Gtk::Window* theWindow)
 	_ag->add( Gtk::Action::create("EditFeed", "Edit the selected feed entry"), Gtk::AccelKey("<control>E"),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
 
+	//Options menu:
+	_ag->add( Gtk::Action::create("OptionsMenu", "Options") );
+	_ag->add( Gtk::ToggleAction::create("OptFeedtips", "Show feed tooltips", "If on, hovering over a feed in the feed list\nwill show all its properties.", AppContext::get().get_has_feed_tips()),
+    		sigc::mem_fun(*this, &MenuBar::on_menu_feed_tooltips) );
+
 	//Help menu:
 	_ag->add( Gtk::Action::create("HelpMenu", "Help") );
 	_ag->add( Gtk::Action::create("HelpAbout", Gtk::Stock::HELP),
@@ -75,6 +81,9 @@ MenuBar::MenuBar (Gtk::Window* theWindow)
         "      <menuitem action='EditCopy'/>"
         "      <menuitem action='EditPaste'/>"
         "      <menuitem action='EditFeed'/>"
+        "    </menu>"
+        "    <menu action='OptionsMenu'>"
+        "      <menuitem action='OptFeedtips'/>"
         "    </menu>"
         "    <menu action='HelpMenu'>"
         "      <menuitem action='HelpAbout'/>"
@@ -125,6 +134,12 @@ void MenuBar::on_menu_edit_paste()
 
 void MenuBar::on_menu_edit_feed()
 {
+}
+
+void MenuBar::on_menu_feed_tooltips()
+{
+	AppContext& ac = AppContext::get();
+	ac.set_has_feed_tips (!ac.get_has_feed_tips());
 }
 
 void MenuBar::on_menu_help_about()

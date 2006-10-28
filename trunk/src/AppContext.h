@@ -45,6 +45,8 @@ public:
 	void set_feed (Feed* theFeed)			{ _curr_feed = theFeed; }
 	int get_lpanew();
 	void set_lpanew (int i);
+	bool get_has_feed_tips() const			{ return _has_feed_tips; }
+	void set_has_feed_tips (bool f)			{ _has_feed_tips = f; }
 	bool get_view_is_opened() 			{ return _view_is_opened; }
 	void set_view_is_opened (bool opened) 		{ _view_is_opened = opened; }
 	item_display_unit_t get_display_type()	{ return _curr_display_type; }
@@ -64,7 +66,7 @@ private:
 	item_list_t		_all_items;
 	std::string		_calodir;
 	unsigned int 		_app_x, _app_y, _app_w, _app_h, _lpane_w;
-	bool			_view_is_opened;
+	bool			_has_feed_tips, _view_is_opened;
 };
 
 #endif

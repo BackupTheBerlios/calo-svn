@@ -38,6 +38,7 @@ void AppContext::destroy()
 AppContext::AppContext()
 {
 	_curr_display_type = SIMPLE_ITEM_DU;
+	_has_feed_tips = true;
 	_app_x = _app_y = _app_w = _app_h = 0;
 	_aw = NULL;
 	_ttips = new Gtk::Tooltips;
@@ -69,6 +70,17 @@ void AppContext::init()
 	{
 		std::cerr << "parse exception: " << ex.what() << std::endl;
 	}
+	
+	if (_cfg->has ("app_x"))
+		_app_x = _cfg->get_i ("app_x");
+	if (_cfg->has ("app_y"))
+		_app_y = _cfg->get_i ("app_y");
+	if (_cfg->has ("app_w"))
+		_app_w = _cfg->get_i ("app_w");
+	if (_cfg->has ("app_h"))
+		_app_h = _cfg->get_i ("app_h");
+	if (_cfg->has ("has_feed_tips"))
+		_has_feed_tips = (_cfg->get_i ("has_feed_tips") != 0);
 }
 
 /// Helper for saving the feed list that gets called for every feed
@@ -96,6 +108,7 @@ AppContext::save()
 	_cfg->set ("app_w", _app_w);
 	_cfg->set ("app_h", _app_h);
 	_cfg->set ("lpane_w", _lpane_w);
+	_cfg->set ("has_feed_tips", _has_feed_tips? 1:0);
 	_cfg->save();
 
 	xmlpp::Document doc;
@@ -136,14 +149,6 @@ AppContext::draw_view() const
 void 
 AppContext::get_appwindow_pos (unsigned int* x, unsigned int* y, unsigned int* w, unsigned int* h)
 {
-	if (_cfg->has ("app_x"))
-		_app_x = _cfg->get_i ("app_x");
-	if (_cfg->has ("app_y"))
-		_app_y = _cfg->get_i ("app_y");
-	if (_cfg->has ("app_w"))
-		_app_w = _cfg->get_i ("app_w");
-	if (_cfg->has ("app_h"))
-		_app_h = _cfg->get_i ("app_h");
 	*x = _app_x;
 	*y = _app_y;
 	*w = _app_w;
