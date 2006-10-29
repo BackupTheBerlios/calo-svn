@@ -77,9 +77,6 @@ ViewWindow::on_value_changed (Gtk::Scrollbar* theBar)
 bool
 ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 {
-	Glib::RefPtr<Gdk::Window> window = get_window();
-	if (window == NULL)
-		return false;
 #ifdef DEBUG
 	std::cerr << "on_expose_event()" << std::endl << std::flush;
 #endif
@@ -147,7 +144,7 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	// the portion of the window that needs to be redrawn
 	/// TODO: more efficiently, start with the right line
 
-	Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
+	Cairo::RefPtr<Cairo::Context> cr = get_window()->create_cairo_context();
 	cr->reset_clip();
 	cr->rectangle (event->area.x, event->area.y,
 			event->area.width, event->area.height);
