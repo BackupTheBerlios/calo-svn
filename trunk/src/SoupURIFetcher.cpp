@@ -20,7 +20,8 @@
 #include "utils.h"
 
 
-/// Friend callback that puts the result in the Fetcher's UTF-8 storage
+/// Friend callback that ia called after every fetch. It puts the result 
+/// in the Fetcher's UTF-8 storage (the URIFetchInfo) and calls its callback.
 void got_data (SoupMessage *msg, gpointer datap)
 {
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code))
@@ -34,6 +35,8 @@ void got_data (SoupMessage *msg, gpointer datap)
 	context->_pline->quit_fetch (info);
 }
 
+/// Friend callback that is called for every HTML response header.
+/// It itself calls the respective Fetcher callback.
 void handle_header (gpointer key, gpointer val, gpointer datap)
 {
 	SoupURIFetcher* context = static_cast<SoupURIFetcher*>(datap);
@@ -54,6 +57,7 @@ SoupURIFetcher::~SoupURIFetcher()
 	soup_session_abort (_session);
 }
 
+/// Add an URI to the list of the to-be-fetched URIs by creating a SoupMessage.
 void 
 SoupURIFetcher::add_uri (const Glib::ustring& uri, str_pair_list_t* theHeaders)
 {
@@ -76,6 +80,7 @@ SoupURIFetcher::add_uri (const Glib::ustring& uri, str_pair_list_t* theHeaders)
 	soup_uri_free (up);
 }
 
+/// Callback that queues a single SoupMessage.
 void SoupURIFetcher::queue_msg (std::pair<SoupMessage*,int> thePair)
 {
 	sleepms (50);
@@ -83,6 +88,7 @@ void SoupURIFetcher::queue_msg (std::pair<SoupMessage*,int> thePair)
 	soup_session_queue_message (_session, msg, got_data, this);
 }
 
+/// Queues all stored SoupMessages.
 void SoupURIFetcher::start()
 {
 	if (_msg_index.size() == 0)
@@ -93,6 +99,7 @@ void SoupURIFetcher::start()
 		bind1st (std::mem_fun (&SoupURIFetcher::queue_msg), this));
 }
 
+/// Helper that creates a URIFetchInfo from an HTML response.
 URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 {
 	const SoupUri* su = soup_message_get_uri (msg);

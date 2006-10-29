@@ -15,8 +15,10 @@
 #include "Feed.h"
 #include "utils.h"
 
+/// The FetchProtocol singleton
 static FetchProtocol* _instance = NULL;
 
+/// Creates and returns the FetchProtocol singleton
 FetchProtocol* FetchProtocol::get()
 {
 	if (_instance != NULL)
@@ -27,8 +29,9 @@ FetchProtocol* FetchProtocol::get()
 
 FetchProtocol::FetchProtocol() {}
 
-//-OVERRIDES--------------------------------------------------------------------
-
+/// Callback that is called for every encountered HTML response header. 
+/// It sets the current feed properties with it, changing "Date" to "Last-Visited". 
+/// Overrides FetchInfoHandler::handle_header().
 void 
 FetchProtocol::handle_header (const Glib::ustring& key, const Glib::ustring& val)
 {
@@ -38,6 +41,10 @@ FetchProtocol::handle_header (const Glib::ustring& key, const Glib::ustring& val
 		_curr_feed->set_property (key, val);
 }
 
+/// Callback that is called for every fetched HTML body.
+/// Parses the body, adds every news item to the current feed (and other
+/// listeners), layouts the item list, and sends a signal to the view to
+/// draw itself. Overrides FetchInfoHandler::quit_fetch().
 void 
 FetchProtocol::quit_fetch (URIFetchInfo* info)
 {
@@ -50,7 +57,8 @@ FetchProtocol::quit_fetch (URIFetchInfo* info)
 }
 
 //---------------------------------------------------------------------------
-
+/// Run the FetchProtocol by setting up HTML request headers, callbacks,
+/// and calling the URIFetcher.
 void FetchProtocol::run (Glib::ustring& uri, Feed* theFeed)
 {
 	_curr_feed = theFeed;

@@ -15,7 +15,7 @@
 #include "Item.h"
 #include "exceptions.h"
 
-
+/// The AppContext singleton
 static AppContext* _theContext = NULL;
 
 /// Make sure the app context is created once only.
@@ -27,6 +27,7 @@ AppContext& AppContext::get()
 	return *_theContext;
 }
 
+/// Calls the destructor of the AppContext
 void AppContext::destroy()
 {
 	if (_theContext == NULL)
@@ -52,15 +53,21 @@ AppContext::~AppContext()
 }
 
 //-------------------------------------------------------------
-/// Initialize app context by loading the config file.
+/// Initialize app context by setting up file paths and loading the config file.
 void AppContext::init()
 {
+	/// Build $HOME/.calo directory path
 	_calodir = Glib::build_filename 
 		(Glib::get_home_dir(), std::string (".calo"));
+	
+	/// Create $HOME/.calo if it doesn't exist
 	if (mkdir (_calodir.c_str(), 432) < 0 && errno != EEXIST)
 		throw FileException();
+	
+	/// Build $HOME/.calo/config.xml path
 	_cfg->init (Glib::ustring (Glib::build_filename 
 			(_calodir, std::string ("config.xml"))));
+	/// Parse file
 	try 
 	{
 		_cfg->set_substitute_entities (true);
@@ -71,6 +78,7 @@ void AppContext::init()
 		std::cerr << "parse exception: " << ex.what() << std::endl;
 	}
 	
+	/// Set config vars from config database
 	if (_cfg->has ("app_x"))
 		_app_x = _cfg->get_i ("app_x");
 	if (_cfg->has ("app_y"))
@@ -87,10 +95,15 @@ void AppContext::init()
 static bool
 save_treenode (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& it, xmlpp::Element* root)
 {
+	/// There is only one element per feed
 	xmlpp::Element* child = root->add_child ("outline");
 	const FeedListColumnRecord& cr = FeedListColumnRecord::get();
+
+	/// Feed name and uri are attributes of the element 
 	child->set_attribute ("text", (*it)[cr._col_string]);
 	child->set_attribute ("xmlUrl", (*it)[cr._col_url]);
+
+	/// Every property of the feed gets an attribute too
 	const Feed* feed = ((*it)[cr._col_feed]);
 	const str_str_map_t& map = feed->get_map();
 	for (str_str_map_t::const_iterator iit = map.begin(); iit != map.end(); ++iit)
@@ -103,6 +116,7 @@ save_treenode (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator&
 void 
 AppContext::save()
 {
+	/// Set config database from config vars, save it
 	_cfg->set ("app_x", _app_x);
 	_cfg->set ("app_y", _app_y);
 	_cfg->set ("app_w", _app_w);
@@ -111,11 +125,13 @@ AppContext::save()
 	_cfg->set ("has_feed_tips", _has_feed_tips? 1:0);
 	_cfg->save();
 
+	/// Build XML document from feeds
 	xmlpp::Document doc;
 	Glib::RefPtr<Gtk::TreeModel> tmodel = _aw->get_feedlist()->get_tmodel();
 	xmlpp::Element* root = doc.create_root_node ("root");
 	tmodel->foreach (sigc::bind (sigc::ptr_fun (&save_treenode), root));
 
+	/// Save feeds as XML document
 	try
 	{
 		doc.write_to_file_formatted (get_feeds_filename());
@@ -127,7 +143,7 @@ AppContext::save()
 	}
 }
 
-
+/// Builds and returns feed file path $HOME/.calo/feeds.xml
 const std::string&
 AppContext::get_feeds_filename()
 {
@@ -136,6 +152,7 @@ AppContext::get_feeds_filename()
 	return str;
 }
 
+/// Queue draw signal with view
 void
 AppContext::draw_view() const
 {
