@@ -40,7 +40,7 @@ public:
 	void layout_items();
 
 	virtual void add_item (Item*);
-
+	void save_items (const std::string& dir, const std::string& url) const;
 
 protected:
 	str_str_map_t _props;

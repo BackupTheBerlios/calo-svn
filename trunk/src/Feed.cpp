@@ -5,7 +5,11 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <stdio.h>
 #include <iostream>
+#include <algorithm>
+#include <glibmm/miscutils.h>
+#include <libxml++/libxml++.h>
 #include "Feed.h"
 #include "Item.h"
 
@@ -56,7 +60,6 @@ const
 		return empty;
 
 	return it->second;
-
 }
 
 //------------------------------------------------------------------
@@ -64,6 +67,54 @@ void
 Feed::add_item (Item *i)
 {
 	_items.push_back (i); 
+}
+
+static void
+add_rss_item (Item *theItem, xmlpp::Element *theRoot)
+{
+	xmlpp::Element *item = theRoot->add_child ("item");
+	xmlpp::Element *title = item->add_child ("title");
+	title->set_child_text (theItem->_title);
+	xmlpp::Element *link = item->add_child ("link");
+	link->set_child_text (theItem->_link);
+	xmlpp::Element *desc = item->add_child ("description");
+	desc->set_child_text (theItem->_description);
+	xmlpp::Element *pubdate = item->add_child ("pubDate");
+	pubdate->set_child_text (theItem->_pubdate);
+}
+
+void 
+Feed::save_items (const std::string& dir, const std::string& theURL) const
+{
+	if (_items.empty())
+		return;
+	
+	/// Replace every / with ' in URL.
+	/// TODO: xmlpp does not allow / in file names
+	std::string url;
+	std::replace_copy (theURL.begin(), theURL.end(), 
+		std::back_inserter (url), '/', '\'');
+	const std::string& path = Glib::build_filename (dir, url);
+	remove (path.c_str());
+
+	/// Build XML document from items
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("channel");
+	for_each (_items.begin(), _items.end(), 
+		std::bind2nd (std::ptr_fun (add_rss_item), root));
+
+	/// Save feeds as XML document
+	try
+	{
+		doc.write_to_file_formatted (path);
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << "Exception while writing feeds file " 
+			<< path << " : " << ex.what()
+			<< std::endl << std::flush;
+	}
+	
 }
 
 void

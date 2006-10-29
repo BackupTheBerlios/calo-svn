@@ -54,7 +54,8 @@ AppContext::~AppContext()
 
 //-------------------------------------------------------------
 /// Initialize app context by setting up file paths and loading the config file.
-void AppContext::init()
+void 
+AppContext::init()
 {
 	/// Build $HOME/.calo directory path
 	_calodir = Glib::build_filename 
@@ -99,7 +100,7 @@ void AppContext::init()
 		_has_feed_tips = (_cfg->get_i ("has_feed_tips") != 0);
 }
 
-/// Helper for saving the feed list that gets called for every feed
+/// Helper for saving the feed properties that gets called for every feed
 static bool
 save_treenode (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& it, xmlpp::Element* root)
 {
@@ -121,7 +122,20 @@ save_treenode (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator&
 	return false;
 }
 
-/// Save config file, feed file
+/// Helper for saving the feed items that gets called for every feed
+/// TODO: This saves once per feed list entry, so could save more than once
+/// per feed.
+static bool
+save_items (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& it, const std::string& itemdir)
+{	
+	const FeedListColumnRecord& cr = FeedListColumnRecord::get();
+	const Feed* feed = ((*it)[cr._col_feed]);
+	const std::string& url = Glib::ustring ((*it)[cr._col_url]);
+	feed->save_items (itemdir, url);
+	return false;
+}
+
+/// Save config file, feed file, feed items.
 void 
 AppContext::save()
 {
@@ -148,6 +162,17 @@ AppContext::save()
 	catch (const std::exception& ex)
 	{
 		std::cerr << "Exception while writing feeds file: " << ex.what()
+			<< std::endl;
+	}
+	
+	/// Save items into items dir
+	try
+	{
+		tmodel->foreach (sigc::bind (sigc::ptr_fun (&save_items), _itemdir));
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << "Exception while writing items: " << ex.what()
 			<< std::endl;
 	}
 }
