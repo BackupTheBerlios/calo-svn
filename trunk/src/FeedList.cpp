@@ -87,6 +87,7 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 		_slctn->select (path);
 }
 
+/// Show feed tooltips when mouse is over the feed list, if so configured.
 void
 FeedList::on_tview_motion_notify (GdkEventMotion* event)
 {
@@ -96,6 +97,7 @@ FeedList::on_tview_motion_notify (GdkEventMotion* event)
 		return;
 	}
 
+	// Only necessary to change tip text when changing path mouse is over
 	static Gtk::TreeModel::Path _old_path;
 	int x, y, cell_x, cell_y;
 	x = static_cast<int> (event->x);
@@ -106,16 +108,27 @@ FeedList::on_tview_motion_notify (GdkEventMotion* event)
 	if (_old_path.to_string() == path.to_string())
 		return;
 	
+	// Build up tip string
 	Gtk::TreeModel::iterator it = _tstore->get_iter (path);
 	Feed* feed = (*it) [_smcol->_col_feed];
-	Glib::ustring br = "\n";
+	Glib::ustring br = "\n", prop;
 	Glib::ustring tipstr = "";
 	tipstr += (*it)[_smcol->_col_string] + br; 
-	tipstr += (*it)[_smcol->_col_url] + br; 
-	tipstr += "Last-Visited: " + feed->get_property ("Last-Visited") + br;
-	tipstr += "Last-Modified: " + feed->get_property ("Last-Modified") + br;
-	tipstr += "Content-Encoding: " + feed->get_property ("Content-Encoding") + br;
-	tipstr += "Content-Language: " + feed->get_property ("Content-Language") + br;
+	tipstr += (*it)[_smcol->_col_url];
+	
+	prop = feed->get_property ("Last-Visited");
+	if (!prop.empty())
+		tipstr += br + "Last-Visited: " + prop;
+	prop = feed->get_property ("Last-Modified");
+	if (!prop.empty())
+		tipstr += br + "Last-Modified: " + prop;
+	prop = feed->get_property ("Content-Encoding");
+	if (!prop.empty())
+		tipstr += br + "Content-Encoding: " + prop;
+	prop = feed->get_property ("Content-Language");
+	if (!prop.empty())
+		tipstr += br + "Content-Language: " + prop;
+
 	AppContext::get().get_tooltips()->set_tip (_tview, tipstr);
 	AppContext::get().get_tooltips()->enable();
 	_old_path = path;
