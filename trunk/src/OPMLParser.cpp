@@ -53,6 +53,7 @@ void OPMLParser::on_start_element(const Glib::ustring& name,
 	}
 }
 
+/// Fill tree entry and Feed fields with what the OPML entity contains.
 void OPMLParser::set_model (std::pair<Glib::ustring,Glib::ustring> thePair)
 {
 	if (thePair.first == "text")
@@ -62,6 +63,22 @@ void OPMLParser::set_model (std::pair<Glib::ustring,Glib::ustring> thePair)
 	else if (thePair.first == "xmlUrl")
 	{
 		(*_curr_miter)[_rec->_col_url] = thePair.second;
+		
+		// We only have unique Feed instances, so the tree entries
+		// must be searched for identical URIs and their Feeds used
+		Feed *fp = NULL;
+		Gtk::TreeNodeChildren::const_iterator it;
+		for (it = _store->children().begin(); it != _store->children().end(); ++it)
+			if ((*it)[_rec->_col_url] == thePair.second && it != _curr_miter)
+			{
+				fp = (*it)[_rec->_col_feed];
+				break;
+			}
+		if (fp != NULL)
+		{
+			delete (*_curr_miter)[_rec->_col_feed];
+			(*_curr_miter)[_rec->_col_feed] = fp;
+		}
 	}
 	else
 	{
