@@ -61,7 +61,15 @@ void AppContext::init()
 		(Glib::get_home_dir(), std::string (".calo"));
 	
 	/// Create $HOME/.calo if it doesn't exist
-	if (mkdir (_calodir.c_str(), 432) < 0 && errno != EEXIST)
+	if (mkdir (_calodir.c_str(), 493) < 0 && errno != EEXIST)
+		throw FileException();
+
+	/// Build $HOME/.calo/items directory path
+	_itemdir = Glib::build_filename 
+		(_calodir, std::string ("items"));
+	
+	/// Create $HOME/.calo/items if it doesn't exist
+	if (mkdir (_itemdir.c_str(), 493) < 0 && errno != EEXIST)
 		throw FileException();
 	
 	/// Build $HOME/.calo/config.xml path
@@ -109,6 +117,7 @@ save_treenode (const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator&
 	for (str_str_map_t::const_iterator iit = map.begin(); iit != map.end(); ++iit)
 		if (iit->second.length() > 0)
 			child->set_attribute (iit->first, iit->second);
+	
 	return false;
 }
 

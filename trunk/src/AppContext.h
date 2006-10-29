@@ -64,7 +64,7 @@ private:
 	Feed			*_curr_feed;
 	item_display_unit_t 	_curr_display_type;
 	item_list_t		_all_items;
-	std::string		_calodir;
+	std::string		_calodir, _itemdir;
 	unsigned int 		_app_x, _app_y, _app_w, _app_h, _lpane_w;
 	bool			_has_feed_tips, _view_is_opened;
 };
