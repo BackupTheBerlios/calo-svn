@@ -79,6 +79,11 @@ void OPMLParser::set_model (std::pair<Glib::ustring,Glib::ustring> thePair)
 			delete (*_curr_miter)[_rec->_col_feed];
 			(*_curr_miter)[_rec->_col_feed] = fp;
 		}
+		else
+		{
+			fp = (*_curr_miter)[_rec->_col_feed];
+			fp->read_items_from_disk (thePair.second);
+		}
 	}
 	else
 	{

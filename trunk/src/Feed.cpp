@@ -7,11 +7,14 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <glibmm/miscutils.h>
 #include <libxml++/libxml++.h>
+#include "AppContext.h"
 #include "Feed.h"
 #include "Item.h"
+#include "RSSParser.h"
 
 
 static char* _possible_props[] = { 
@@ -90,7 +93,6 @@ Feed::save_items (const std::string& dir, const std::string& theURL) const
 		return;
 	
 	/// Replace every / with ' in URL.
-	/// TODO: xmlpp does not allow / in file names
 	std::string url;
 	std::replace_copy (theURL.begin(), theURL.end(), 
 		std::back_inserter (url), '/', '\'');
@@ -114,7 +116,28 @@ Feed::save_items (const std::string& dir, const std::string& theURL) const
 			<< path << " : " << ex.what()
 			<< std::endl << std::flush;
 	}
+}
+
+void
+Feed::read_items_from_disk (const Glib::ustring& theURL)
+{
+	/// Replace every / with ' in URL.
+	std::string url;
+	std::replace_copy (theURL.begin(), theURL.end(), 
+		std::back_inserter (url), '/', '\'');
+	const std::string& dir = AppContext::get().get_item_dir();
+	const std::string& path = Glib::build_filename (dir, url);
+
+	std::ifstream in;
+	in.open (path.c_str());
+	if (in.fail())
+		return;
 	
+	in.close();
+	RSSParser parser;
+	parser.add_item_listener (this);
+	parser.add_item_listener (&AppContext::get());
+	parser.parse_file (path);
 }
 
 void
