@@ -54,14 +54,6 @@ FeedList::~FeedList()
 {
 }
 
-void 
-FeedList::select (Gtk::TreeModel::iterator it)
-{
-	Glib::ustring uri = (*it)[_smcol->_col_url];
-	Feed* feed = (*it)[_smcol->_col_feed];
-	AppContext::get().set_feed (feed);
-	FetchProtocol::get()->run (uri, feed);
-}
 
 //-Overrides-------------------------------------------------------------
 void 
@@ -82,9 +74,16 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 	Gtk::TreeViewColumn *col;
 	_tview.get_path_at_pos (x, y, path, col, cell_x, cell_y);
 	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-	select (_tstore->get_iter (path));
 	if (!_slctn->is_selected (path))
 		_slctn->select (path);
+	
+	Gtk::TreeModel::iterator it = _tstore->get_iter (path);
+	Glib::ustring uri = (*it)[_smcol->_col_url];
+	Feed* feed = (*it)[_smcol->_col_feed];
+	AppContext::get().set_feed (feed);
+	if (event->button == 3 || feed->get_items().empty())
+		FetchProtocol::get()->run (uri, feed);
+	AppContext::get().draw_view();
 }
 
 /// Show feed tooltips when mouse is over the feed list, if so configured.

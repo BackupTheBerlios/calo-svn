@@ -25,7 +25,6 @@ public:
 	Glib::RefPtr<Gtk::TreeModel> get_tmodel() { return _tview.get_model(); }
 
 protected:
-	void select (Gtk::TreeModel::iterator);
 
 	void on_tview_button_press (GdkEventButton*);
 	void on_tview_motion_notify (GdkEventMotion*);
