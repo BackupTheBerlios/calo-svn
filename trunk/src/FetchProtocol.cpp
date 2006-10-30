@@ -52,7 +52,6 @@ FetchProtocol::quit_fetch (URIFetchInfo* info)
 	parser.add_item_listener (_curr_feed);
 	parser.add_item_listener (&AppContext::get());
 	parser.parse_memory (info->html);
-	_curr_feed->layout_items();
 	AppContext::get().draw_view();
 }
 
