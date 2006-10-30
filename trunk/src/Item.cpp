@@ -42,8 +42,10 @@ Item::make_display_unit()
 	{
 	case SIMPLE_ITEM_DU: 
 		if (_simple_du == NULL) 
+		{
 			_simple_du = new SimpleItemDU (this);
-		_simple_du->layout();
+			_simple_du->layout();
+		}
 		break;
 
 	default: throw MiscException ("Item::get_display-unit(): can't happen");
