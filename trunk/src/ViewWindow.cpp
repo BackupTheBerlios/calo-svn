@@ -93,6 +93,7 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	double h = 0.0, w = 0.0;
 	for (item_list_t::iterator it = items.begin(); it != items.end(); ++it)
 	{
+		(*it)->make_display_unit();
 		ItemDisplayUnit *du = (*it)->get_display_unit();
 		h += du->get_height();
 		if (du->get_width() > w)
