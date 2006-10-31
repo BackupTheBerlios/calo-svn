@@ -13,7 +13,6 @@
 #include <gtkmm/window.h>
 #include "MenuBar.h"
 #include "AppContext.h"
-#include "AppWindow.h"
 
 
 static MenuBar* _theContext = NULL;
@@ -120,7 +119,7 @@ void MenuBar::on_menu_file_save_as_default()
 
 void MenuBar::on_menu_file_quit()
 {
-	AppContext::get().get_appwindow()->save_geometry();
+	AppContext::get().save_geometry();
 	Gtk::Main::quit();
 }
 

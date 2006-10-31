@@ -49,18 +49,6 @@ AppWindow::~AppWindow()
 {
 }
 
-void
-AppWindow::save_geometry()
-{
-	int x, y;
-	get_position (x, y);
-	Gtk::Allocation all = get_allocation();
-	AppContext::get().set_appwindow_pos (x, y, all.get_width(), all.get_height());
-
-	all = _flist.get_allocation();
-	AppContext::get().set_lpanew (all.get_width());
-}
-
 //--------------------------------------------------------------
 void
 AppWindow::on_realize()
@@ -75,6 +63,6 @@ AppWindow::on_realize()
 bool
 AppWindow::on_delete_event (GdkEventAny*)
 {
-	save_geometry();
+	AppContext::get().save_geometry();
 	return false;
 }

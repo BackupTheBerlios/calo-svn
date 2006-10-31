@@ -35,6 +35,7 @@ public:
 	const std::string& get_feeds_filename();
 	const std::string& get_item_dir() const         { return _itemdir; }
 	Gtk::Tooltips* get_tooltips()			{ return _ttips; }
+	void save_geometry();
 	void get_appwindow_pos (unsigned int* x, unsigned int* y,
 			unsigned int* w, unsigned int* h);
 	void set_appwindow_pos (unsigned int x, unsigned int y,

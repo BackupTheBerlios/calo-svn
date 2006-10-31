@@ -23,7 +23,6 @@ public:
 	AppWindow();
 	virtual ~AppWindow();
 
-	void save_geometry();
 	ViewContainer* get_viewcontainer() 	{ return &_vc; }
 	FeedList* get_feedlist() 		{ return &_flist; }
 

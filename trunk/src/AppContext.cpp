@@ -197,6 +197,18 @@ AppContext::draw_view() const
 }
 
 //-------------------------------------------------------------
+void
+AppContext::save_geometry()
+{
+	int x, y;
+	_aw->get_position (x, y);
+	Gtk::Allocation all = _aw->get_allocation();
+	set_appwindow_pos (x, y, all.get_width(), all.get_height());
+
+	all = _aw->get_feedlist()->get_allocation();
+	set_lpanew (all.get_width());
+}
+
 void 
 AppContext::get_appwindow_pos (unsigned int* x, unsigned int* y, unsigned int* w, unsigned int* h)
 {
