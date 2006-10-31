@@ -75,7 +75,7 @@ Feed::add_item (Item *i)
 		{
 			delete *it;
 			_items.erase (it);
-			break;
+			break;	/// TODO: remove this and hell breaks loose
 		}
 			
 	_items.push_back (i); 
