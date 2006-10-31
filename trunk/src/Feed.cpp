@@ -66,9 +66,18 @@ const
 }
 
 //------------------------------------------------------------------
-void 
+void
 Feed::add_item (Item *i)
 {
+	item_list_t::iterator it = _items.begin();
+	for (; it != _items.end(); ++it)
+		if ((*it)->_link == i->_link)
+		{
+			delete *it;
+			_items.erase (it);
+			break;
+		}
+			
 	_items.push_back (i); 
 }
 
