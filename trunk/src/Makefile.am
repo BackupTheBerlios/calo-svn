@@ -56,6 +56,8 @@ calo_SOURCES =  exceptions.h		\
 		LynxToCairoProcessor.h	\
 		MenuBar.cpp		\
 		MenuBar.h		\
+		NormalItemDU.cpp	\
+		NormalItemDU.h		\
 		OPMLParser.cpp		\
 		OPMLParser.h		\
 		PDFContext.cpp		\
