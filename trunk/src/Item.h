@@ -23,9 +23,11 @@ public:
 	void make_display_unit();
 	ItemDisplayUnit* get_display_unit();
 
-	Glib::ustring _title, _description, _link, _pubdate;
+	Glib::ustring _title, _description, _link, _pubdate, _guid;
 
 private:
+	void ensure_integrity();
+
 	ItemDisplayUnit *_simple_du;
 };
 

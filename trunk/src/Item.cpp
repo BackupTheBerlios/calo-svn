@@ -35,6 +35,16 @@ Item::get_display_unit()
 	return NULL;
 }
 
+void
+Item::ensure_integrity()
+{
+	static const Glib::ustring _empty("Empty title");
+	if (_link.empty() && !_guid.empty())
+		_link = _guid;
+	if (_title.empty())
+		_title = _empty;
+}
+
 void 
 Item::make_display_unit()
 {
@@ -43,6 +53,7 @@ Item::make_display_unit()
 	case SIMPLE_ITEM_DU: 
 		if (_simple_du == NULL) 
 		{
+			ensure_integrity();
 			_simple_du = new SimpleItemDU (this);
 			_simple_du->layout();
 		}
