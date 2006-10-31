@@ -9,12 +9,14 @@
  */
 
 #include <gtkmm/box.h>
+#include <gtkmm/button.h>
+#include <gtkmm/buttonbox.h>
 #include "ViewWindow.h"
 
 
 /// ViewContainer
 
-class ViewContainer : public Gtk::HBox
+class ViewContainer : public Gtk::VBox
 {
 public:
 	ViewContainer();
@@ -23,7 +25,10 @@ public:
 	ViewWindow* get_viewwindow() { return &_vw; }
 
 private:
-	ViewWindow _vw;
+	ViewWindow 		_vw;
+	Gtk::VBox 		_box;
+	Gtk::HButtonBox 	_buttons;
+	Gtk::Button	_but_simple_disp, _but_norm_disp, _but_full_text;
 };
 
 

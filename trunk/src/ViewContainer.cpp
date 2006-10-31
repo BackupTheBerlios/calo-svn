@@ -10,7 +10,13 @@
 
 ViewContainer::ViewContainer()
 {
-	add (_vw);
+	_buttons.add (_but_simple_disp);
+	_buttons.add (_but_norm_disp);
+	_buttons.add (_but_full_text);
+	_buttons.set_layout (Gtk::BUTTONBOX_START);
+	_box.pack_start (_buttons, Gtk::PACK_SHRINK);
+	pack_start (_box, Gtk::PACK_SHRINK);
+	pack_start (_vw, Gtk::PACK_EXPAND_WIDGET);
 	show_all_children();
 }
 
