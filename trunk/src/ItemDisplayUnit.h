@@ -14,7 +14,7 @@
 class Item;
 class ItemDisplayUnit;
 
-typedef enum { SIMPLE_ITEM_DU } item_display_unit_t;
+typedef enum { NONE=0, SIMPLE, NORMAL, FULL } item_display_unit_t;
 
 /// ItemDisplayUnit
 

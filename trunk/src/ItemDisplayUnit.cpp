@@ -17,7 +17,8 @@ ItemDisplayUnit* ItemDisplayUnit::create (item_display_unit_t type)
 
 	switch (type)
 	{
-	case SIMPLE_ITEM_DU: du = new SimpleItemDU;
+	case SIMPLE: du = new SimpleItemDU;
+	case NORMAL: du = new NormalItemDU;
 	
 	default: throw MiscException ("ItemDisplayUnit ctor: can't happen");
 	}

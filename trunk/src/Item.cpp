@@ -28,7 +28,8 @@ Item::get_display_unit()
 {
 	switch (AppContext::get().get_display_type())
 	{
-	case SIMPLE_ITEM_DU: return _simple_du;
+	case SIMPLE: return _simple_du;
+	case NORMAL: return _normal_du;
 	default: throw MiscException ("Item::get_display-unit(): can't happen");
 	}
 
@@ -38,11 +39,15 @@ Item::get_display_unit()
 void
 Item::ensure_integrity()
 {
+	static bool _was_called = false;
+	if (_was_called) 
+		return;
 	static const Glib::ustring _empty("Empty title");
 	if (_link.empty() && !_guid.empty())
 		_link = _guid;
 	if (_title.empty())
 		_title = _empty;
+	_was_called = true;
 }
 
 void 
@@ -50,12 +55,20 @@ Item::make_display_unit()
 {
 	switch (AppContext::get().get_display_type())
 	{
-	case SIMPLE_ITEM_DU: 
+	case SIMPLE: 
 		if (_simple_du == NULL) 
 		{
 			ensure_integrity();
 			_simple_du = new SimpleItemDU (this);
 			_simple_du->layout();
+		}
+		break;
+	case NORMAL: 
+		if (_normal_du == NULL) 
+		{
+			ensure_integrity();
+			_normal_du = new NormalItemDU (this);
+			_normal_du->layout();
 		}
 		break;
 
