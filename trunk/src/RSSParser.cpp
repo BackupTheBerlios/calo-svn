@@ -5,6 +5,8 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#undef DEBUG
+
 #include <iostream>
 #include <functional>
 #include <glib/gmessages.h>
@@ -92,10 +94,10 @@ RSSParser::on_end_element(const Glib::ustring& name)
 	if (_curr_string) 
 		std::cerr << conv (*_curr_string) << std::endl << std::flush;
 #endif
+	_curr_string = NULL;
 	if (name == "item")
 	{
 		_in_item = false;
-		_curr_string = NULL;
 		for (item_listener_list_t::iterator it = _listeners.begin();
 			it != _listeners.end(); ++it)
 			(*it)->add_item (_item);
