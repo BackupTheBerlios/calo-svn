@@ -44,6 +44,8 @@ ViewWindow::~ViewWindow()
 {
 }
 
+/// Called when view scrollbar changes value.
+/// TODO: Increase performance.
 void
 ViewWindow::on_value_changed (Gtk::Scrollbar* theBar)
 {
@@ -73,7 +75,9 @@ ViewWindow::on_value_changed (Gtk::Scrollbar* theBar)
 	}
 }
 
-//-------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+/// Called on every new expose event.
+/// TODO: Increase performance.
 bool
 ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 {
