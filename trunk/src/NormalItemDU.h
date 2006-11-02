@@ -13,6 +13,7 @@
 #include "ItemDisplayUnit.h"
 
 class Item;
+class ViewWindow;
 
 
 /// NormalItemDU
@@ -28,6 +29,7 @@ public:
 private:
 	Glib::RefPtr<Pango::Layout>	_play;
 	Item 				*_item;
+	ViewWindow			*_vw;
 };
 
 #endif

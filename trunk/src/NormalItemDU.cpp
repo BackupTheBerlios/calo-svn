@@ -6,6 +6,8 @@
  */
 
 #include <iostream>
+#include <pangomm/layoutiter.h>
+#include <pangomm/layoutline.h>
 #include <cairomm/context.h>
 
 #include "AppContext.h"
@@ -20,14 +22,14 @@
 NormalItemDU::NormalItemDU (Item *theItem)
 {
 	_item = theItem;
-	ViewWindow *vw = AppContext::get().get_appwindow()->get_viewcontainer()->get_viewwindow();
-	Cairo::RefPtr<Cairo::Context> cc = vw->get_window()->create_cairo_context();
+	_vw = AppContext::get().get_appwindow()->get_viewcontainer()->get_viewwindow();
+	Cairo::RefPtr<Cairo::Context> cc = _vw->get_window()->create_cairo_context();
 	_play = Pango::Layout::create (cc);
 
 	// Link layout to widget
 	Pango::Layout *p = _play.operator->();
-	vw->signal_style_changed().connect (sigc::hide (sigc::mem_fun (*p, &Pango::Layout::context_changed)));
-	vw->signal_direction_changed().connect (sigc::hide (sigc::mem_fun (*p, &Pango::Layout::context_changed)));
+	_vw->signal_style_changed().connect (sigc::hide (sigc::mem_fun (*p, &Pango::Layout::context_changed)));
+	_vw->signal_direction_changed().connect (sigc::hide (sigc::mem_fun (*p, &Pango::Layout::context_changed)));
 }
 
 NormalItemDU::~NormalItemDU()
@@ -44,15 +46,16 @@ NormalItemDU::layout()
 #endif
 	Pango::FontDescription fdesc ("Sans 10");
 	_play->set_font_description (fdesc);
-	Glib::ustring s ("<h3>");
+	Gtk::Allocation allocation = _vw->get_allocation();
+	_play->set_width (allocation.get_width() * Pango::SCALE);
+	Glib::ustring s ("<b>");
 	s += _item->_title;
-	s += "</h3><p>";
+	s += "</b>\n\n";
 	s += _item->_description;
-	s += "</p>";
+	s += "\n";
 	_play->set_markup (s.c_str());
-	Glib::RefPtr<const Pango::LayoutLine> line = _play->get_line (0);
 	Pango::Rectangle irect, lrect;
-	line->get_extents (irect, lrect);
+	_play->get_extents (irect, lrect);
 	_height = lrect.get_height()/1024.0;
 	_width = lrect.get_width()/1024.0;
 }
@@ -65,11 +68,24 @@ NormalItemDU::render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, doubl
 #ifdef DEBUG
 	std::cerr << "rendering " << conv(_item->_title) << std::endl << std::flush;
 #endif
-	Glib::RefPtr<Pango::LayoutLine> line = _play->get_line (0);
 	Pango::LayoutIter iter;
 	_play->get_iter (iter);
-	int baseline = iter.get_baseline();
-	cctx->move_to (x, y + baseline/1024.0);
-	line->show_in_cairo_context (cctx);
+	
+	double start_y = 0;
+
+	do
+	{
+		Glib::RefPtr<Pango::LayoutLine> line = iter.get_line();
+		Pango::Rectangle dummy, lrect;
+		iter.get_line_extents (dummy, lrect);
+		int baseline = iter.get_baseline();
+
+	//cctx->move_to (lrect.x/1024.0 + x, baseline/1024.0 - startpos);
+		cctx->move_to (x, y + baseline/1024.0 + start_y);
+		line->show_in_cairo_context (cctx);
+		start_y += lrect.get_height()/1024.0;
+	}
+	while (iter.next_line());
+
 }
 

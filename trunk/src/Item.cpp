@@ -10,6 +10,7 @@
 #include "Item.h"
 #include "ItemDisplayUnit.h"
 #include "SimpleItemDU.h"
+#include "NormalItemDU.h"
 #include "exceptions.h"
 
 
@@ -67,9 +68,9 @@ Item::make_display_unit()
 		if (_normal_du == NULL) 
 		{
 			ensure_integrity();
-			_normal_du = new NormalItemDU (this);
-			_normal_du->layout();
 		}
+		_normal_du = new NormalItemDU (this);
+		_normal_du->layout();
 		break;
 
 	default: throw MiscException ("Item::get_display-unit(): can't happen");

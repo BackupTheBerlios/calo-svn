@@ -25,6 +25,9 @@ public:
 	ViewWindow* get_viewwindow() { return &_vw; }
 
 private:
+	void on_simple_button();
+	void on_normal_button();
+
 	ViewWindow 		_vw;
 	Gtk::VBox 		_box;
 	Gtk::HButtonBox 	_buttons;
