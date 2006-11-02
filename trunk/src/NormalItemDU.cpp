@@ -47,10 +47,10 @@ NormalItemDU::layout()
 	Pango::FontDescription fdesc ("Sans 10");
 	_play->set_font_description (fdesc);
 	Gtk::Allocation allocation = _vw->get_allocation();
-	_play->set_width (allocation.get_width() * Pango::SCALE);
+	_play->set_width (allocation.get_width() * Pango::SCALE * 11.0/12.0);
 	Glib::ustring s ("<b>");
 	s += _item->_title;
-	s += "</b>\n\n";
+	s += "</b>\n";
 	s += _item->_description;
 	s += "\n";
 	_play->set_markup (s.c_str());
@@ -81,7 +81,7 @@ NormalItemDU::render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, doubl
 		int baseline = iter.get_baseline();
 
 	//cctx->move_to (lrect.x/1024.0 + x, baseline/1024.0 - startpos);
-		cctx->move_to (x, y + baseline/1024.0 + start_y);
+		cctx->move_to (x, y + baseline/1024.0);
 		line->show_in_cairo_context (cctx);
 		start_y += lrect.get_height()/1024.0;
 	}
