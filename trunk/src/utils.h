@@ -9,8 +9,10 @@
  */
 
 #include <string>
+#include <glibmm/ustring.h>
 
 extern void sleepms (unsigned long ms);
 extern std::string conv (const std::string& str);
+extern void remove_markup (const Glib::ustring&, Glib::ustring&);
 
 #endif

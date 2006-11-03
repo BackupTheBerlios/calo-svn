@@ -30,3 +30,67 @@ std::string conv (const std::string& str)
 	return Glib::convert_with_fallback (str, to, from, fallback);
 }
 
+void remove_markup (const Glib::ustring& in, Glib::ustring& out)
+{
+	out.clear();
+	bool inside_markup = false;
+	//Glib::ustring::const_iterator it;
+	//it = in.begin();
+	const char *it = in.c_str();
+	do 
+	{
+		if (!inside_markup)
+		{
+			if (*it == '<')
+			{
+				inside_markup = true;
+				++it;
+			}
+			else if (*it == '&')
+			{
+				++it;
+				if (*it == 'l')
+				{
+					++it;
+					if (*it == 't')
+					{
+						++it;
+						if (*it == ';')
+						{
+							inside_markup = true;
+							++it;
+						}
+						else 
+							out += "&lt";
+					}
+					else 
+						out += "&l";
+				}
+				else
+					out += '&';
+			}
+			else
+			{
+				out += *it;
+				++it;
+			}
+		}
+		else
+		{
+			if (*it == '>')
+			{
+				inside_markup = false;
+				++it;
+			}
+			else if (*it=='&' && *(++it)=='g' && *(++it)=='t' && *(++it)==';')
+			{
+				inside_markup = false;
+				++it;
+			}
+			else ++it;
+		}
+	}
+	while (*it != '\0');
+}
+
+
