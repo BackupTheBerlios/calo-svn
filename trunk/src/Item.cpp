@@ -12,6 +12,7 @@
 #include "SimpleItemDU.h"
 #include "NormalItemDU.h"
 #include "exceptions.h"
+#include "utils.h"
 
 
 Item::~Item() 
@@ -40,15 +41,16 @@ Item::get_display_unit()
 void
 Item::ensure_integrity()
 {
-	static bool _was_called = false;
-	if (_was_called) 
+	if (_ensured) 
 		return;
 	static const Glib::ustring _empty("Empty title");
 	if (_link.empty() && !_guid.empty())
 		_link = _guid;
 	if (_title.empty())
 		_title = _empty;
-	_was_called = true;
+	const Glib::ustring s = _description;
+	remove_markup (s, _description);
+	_ensured = true;
 }
 
 void 

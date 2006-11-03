@@ -18,7 +18,7 @@ class ItemDisplayUnit;
 class Item
 {
 public:
-	Item() { _simple_du = _normal_du = NULL; }
+	Item() : _ensured(false) { _simple_du = _normal_du = NULL; }
 	~Item();
 	void make_display_unit();
 	ItemDisplayUnit* get_display_unit();
@@ -29,6 +29,7 @@ private:
 	void ensure_integrity();
 
 	ItemDisplayUnit *_simple_du, *_normal_du;
+	bool _ensured;
 };
 
 #endif
