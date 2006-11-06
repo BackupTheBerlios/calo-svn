@@ -54,6 +54,13 @@ ViewWindow::on_value_changed (Gtk::Scrollbar* theBar)
 	{
 		Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
 
+	
+		// Dimensions of drawing area
+		Gtk::Allocation area = _darea.get_allocation();
+		cr->reset_clip();
+		cr->rectangle (0, 0, area.get_width(), area.get_height());
+		cr->clip();
+
 		cr->set_source_rgb (1.0, 1.0, 1.0);
 		cr->paint();
 		cr->set_source_rgb (0.0, 0.0, 0.0);
@@ -61,15 +68,6 @@ ViewWindow::on_value_changed (Gtk::Scrollbar* theBar)
 		Feed *feed = AppContext::get().get_feed();
 		if (feed == NULL) 
 			return;
-		
-		// Dimensions of drawing area
-		Gtk::Allocation area = _darea.get_allocation();
-		cr->reset_clip();
-		cr->rectangle (0, 0,
-			//_darea._hadj->get_value(), 
-			//_darea._vadj->get_value(),
-			area.get_width(), area.get_height());
-		cr->clip();
 
 		item_list_t items = feed->get_items();
 		double h = -_vbar.get_value(), w = 0.0;
