@@ -38,11 +38,13 @@ public:
 
 	ViewDrawingArea _darea;
 private:
+	void on_vvalue_changed();
+	void on_hvalue_changed();
+	
 	Cairo::RefPtr<Cairo::Context> _cctx;
 	Gtk::HScrollbar _hbar;
 	Gtk::VScrollbar _vbar;
-
-	void on_value_changed (Gtk::Scrollbar* theBar);
+	double _old_vval, _old_hval;
 };
 
 

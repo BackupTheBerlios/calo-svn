@@ -8,6 +8,7 @@
 #undef DEBUG
 
 #include <iostream>
+#include <math.h>
 #include <gtkmm/adjustment.h>
 #include <gtkmm/scrollbar.h>
 #include <gtkmm/widget.h>
@@ -19,6 +20,7 @@
 
 
 ViewWindow::ViewWindow()
+: _old_vval(0.0), _old_hval(0.0)
 {
 	attach (_darea, 0, 1, 0, 1, Gtk::FILL|Gtk::EXPAND, Gtk::FILL|Gtk::EXPAND);
 	attach (_hbar, 0, 1, 1, 2, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
@@ -31,11 +33,11 @@ ViewWindow::ViewWindow()
 	_darea._vadj->set_value (0.0);
 	_darea._hadj->set_value (0.0);
 
-	_hbar.signal_value_changed().connect (sigc::bind 
-		(sigc::mem_fun (*this, &ViewWindow::on_value_changed), &_hbar));
+	_hbar.signal_value_changed().connect (sigc::mem_fun (*this, 	
+		&ViewWindow::on_hvalue_changed));
 
-	_vbar.signal_value_changed().connect (sigc::bind 
-		(sigc::mem_fun (*this, &ViewWindow::on_value_changed), &_vbar));
+	_vbar.signal_value_changed().connect (sigc::mem_fun (*this, 
+		&ViewWindow::on_vvalue_changed));
 
 	show_all_children();
 }
@@ -44,43 +46,73 @@ ViewWindow::~ViewWindow()
 {
 }
 
-/// Called when view scrollbar changes value.
-/// TODO: Increase performance.
+/// Called when horizontal view scrollbar changes value.
+/// TODO: The move_region() call appears to be inexact at times.
 void
-ViewWindow::on_value_changed (Gtk::Scrollbar* theBar)
+ViewWindow::on_hvalue_changed()
 {
+	int new_hval = static_cast<int> (_darea._hadj->get_value());
+	int old_hval = static_cast<int> (_old_hval);
 	Glib::RefPtr<Gdk::Window> window = _darea.get_window();
-	if (window)
-	{
-		Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
-
+	if (!window || abs (new_hval - old_hval) <= 1)
+		return;
 	
-		// Dimensions of drawing area
-		Gtk::Allocation area = _darea.get_allocation();
-		cr->reset_clip();
-		cr->rectangle (0, 0, area.get_width(), area.get_height());
-		cr->clip();
+	// Dimensions of drawing area
+	Gtk::Allocation area = _darea.get_allocation();
 
-		cr->set_source_rgb (1.0, 1.0, 1.0);
-		cr->paint();
-		cr->set_source_rgb (0.0, 0.0, 0.0);
-
-		Feed *feed = AppContext::get().get_feed();
-		if (feed == NULL) 
-			return;
-
-		item_list_t items = feed->get_items();
-		double h = -_vbar.get_value(), w = 0.0;
-		for (item_list_t::iterator it = items.begin(); it != items.end(); ++it)
-		{
-			ItemDisplayUnit *du = (*it)->get_display_unit();
-			du->render (cr, -_hbar.get_value(), h);
-			h += du->get_height();
-			if (du->get_width() > w)
-				w = du->get_width();
-		}
-
+	if (abs (new_hval - old_hval) >= area.get_height())
+	{
+		window->invalidate_rect (Gdk::Rectangle (0, 0, area.get_width(), area.get_height()), true);
 	}
+	else
+	{
+		Gdk::Rectangle rect ((new_hval > old_hval)? (new_hval - old_hval) : 0,
+			0,
+			area.get_width() - abs (new_hval - old_hval),
+			area.get_height());
+		Gdk::Region reg (rect);
+		window->move_region (reg, old_hval - new_hval, 0);
+		window->invalidate_rect (Gdk::Rectangle ((new_hval > old_hval)? 0 : area.get_width() - abs (old_hval - new_hval),
+			0,
+			abs (old_hval - new_hval),
+			area.get_height()), true);
+	}
+	_old_hval = new_hval;
+}
+
+/// Called when vertical view scrollbar changes value.
+/// TODO: The move_region() call appears to be inexact at times.
+void
+ViewWindow::on_vvalue_changed()
+{
+	int new_vval = static_cast<int> (_darea._vadj->get_value());
+	int old_vval = static_cast<int> (_old_vval);
+	Glib::RefPtr<Gdk::Window> window = _darea.get_window();
+	if (!window || abs (new_vval - old_vval) <= 1)
+		return;
+	
+	// Dimensions of drawing area
+	Gtk::Allocation area = _darea.get_allocation();
+
+	if (abs (new_vval - old_vval) >= area.get_height())
+	{
+		window->invalidate_rect (Gdk::Rectangle (0, 0, area.get_width(), area.get_height()), true);
+	}
+	else
+	{
+		Gdk::Rectangle rect (0, 
+			(new_vval > old_vval)? (new_vval - old_vval) : 0, 
+			area.get_width(), 
+			area.get_height() - abs (new_vval - old_vval));
+		Gdk::Region reg (rect);
+		window->move_region (reg, 0, old_vval - new_vval);
+		window->invalidate_rect (Gdk::Rectangle (0, 
+			(new_vval > old_vval)? 0 : 
+				area.get_height() - abs (old_vval - new_vval),
+			area.get_width(),
+			abs (old_vval - new_vval)), true);
+	}
+	_old_vval = new_vval;
 }
 
 //-----------------------------------------------------------------------------
