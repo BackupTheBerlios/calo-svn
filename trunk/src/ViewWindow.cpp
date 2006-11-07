@@ -201,7 +201,21 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	cr->set_source_rgb (0.0, 0.0, 0.0);
 
 	// Render text
-	for (item_list_t::iterator it = items.begin(); it != items.end(); ++it)
+	// 1. Go through items until the first to display
+	item_list_t::iterator it = items.begin();
+	while (y < event->area.y)
+	{
+		y += (*it)->get_display_unit()->get_height();
+		if (++it == items.end())
+			break;
+	}
+	if (it != items.begin())
+	{
+		--it;
+		y -= (*it)->get_display_unit()->get_height();
+	}
+	// 2. Display all until the first not to display
+	for (; it != items.end() && y < event->area.y+event->area.height; ++it)
 	{
 		ItemDisplayUnit *du = (*it)->get_display_unit();
 		du->render (cr, x, y);
