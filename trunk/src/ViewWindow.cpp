@@ -46,6 +46,10 @@ ViewWindow::~ViewWindow()
 {
 }
 
+///-----------------------------------------------------------------
+
+
+///-----------------------------------------------------------------
 /// Called when horizontal view scrollbar changes value.
 /// TODO: The move_region() call appears to be inexact at times.
 void
@@ -133,9 +137,9 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 #endif
 
 	// First determine dimensions of text area
-	item_list_t items = feed->get_items();
+	const item_list_t items = feed->get_items();
 	double h = 0.0, w = 0.0;
-	for (item_list_t::iterator it = items.begin(); it != items.end(); ++it)
+	for (item_list_t::const_iterator it = items.begin(); it != items.end(); ++it)
 	{
 		(*it)->make_display_unit();
 		ItemDisplayUnit *du = (*it)->get_display_unit();
@@ -182,12 +186,10 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	}
 	else
 		x = -_hadj->get_value();
-	_vadj->changed();
 	_hadj->changed();
 		
 	// clip to the area indicated by the expose event so that we only redraw
 	// the portion of the window that needs to be redrawn
-	/// TODO: more efficiently, start with the right line
 
 	Cairo::RefPtr<Cairo::Context> cr = get_window()->create_cairo_context();
 	cr->reset_clip();
@@ -202,18 +204,42 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 
 	// Render text
 	// 1. Go through items until the first to display
-	item_list_t::iterator it = items.begin();
-	while (y < event->area.y)
+	item_list_t::const_iterator it = items.begin();
+
+	if (!_disp_mode_switched)
 	{
-		y += (*it)->get_display_unit()->get_height();
-		if (++it == items.end())
-			break;
+		while (y < event->area.y)
+		{
+			double y_top = y;
+			y += (*it)->get_display_unit()->get_height();
+			if (y_top < 0.0 && y > 0.0)
+				_top_item = *it;
+			if (++it == items.end())
+				break;
+		}
+		if (it != items.begin())
+		{
+			--it;
+			y -= (*it)->get_display_unit()->get_height();
+		}
 	}
-	if (it != items.begin())
+	else
 	{
-		--it;
-		y -= (*it)->get_display_unit()->get_height();
+		/// Display mode was switched, full redraw.
+		/// Start with _top_item, set _vadj accordingly.
+		double h = 0.0;
+		if (_top_item == NULL)
+			_top_item = *(items.begin());
+		while (it != items.end() && *it != _top_item)
+			h += (*it++)->get_display_unit()->get_height();
+		_disp_mode_switched = false;
+		if (h > _vadj->get_upper() - height)
+			h = _vadj->get_upper() - height;
+		_vadj->set_value (h);
+		y = 0.0; 
 	}
+	_vadj->changed(); // delayed because possibly the _disp_mode_switched
+	
 	// 2. Display all until the first not to display
 	for (; it != items.end() && y < event->area.y+event->area.height; ++it)
 	{
@@ -224,3 +250,5 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 
 	return false;
 }
+
+

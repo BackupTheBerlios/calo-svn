@@ -15,6 +15,7 @@
 #include <cairomm/context.h>
 
 namespace Gtk { class Scrollbar; }
+class Item;
 
 
 /// ViewDrawingArea
@@ -22,8 +23,16 @@ namespace Gtk { class Scrollbar; }
 class ViewDrawingArea : public Gtk::DrawingArea
 {
 public:
+	ViewDrawingArea() : _top_item (NULL), _disp_mode_switched (false) {}
+
 	bool on_expose_event (GdkEventExpose* event);
+	void set_display_modus_switched() { _disp_mode_switched = true; }
+
 	Gtk::Adjustment *_hadj, *_vadj;
+
+private:
+	Item *_top_item;
+	bool _disp_mode_switched;
 };
 
 /// ViewWindow

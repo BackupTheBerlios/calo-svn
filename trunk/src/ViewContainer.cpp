@@ -34,6 +34,7 @@ void
 ViewContainer::on_simple_button()
 {
 	AppContext::get().set_display_type (SIMPLE);
+	_vw._darea.set_display_modus_switched();
 	AppContext::get().draw_view();
 }
 
@@ -41,6 +42,7 @@ void
 ViewContainer::on_normal_button()
 {
 	AppContext::get().set_display_type (NORMAL);
+	_vw._darea.set_display_modus_switched();
 	AppContext::get().draw_view();
 }
 
