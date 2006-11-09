@@ -43,6 +43,7 @@ AppContext::AppContext()
 	_has_feed_tips = true;
 	_app_x = _app_y = _app_w = _app_h = 0;
 	_aw = NULL;
+	_curr_feed = NULL;
 	_ttips = new Gtk::Tooltips;
 	_view_is_opened = false;
 	_cfg = new ConfigFile;
