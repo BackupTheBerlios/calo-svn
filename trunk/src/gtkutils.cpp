@@ -61,7 +61,7 @@ Glib::RefPtr<Gdk::Pixbuf> MGPixbufCache::load(const std::string &file, bool cach
         return Gdk::Pixbuf::create_from_file(*iter+"/"+file);
     }
   }
-//  g_message("couldn't locate image %s", file.c_str());
+  g_message("couldn't locate image %s", file.c_str());
   return Glib::RefPtr<Gdk::Pixbuf>();
 }
 
