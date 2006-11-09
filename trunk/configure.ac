@@ -32,7 +32,6 @@ fi
 dnl -------------------------Checks for libraries.
 pkg_modules="	
 		pango >= 1.5.2
-		atk >= 1.9.1
 		gtk+-2.0 >= 2.10.0 
 		glibmm-2.4 >= 2.11.3
 		gtkmm-2.4 >= 2.9.0
@@ -53,8 +52,15 @@ dnl AC_FUNC_ALLOCA
 dnl internationalization macros
 dnl AM_GNU_GETTEXT
 
-AC_CONFIG_FILES([Makefile doc/Makefile man/Makefile po/Makefile.in \
-	   po/Makefile share/Makefile src/Makefile tests/Makefile])
+AC_CONFIG_FILES([Makefile
+doc/Makefile
+man/Makefile
+po/Makefile.in
+po/Makefile
+share/Makefile
+share/icons/Makefile
+src/Makefile
+tests/Makefile])
 AC_CONFIG_COMMANDS([default],[[ echo timestamp > stamp-h ]],[[]])
 AC_OUTPUT
 
