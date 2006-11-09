@@ -14,6 +14,7 @@
 #include "ConfigFile.h"
 #include "Item.h"
 #include "exceptions.h"
+#include "gtkutils.h"
 
 /// The AppContext singleton
 static AppContext* _theContext = NULL;
@@ -45,6 +46,7 @@ AppContext::AppContext()
 	_ttips = new Gtk::Tooltips;
 	_view_is_opened = false;
 	_cfg = new ConfigFile;
+	PIXCACHE->add_search_path (std::string (DATADIR) + "/calo/icons");
 }
 
 AppContext::~AppContext()

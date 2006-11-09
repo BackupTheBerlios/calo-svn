@@ -5,12 +5,20 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <gtkmm/image.h>
 #include "ViewContainer.h"
 #include "AppContext.h"
-
+#include "gtkutils.h"
 
 ViewContainer::ViewContainer()
 {
+	Glib::RefPtr<Gdk::Pixbuf> buf = PIXCACHE->load ("list-view.png");
+	Gtk::Image *img = manage (new Gtk::Image (buf));
+	_but_simple_disp.set_image (*img);
+	buf = PIXCACHE->load ("norm-view.png");
+	img = manage (new Gtk::Image (buf));
+	_but_norm_disp.set_image (*img);
+		
 	_buttons.add (_but_simple_disp);
 	_buttons.add (_but_norm_disp);
 	_buttons.add (_but_full_text);
