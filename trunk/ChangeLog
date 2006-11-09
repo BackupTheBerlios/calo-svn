@@ -1,4 +1,113 @@
 
+2006-11-09 17:52 +0000 [r249-252]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/ViewContainer.cpp: draw list/norm icons
+
+	* src/gtkutils.cpp: add msg when icon not found
+
+	* share/icons (added), share/icons/list-view.svg (added),
+	  share/icons/norm-view.svg (added), share/icons/list-view.png
+	  (added), share/icons/norm-view.png (added),
+	  share/icons/Makefile.am (added): new files
+
+	* configure.ac, share/Makefile.am: add share/icons directory
+
+2006-11-09 17:46 +0000 [r247-248]  rws <rws@localhost>
+
+	* man/Makefile.in (removed), tests/Makefile.in (removed): rm
+	  superfluous files
+
+	* man/Makefile.in, tests/Makefile.in: dummy checkin before rm
+
+2006-11-09 10:55 +0000 [r246]  rws <rws@localhost>
+
+	* src/Makefile.am: add DATADIR to defs
+
+2006-11-09 10:21 +0000 [r245]  rws <rws@localhost>
+
+	* src/gtkutils.cpp (added), src/Makefile.am, src/gtkutils.h
+	  (added): add foreign code: myg_gtkutils.h/cc
+
+2006-11-08 09:18 +0000 [r244]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/ViewContainer.cpp, src/ViewWindow.cpp:
+	  position display to same item when switching display modes
+
+2006-11-07 09:10 +0000 [r243]  rws <rws@localhost>
+
+	* src/ViewWindow.cpp: even faster scrolling and displaying
+
+2006-11-06 17:38 +0000 [r242]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/ViewWindow.cpp: faster scrolling
+
+2006-11-06 09:23 +0000 [r241]  rws <rws@localhost>
+
+	* src/ViewWindow.cpp: clip *before drawing fore/backgrd
+
+2006-11-04 10:47 +0000 [r240]  rws <rws@localhost>
+
+	* src/ViewWindow.cpp: add clipping on scroll event
+
+2006-11-03 17:40 +0000 [r238-239]  rws <rws@localhost>
+
+	* src/utils.h, src/utils.cpp: remove_markup()
+
+	* src/Item.cpp, src/Item.h: fix bug calling ensure_integrity() once
+	  overall
+
+2006-11-02 09:52 +0000 [r236-237]  rws <rws@localhost>
+
+	* src/NormalItemDU.cpp: fix normal view, better layout
+
+	* src/ViewWindow.cpp: add comments
+
+2006-11-02 09:22 +0000 [r235]  rws <rws@localhost>
+
+	* src/NormalItemDU.h, src/ViewContainer.cpp, src/Item.cpp,
+	  src/NormalItemDU.cpp, src/ViewContainer.h: First take at normal
+	  view
+
+2006-10-31 18:56 +0000 [r232-234]  rws <rws@localhost>
+
+	* src/Makefile.am: add normal item display unit
+
+	* src/NormalItemDU.h (added), src/NormalItemDU.cpp (added): add
+	  normal item display unit
+
+	* src/AppContext.cpp, src/ItemDisplayUnit.h, src/Item.cpp,
+	  src/Item.h, src/ItemDisplayUnit.cpp: add normal item display unit
+
+2006-10-31 16:49 +0000 [r231]  rws <rws@localhost>
+
+	* src/ViewContainer.cpp, src/ViewContainer.h: add three buttons to
+	  view container
+
+2006-10-31 16:36 +0000 [r229-230]  rws <rws@localhost>
+
+	* src/Item.cpp, src/Item.h, src/RSSParser.cpp: parse guid RSS
+	  entity too, ensure link integrity, nonblank title
+
+	* src/AppContext.cpp, src/AppWindow.cpp, src/MenuBar.cpp,
+	  src/AppContext.h, src/AppWindow.h: make MenuBar module
+	  independent from AppWindow.h by moving save_geometry into
+	  AppContext
+
+2006-10-31 10:32 +0000 [r227-228]  rws <rws@localhost>
+
+	* src/Feed.cpp: add comment
+
+	* src/Feed.cpp: remove old items with same link
+
+2006-10-31 09:20 +0000 [r226]  rws <rws@localhost>
+
+	* src/RSSParser.cpp: clear _curr_str after any end node, fixes
+	  newline bug on reading
+
+2006-10-30 17:21 +0000 [r225]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-10-30 17:20 +0000 [r223-224]  rws <rws@localhost>
 
 	* src/FeedList.cpp, src/FeedList.h: remove superfluous func, add
