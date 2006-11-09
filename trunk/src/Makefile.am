@@ -21,6 +21,7 @@
 bin_PROGRAMS = calo
 calo_SOURCES =  exceptions.h		\
 		main.cpp		\
+		gtkutils.cpp gtkutils.h \
 		utils.cpp utils.h	\
 		AppContext.cpp		\
 		AppContext.h		\
