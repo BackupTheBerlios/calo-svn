@@ -23,8 +23,7 @@ NormalItemDU::NormalItemDU (Item *theItem)
 {
 	_item = theItem;
 	_vw = AppContext::get().get_appwindow()->get_viewcontainer()->get_viewwindow();
-	Cairo::RefPtr<Cairo::Context> cc = _vw->get_window()->create_cairo_context();
-	_play = Pango::Layout::create (cc);
+	_play = Pango::Layout::create (_vw->get_cairo_context());
 
 	// Link layout to widget
 	Pango::Layout *p = _play.operator->();
@@ -47,7 +46,7 @@ NormalItemDU::layout()
 	Pango::FontDescription fdesc ("Sans 10");
 	_play->set_font_description (fdesc);
 	Gtk::Allocation allocation = _vw->get_allocation();
-	_play->set_width (allocation.get_width() * Pango::SCALE * 11.0/12.0);
+	_play->set_width (static_cast<int> (allocation.get_width() * Pango::SCALE * 11.0/12.0));
 	Glib::ustring s ("<b>");
 	s += _item->_title;
 	s += "</b>\n";

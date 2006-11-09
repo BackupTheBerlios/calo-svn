@@ -28,6 +28,7 @@ public:
 	bool on_expose_event (GdkEventExpose* event);
 	void set_display_modus_switched() { _disp_mode_switched = true; }
 
+	Cairo::RefPtr<Cairo::Context> _cctx;
 	Gtk::Adjustment *_hadj, *_vadj;
 
 private:

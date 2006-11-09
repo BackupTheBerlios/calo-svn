@@ -40,6 +40,8 @@ ViewWindow::ViewWindow()
 		&ViewWindow::on_vvalue_changed));
 
 	show_all_children();
+	_cctx = get_window()->create_cairo_context();
+	_darea._cctx = _cctx;
 }
 
 ViewWindow::~ViewWindow()
@@ -191,16 +193,15 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	// clip to the area indicated by the expose event so that we only redraw
 	// the portion of the window that needs to be redrawn
 
-	Cairo::RefPtr<Cairo::Context> cr = get_window()->create_cairo_context();
-	cr->reset_clip();
-	cr->rectangle (event->area.x, event->area.y,
+	_cctx->reset_clip();
+	_cctx->rectangle (event->area.x, event->area.y,
 			event->area.width, event->area.height);
-	cr->clip();
+	_cctx->clip();
 
 	// Black on white
-	cr->set_source_rgb (1.0, 1.0, 1.0);
-	cr->paint();
-	cr->set_source_rgb (0.0, 0.0, 0.0);
+	_cctx->set_source_rgb (1.0, 1.0, 1.0);
+	_cctx->paint();
+	_cctx->set_source_rgb (0.0, 0.0, 0.0);
 
 	// Render text
 	// 1. Go through items until the first to display
@@ -244,7 +245,7 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	for (; it != items.end() && y < event->area.y+event->area.height; ++it)
 	{
 		ItemDisplayUnit *du = (*it)->get_display_unit();
-		du->render (cr, x, y);
+		du->render (_cctx, x, y);
 		y += du->get_height();
 	}
 
