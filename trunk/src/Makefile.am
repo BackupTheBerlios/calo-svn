@@ -111,7 +111,7 @@ localedir = $(datadir)/locale
 
 #INCLUDES = -I. -I$(srcdir) -I.. -I../intl -I$(top_srcdir)/intl
 INCLUDES = $(PACKAGE_CFLAGS)
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+DEFS = -DLOCALEDIR=\"$(localedir)\" -DDATADIR=\"$(datadir)\" @DEFS@
 LIBS = $(PACKAGE_LIBS) 
 AM_CXXFLAGS = -Wall
 
