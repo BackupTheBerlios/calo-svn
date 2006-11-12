@@ -196,10 +196,16 @@ AppContext::draw_view() const
 	if (_curr_feed == NULL) 
 		return;
 	ViewWindow *vw = _aw->get_viewcontainer()->get_viewwindow();
-	vw->queue_draw();
+	vw->_darea.queue_draw();
 }
 
 //-------------------------------------------------------------
+void 
+AppContext::set_appwindow (AppWindow* theWindow) 	
+{ 
+	_aw = theWindow;
+} 
+
 void
 AppContext::save_geometry()
 {

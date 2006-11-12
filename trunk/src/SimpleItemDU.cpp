@@ -21,8 +21,7 @@ SimpleItemDU::SimpleItemDU (Item *theItem)
 {
 	_item = theItem;
 	ViewWindow *vw = AppContext::get().get_appwindow()->get_viewcontainer()->get_viewwindow();
-	Cairo::RefPtr<Cairo::Context> cc = vw->get_window()->create_cairo_context();
-	_play = Pango::Layout::create (cc);
+	_play = Pango::Layout::create (vw->_darea.get_cairo_context());
 
 	// Link layout to widget
 	Pango::Layout *p = _play.operator->();

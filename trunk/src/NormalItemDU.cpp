@@ -8,7 +8,6 @@
 #include <iostream>
 #include <pangomm/layoutiter.h>
 #include <pangomm/layoutline.h>
-#include <cairomm/context.h>
 
 #include "AppContext.h"
 #include "AppWindow.h"
@@ -22,8 +21,9 @@
 NormalItemDU::NormalItemDU (Item *theItem)
 {
 	_item = theItem;
-	_vw = AppContext::get().get_appwindow()->get_viewcontainer()->get_viewwindow();
-	_play = Pango::Layout::create (_vw->get_cairo_context());
+	AppWindow *aw = AppContext::get().get_appwindow();
+	_vw = aw->get_viewcontainer()->get_viewwindow();
+	_play = Pango::Layout::create (_vw->_darea.get_cairo_context());
 
 	// Link layout to widget
 	Pango::Layout *p = _play.operator->();

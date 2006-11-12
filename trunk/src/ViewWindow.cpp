@@ -5,7 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#undef DEBUG
+#define DEBUG
 
 #include <iostream>
 #include <math.h>
@@ -18,6 +18,8 @@
 #include "Feed.h"
 #include "Item.h"
 
+
+//======VIEWWINDOW====================================================
 
 ViewWindow::ViewWindow()
 : _old_vval(0.0), _old_hval(0.0)
@@ -39,9 +41,10 @@ ViewWindow::ViewWindow()
 	_vbar.signal_value_changed().connect (sigc::mem_fun (*this, 
 		&ViewWindow::on_vvalue_changed));
 
+	_darea.signal_expose_event().connect (sigc::mem_fun (_darea,
+		&ViewDrawingArea::on_expose_event));
+
 	show_all_children();
-	_cctx = get_window()->create_cairo_context();
-	_darea._cctx = _cctx;
 }
 
 ViewWindow::~ViewWindow()
@@ -121,7 +124,14 @@ ViewWindow::on_vvalue_changed()
 	_old_vval = new_vval;
 }
 
-//-----------------------------------------------------------------------------
+//======VIEAWDRAWINGAREA======================================================
+/// This Cairo::Context is used only for pre-rendering.
+void
+ViewDrawingArea::on_map()
+{
+	_gcctx = get_window()->create_cairo_context();
+}
+
 /// Called on every new expose event.
 /// TODO: Increase performance.
 bool
@@ -193,15 +203,16 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	// clip to the area indicated by the expose event so that we only redraw
 	// the portion of the window that needs to be redrawn
 
-	_cctx->reset_clip();
-	_cctx->rectangle (event->area.x, event->area.y,
+	Cairo::RefPtr<Cairo::Context> cr = get_window()->create_cairo_context();
+	cr->reset_clip();
+	cr->rectangle (event->area.x, event->area.y,
 			event->area.width, event->area.height);
-	_cctx->clip();
+	cr->clip();
 
 	// Black on white
-	_cctx->set_source_rgb (1.0, 1.0, 1.0);
-	_cctx->paint();
-	_cctx->set_source_rgb (0.0, 0.0, 0.0);
+	cr->set_source_rgb (1.0, 1.0, 1.0);
+	cr->paint();
+	cr->set_source_rgb (0.0, 0.0, 0.0);
 
 	// Render text
 	// 1. Go through items until the first to display
@@ -245,7 +256,7 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	for (; it != items.end() && y < event->area.y+event->area.height; ++it)
 	{
 		ItemDisplayUnit *du = (*it)->get_display_unit();
-		du->render (_cctx, x, y);
+		du->render (cr, x, y);
 		y += du->get_height();
 	}
 

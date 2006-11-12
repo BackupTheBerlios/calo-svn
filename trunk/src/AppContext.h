@@ -41,7 +41,7 @@ public:
 	void set_appwindow_pos (unsigned int x, unsigned int y,
 			unsigned int w, unsigned int h);
 	AppWindow* get_appwindow() const 		{ return _aw; }
-	void set_appwindow (AppWindow* theWindow) 	{ _aw = theWindow; } 
+	void set_appwindow (AppWindow* theWindow);
 	void draw_view() const;
 	Feed* get_feed() const				{ return _curr_feed; }
 	void set_feed (Feed* theFeed)			{ _curr_feed = theFeed; }
