@@ -17,18 +17,12 @@
 #include "Item.h"
 #include "utils.h"
 
+#undef DEBUG
 
 NormalItemDU::NormalItemDU (Item *theItem)
 {
 	_item = theItem;
-	AppWindow *aw = AppContext::get().get_appwindow();
-	_vw = aw->get_viewcontainer()->get_viewwindow();
-	_play = Pango::Layout::create (_vw->_darea.get_cairo_context());
-
-	// Link layout to widget
-	Pango::Layout *p = _play.operator->();
-	_vw->signal_style_changed().connect (sigc::hide (sigc::mem_fun (*p, &Pango::Layout::context_changed)));
-	_vw->signal_direction_changed().connect (sigc::hide (sigc::mem_fun (*p, &Pango::Layout::context_changed)));
+	_play.clear();
 }
 
 NormalItemDU::~NormalItemDU()
@@ -38,11 +32,13 @@ NormalItemDU::~NormalItemDU()
 //---------------------------------------------------------------------
 /// Write the item's title & description into the PangoLayouts,  sets _height
 void
-NormalItemDU::layout()
+NormalItemDU::layout (const Cairo::RefPtr<Cairo::Context>& cr)
 {
 #ifdef DEBUG
 	std::cerr << "layouting " << conv(_item->_title) << std::endl << std::flush;
 #endif
+	if (!_play)
+		_play = Pango::Layout::create (cr);
 	Pango::FontDescription fdesc ("Sans 10");
 	_play->set_font_description (fdesc);
 	Gtk::Allocation allocation = _vw->get_allocation();
