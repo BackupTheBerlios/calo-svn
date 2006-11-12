@@ -63,16 +63,14 @@ Item::make_display_unit()
 		{
 			ensure_integrity();
 			_simple_du = new SimpleItemDU (this);
-			_simple_du->layout();
 		}
 		break;
 	case NORMAL: 
 		if (_normal_du == NULL) 
 		{
 			ensure_integrity();
+			_normal_du = new NormalItemDU (this);
 		}
-		_normal_du = new NormalItemDU (this);
-		_normal_du->layout();
 		break;
 
 	default: throw MiscException ("Item::get_display-unit(): can't happen");
