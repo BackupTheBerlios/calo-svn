@@ -21,7 +21,7 @@ class SimpleItemDU : public ItemDisplayUnit
 public:
 	SimpleItemDU (Item*);
 	virtual ~SimpleItemDU();
-	virtual void layout();
+	virtual void layout (const Cairo::RefPtr<Cairo::Context>&);
 	virtual void render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, double y);
 
 private:

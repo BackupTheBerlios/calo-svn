@@ -28,7 +28,7 @@ public:
 	double get_height() const 	{ return _height; }
 	double get_width() const        { return _width; }
 
-	virtual void layout() = 0;
+	virtual void layout(const Cairo::RefPtr<Cairo::Context>&) = 0;
 	virtual void render (const Cairo::RefPtr<Cairo::Context>&, double, double) = 0;
 
 protected:
