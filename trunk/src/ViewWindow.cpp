@@ -5,7 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#define DEBUG
+#undef DEBUG
 
 #include <iostream>
 #include <math.h>
@@ -124,14 +124,8 @@ ViewWindow::on_vvalue_changed()
 	_old_vval = new_vval;
 }
 
-//======VIEAWDRAWINGAREA======================================================
-/// This Cairo::Context is used only for pre-rendering.
-void
-ViewDrawingArea::on_map()
-{
-	_gcctx = get_window()->create_cairo_context();
-}
 
+//======VIEAWDRAWINGAREA======================================================
 /// Called on every new expose event.
 /// TODO: Increase performance.
 bool
@@ -149,12 +143,14 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 #endif
 
 	// First determine dimensions of text area
+	Cairo::RefPtr<Cairo::Context> cr = get_window()->create_cairo_context();
 	const item_list_t items = feed->get_items();
 	double h = 0.0, w = 0.0;
 	for (item_list_t::const_iterator it = items.begin(); it != items.end(); ++it)
 	{
 		(*it)->make_display_unit();
 		ItemDisplayUnit *du = (*it)->get_display_unit();
+		du->layout (cr);
 		h += du->get_height();
 		if (du->get_width() > w)
 			w = du->get_width();
@@ -203,7 +199,6 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	// clip to the area indicated by the expose event so that we only redraw
 	// the portion of the window that needs to be redrawn
 
-	Cairo::RefPtr<Cairo::Context> cr = get_window()->create_cairo_context();
 	cr->reset_clip();
 	cr->rectangle (event->area.x, event->area.y,
 			event->area.width, event->area.height);
