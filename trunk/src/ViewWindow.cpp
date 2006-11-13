@@ -13,6 +13,7 @@
 #include <gtkmm/scrollbar.h>
 #include <gtkmm/widget.h>
 #include <gdkmm/drawable.h>
+#include <gdkmm/window.h>
 #include "ViewWindow.h"
 #include "AppContext.h"
 #include "Feed.h"
@@ -34,6 +35,8 @@ ViewWindow::ViewWindow()
 	_darea._hadj->set_lower (0.0);
 	_darea._vadj->set_value (0.0);
 	_darea._hadj->set_value (0.0);
+
+	_darea.modify_bg (Gtk::STATE_NORMAL, Gdk::Color ("white"));
 
 	_hbar.signal_value_changed().connect (sigc::mem_fun (*this, 	
 		&ViewWindow::on_hvalue_changed));
