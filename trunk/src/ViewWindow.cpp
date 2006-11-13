@@ -23,29 +23,19 @@
 //======VIEWWINDOW====================================================
 
 ViewWindow::ViewWindow()
-: _old_vval(0.0), _old_hval(0.0)
 {
+	_darea._hadj = _hbar.get_adjustment();
+	_darea._vadj = _vbar.get_adjustment();
+	
 	attach (_darea, 0, 1, 0, 1, Gtk::FILL|Gtk::EXPAND, Gtk::FILL|Gtk::EXPAND);
 	attach (_hbar, 0, 1, 1, 2, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
 	attach (_vbar, 1, 2, 0, 1, Gtk::SHRINK, Gtk::FILL|Gtk::EXPAND);
 	
-	_darea._hadj = _hbar.get_adjustment();
-	_darea._vadj = _vbar.get_adjustment();
-	_darea._vadj->set_lower (0.0);
-	_darea._hadj->set_lower (0.0);
-	_darea._vadj->set_value (0.0);
-	_darea._hadj->set_value (0.0);
+	_hbar.signal_value_changed().connect (sigc::mem_fun (_darea, 	
+		&ViewDrawingArea::on_hvalue_changed));
 
-	_darea.modify_bg (Gtk::STATE_NORMAL, Gdk::Color ("white"));
-
-	_hbar.signal_value_changed().connect (sigc::mem_fun (*this, 	
-		&ViewWindow::on_hvalue_changed));
-
-	_vbar.signal_value_changed().connect (sigc::mem_fun (*this, 
-		&ViewWindow::on_vvalue_changed));
-
-	_darea.signal_expose_event().connect (sigc::mem_fun (_darea,
-		&ViewDrawingArea::on_expose_event));
+	_vbar.signal_value_changed().connect (sigc::mem_fun (_darea, 
+		&ViewDrawingArea::on_vvalue_changed));
 
 	show_all_children();
 }
@@ -57,24 +47,40 @@ ViewWindow::~ViewWindow()
 ///-----------------------------------------------------------------
 
 
+//======VIEWDRAWINGAREA======================================================
+ViewDrawingArea::ViewDrawingArea() 
+: _top_item (NULL), _old_vval(0.0), _old_hval(0.0), _disp_mode_switched (false)
+{
+	_vadj->set_lower (0.0);
+	_hadj->set_lower (0.0);
+	_vadj->set_value (0.0);
+	_hadj->set_value (0.0);
+
+	modify_bg (Gtk::STATE_NORMAL, Gdk::Color ("white"));
+	set_double_buffered (false);
+
+	//_darea.signal_expose_event().connect (sigc::mem_fun (_darea,
+	//	&ViewDrawingArea::on_expose_event));
+
+}
+
 ///-----------------------------------------------------------------
 /// Called when horizontal view scrollbar changes value.
 /// TODO: The move_region() call appears to be inexact at times.
 void
-ViewWindow::on_hvalue_changed()
+ViewDrawingArea::on_hvalue_changed()
 {
-	int new_hval = static_cast<int> (_darea._hadj->get_value());
+	int new_hval = static_cast<int> (_hadj->get_value());
 	int old_hval = static_cast<int> (_old_hval);
-	Glib::RefPtr<Gdk::Window> window = _darea.get_window();
-	if (!window || abs (new_hval - old_hval) <= 1)
+	if (abs (new_hval - old_hval) <= 1)
 		return;
 	
 	// Dimensions of drawing area
-	Gtk::Allocation area = _darea.get_allocation();
+	Gtk::Allocation area = get_allocation();
 
 	if (abs (new_hval - old_hval) >= area.get_height())
 	{
-		window->invalidate_rect (Gdk::Rectangle (0, 0, area.get_width(), area.get_height()), true);
+		draw_on_pixmap (0, 0, area.get_width(), area.get_height());
 	}
 	else
 	{
@@ -83,11 +89,11 @@ ViewWindow::on_hvalue_changed()
 			area.get_width() - abs (new_hval - old_hval),
 			area.get_height());
 		Gdk::Region reg (rect);
-		window->move_region (reg, old_hval - new_hval, 0);
-		window->invalidate_rect (Gdk::Rectangle ((new_hval > old_hval)? 0 : area.get_width() - abs (old_hval - new_hval),
+		get_window()->move_region (reg, old_hval - new_hval, 0);
+		draw_on_pixmap ((new_hval > old_hval)? 0 : area.get_width() - abs (old_hval - new_hval),
 			0,
 			abs (old_hval - new_hval),
-			area.get_height()), true);
+			area.get_height());
 	}
 	_old_hval = new_hval;
 }
@@ -95,20 +101,19 @@ ViewWindow::on_hvalue_changed()
 /// Called when vertical view scrollbar changes value.
 /// TODO: The move_region() call appears to be inexact at times.
 void
-ViewWindow::on_vvalue_changed()
+ViewDrawingArea::on_vvalue_changed()
 {
-	int new_vval = static_cast<int> (_darea._vadj->get_value());
+	int new_vval = static_cast<int> (_vadj->get_value());
 	int old_vval = static_cast<int> (_old_vval);
-	Glib::RefPtr<Gdk::Window> window = _darea.get_window();
-	if (!window || abs (new_vval - old_vval) <= 1)
+	if (abs (new_vval - old_vval) <= 1)
 		return;
 	
 	// Dimensions of drawing area
-	Gtk::Allocation area = _darea.get_allocation();
+	Gtk::Allocation area = get_allocation();
 
 	if (abs (new_vval - old_vval) >= area.get_height())
 	{
-		window->invalidate_rect (Gdk::Rectangle (0, 0, area.get_width(), area.get_height()), true);
+		draw_on_pixmap (0, 0, area.get_width(), area.get_height());
 	}
 	else
 	{
@@ -117,36 +122,61 @@ ViewWindow::on_vvalue_changed()
 			area.get_width(), 
 			area.get_height() - abs (new_vval - old_vval));
 		Gdk::Region reg (rect);
-		window->move_region (reg, 0, old_vval - new_vval);
-		window->invalidate_rect (Gdk::Rectangle (0, 
+		get_window()->move_region (reg, 0, old_vval - new_vval);
+		draw_on_pixmap (0, 
 			(new_vval > old_vval)? 0 : 
 				area.get_height() - abs (old_vval - new_vval),
 			area.get_width(),
-			abs (old_vval - new_vval)), true);
+			abs (old_vval - new_vval));
 	}
 	_old_vval = new_vval;
 }
 
 
-//======VIEAWDRAWINGAREA======================================================
-/// Called on every new expose event.
-/// TODO: Increase performance.
+bool
+ViewDrawingArea::on_configure_event (GdkEventConfigure *event)
+{
+	if (_pixmap)
+		_pixmap.clear();
+
+	_pixmap = Gdk::Pixmap::create (get_window(),
+		get_allocation().get_width(),
+		get_allocation().get_height());
+
+	//_pixmap->modify_bg (Gtk::STATE_NORMAL, Gdk::Color ("white"));
+	//draw_on_pixmap();
+
+	return true;
+}
+
 bool
 ViewDrawingArea::on_expose_event (GdkEventExpose* event)
+{
+	get_window()->draw_drawable (get_style()->get_fg_gc (get_state()),
+		_pixmap,
+		event->area.x, event->area.y,
+		event->area.x, event->area.y,
+		event->area.width, event->area.height);
+
+	return false;
+}
+
+void 
+ViewDrawingArea::draw_on_pixmap (int ex, int ey, int ew, int eh)
 {
 #ifdef DEBUG
 	std::cerr << "on_expose_event()" << std::endl << std::flush;
 #endif
 	Feed *feed = AppContext::get().get_feed();
 	if (feed == NULL) 
-		return true;
+		return;
 
 #ifdef DEBUG
-		std::cerr << "VA->val:"<<_vadj->get_value() <<" VA->lower:"<<_vadj->get_lower() <<" ev->y:"<<event->area.y <<" ev->h:"<<event->area.height << std::endl << std::flush;
+		std::cerr << "VA->val:"<<_vadj->get_value() <<" VA->lower:"<<_vadj->get_lower() <<" ev->y:"<<ey <<" ev->h:"<<eh << std::endl << std::flush;
 #endif
 
 	// First determine dimensions of text area
-	Cairo::RefPtr<Cairo::Context> cr = get_window()->create_cairo_context();
+	Cairo::RefPtr<Cairo::Context> cr = _pixmap->create_cairo_context();
 	const item_list_t items = feed->get_items();
 	double h = 0.0, w = 0.0;
 	for (item_list_t::const_iterator it = items.begin(); it != items.end(); ++it)
@@ -203,8 +233,7 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	// the portion of the window that needs to be redrawn
 
 	cr->reset_clip();
-	cr->rectangle (event->area.x, event->area.y,
-			event->area.width, event->area.height);
+	cr->rectangle (ex, ey, ew, eh);
 	cr->clip();
 
 	// Black on white
@@ -218,7 +247,7 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 
 	if (!_disp_mode_switched)
 	{
-		while (y < event->area.y)
+		while (y < ey)
 		{
 			double y_top = y;
 			y += (*it)->get_display_unit()->get_height();
@@ -251,14 +280,11 @@ ViewDrawingArea::on_expose_event (GdkEventExpose* event)
 	_vadj->changed(); // delayed because possibly the _disp_mode_switched
 	
 	// 2. Display all until the first not to display
-	for (; it != items.end() && y < event->area.y+event->area.height; ++it)
+	for (; it != items.end() && y < ey+eh; ++it)
 	{
 		ItemDisplayUnit *du = (*it)->get_display_unit();
 		du->render (cr, x, y);
 		y += du->get_height();
 	}
-
-	return false;
 }
-
 

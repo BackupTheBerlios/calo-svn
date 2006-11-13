@@ -11,6 +11,7 @@
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/scrollbar.h>
 #include <gtkmm/table.h>
+#include <gdkmm/pixmap.h>
 #include <cairomm/refptr.h>
 #include <cairomm/context.h>
 
@@ -23,16 +24,22 @@ class Item;
 class ViewDrawingArea : public Gtk::DrawingArea
 {
 public:
-	ViewDrawingArea() : _top_item (NULL), _disp_mode_switched (false) {}
+	ViewDrawingArea();
 
 	void set_display_modus_switched() { _disp_mode_switched = true; }
-	bool on_expose_event (GdkEventExpose* event);
-
-	Gtk::Adjustment *_hadj, *_vadj;
 
 private:
+	friend class ViewWindow;
+	virtual bool on_expose_event (GdkEventExpose* event);
+	virtual bool on_configure_event (GdkEventConfigure *event);
+	void on_vvalue_changed();
+	void on_hvalue_changed();
+	void draw_on_pixmap (int x, int y, int w, int h);
 
+	Gtk::Adjustment *_hadj, *_vadj;
 	Item *_top_item;
+	Glib::RefPtr<Gdk::Pixmap> _pixmap;
+	double _old_vval, _old_hval;
 	bool _disp_mode_switched;
 };
 
@@ -47,12 +54,8 @@ public:
 	ViewDrawingArea _darea;
 
 private:
-	void on_vvalue_changed();
-	void on_hvalue_changed();
-	
 	Gtk::HScrollbar _hbar;
 	Gtk::VScrollbar _vbar;
-	double _old_vval, _old_hval;
 };
 
 
