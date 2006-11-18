@@ -196,6 +196,7 @@ AppContext::draw_view() const
 	if (_curr_feed == NULL) 
 		return;
 	ViewWindow *vw = _aw->get_viewcontainer()->get_viewwindow();
+	vw->_darea.draw_buffer();
 	vw->_darea.queue_draw();
 }
 
