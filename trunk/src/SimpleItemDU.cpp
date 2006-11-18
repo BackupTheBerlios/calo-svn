@@ -45,6 +45,7 @@ SimpleItemDU::layout (const Cairo::RefPtr<Cairo::Context>& cr)
 	line->get_extents (irect, lrect);
 	_height = lrect.get_height()/1024.0;
 	_width = lrect.get_width()/1024.0;
+	_has_layout = true;
 }
 
 /// Render the PangoLayout (a single line of text)
@@ -54,6 +55,8 @@ SimpleItemDU::render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, doubl
 #ifdef DEBUG
 	std::cerr << "rendering " << conv(_item->_title) << std::endl << std::flush;
 #endif
+	if (!_has_layout)
+		layout (cctx);
 	Glib::RefPtr<Pango::LayoutLine> line = _play->get_line (0);
 	Pango::LayoutIter iter;
 	_play->get_iter (iter);

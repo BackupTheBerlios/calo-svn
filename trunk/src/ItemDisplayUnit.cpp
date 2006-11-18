@@ -10,24 +10,6 @@
 #include "SimpleItemDU.h"
 #include "exceptions.h"
 
-/*
-ItemDisplayUnit* ItemDisplayUnit::create (item_display_unit_t type)
-{
-	ItemDisplayUnit* du;
-
-	switch (type)
-	{
-	case SIMPLE: du = new SimpleItemDU;
-	case NORMAL: du = new NormalItemDU;
-	
-	default: throw MiscException ("ItemDisplayUnit ctor: can't happen");
-	}
-
-	du->_item = NULL;
-	du->_has_layout = false;
-	return du;
-}
-*/
 
 ItemDisplayUnit::~ItemDisplayUnit()
 {

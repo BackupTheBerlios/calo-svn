@@ -23,6 +23,7 @@ NormalItemDU::NormalItemDU (Item *theItem)
 {
 	_item = theItem;
 	_play.clear();
+	_vw = AppContext::get().get_appwindow()->get_viewcontainer()->get_viewwindow();
 }
 
 NormalItemDU::~NormalItemDU()
@@ -41,7 +42,7 @@ NormalItemDU::layout (const Cairo::RefPtr<Cairo::Context>& cr)
 		_play = Pango::Layout::create (cr);
 	Pango::FontDescription fdesc ("Sans 10");
 	_play->set_font_description (fdesc);
-	Gtk::Allocation allocation = _vw->get_allocation();
+	Gtk::Allocation allocation = _vw->_darea.get_allocation();
 	_play->set_width (static_cast<int> (allocation.get_width() * Pango::SCALE * 11.0/12.0));
 	Glib::ustring s ("<b>");
 	s += _item->_title;
@@ -53,6 +54,7 @@ NormalItemDU::layout (const Cairo::RefPtr<Cairo::Context>& cr)
 	_play->get_extents (irect, lrect);
 	_height = lrect.get_height()/1024.0;
 	_width = lrect.get_width()/1024.0;
+	_has_layout = true;
 }
 
 /// Render both PangoLayouts (a single line of header plus space plus body 
@@ -63,6 +65,8 @@ NormalItemDU::render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, doubl
 #ifdef DEBUG
 	std::cerr << "rendering " << conv(_item->_title) << std::endl << std::flush;
 #endif
+	if (!_has_layout)
+		layout (cctx);
 	Pango::LayoutIter iter;
 	_play->get_iter (iter);
 	

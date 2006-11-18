@@ -21,6 +21,7 @@ typedef enum { NONE=0, SIMPLE, NORMAL, FULL } item_display_unit_t;
 class ItemDisplayUnit
 {
 public:
+        ItemDisplayUnit() : _item (NULL), _has_layout(false) {}
 	virtual ~ItemDisplayUnit();
 
 	double get_pos_y() const 	{ return _pos_y; }
@@ -34,6 +35,7 @@ public:
 protected:
 	Item 	*_item;
 	double 	_pos_y, _height, _width;
+	bool _has_layout;
 };
 
 #endif
