@@ -27,14 +27,14 @@ public:
 	ViewDrawingArea();
 
 	void set_display_modus_switched() { _disp_mode_switched = true; }
+	void draw_buffer();
 
 private:
 	friend class ViewWindow;
-	virtual bool on_expose_event (GdkEventExpose* event);
-	virtual bool on_configure_event (GdkEventConfigure *event);
+	bool on_expose_event (GdkEventExpose* event);
+	bool on_configure_event (GdkEventConfigure *event);
 	void on_vvalue_changed();
 	void on_hvalue_changed();
-	void draw_on_pixmap (int x, int y, int w, int h);
 
 	Gtk::Adjustment *_hadj, *_vadj;
 	Item *_top_item;
