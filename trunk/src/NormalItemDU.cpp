@@ -5,7 +5,12 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#undef DEBUG
+
 #include <iostream>
+#ifdef DEBUG
+#include <glibmm/timer.h>
+#endif
 #include <pangomm/layoutiter.h>
 #include <pangomm/layoutline.h>
 
@@ -17,7 +22,6 @@
 #include "Item.h"
 #include "utils.h"
 
-#undef DEBUG
 
 NormalItemDU::NormalItemDU (Item *theItem)
 {
@@ -35,9 +39,6 @@ NormalItemDU::~NormalItemDU()
 void
 NormalItemDU::layout (const Cairo::RefPtr<Cairo::Context>& cr)
 {
-#ifdef DEBUG
-	std::cerr << "layouting " << conv(_item->_title) << std::endl << std::flush;
-#endif
 	if (!_play)
 		_play = Pango::Layout::create (cr);
 	Pango::FontDescription fdesc ("Sans 10");
@@ -49,12 +50,23 @@ NormalItemDU::layout (const Cairo::RefPtr<Cairo::Context>& cr)
 	s += "</b>\n";
 	s += _item->_description;
 	s += "\n";
+#ifdef DEBUG
+Glib::Timer sw;
+sw.start();
+#endif
+
 	_play->set_markup (s.c_str());
 	Pango::Rectangle irect, lrect;
 	_play->get_extents (irect, lrect);
 	_height = lrect.get_height()/1024.0;
 	_width = lrect.get_width()/1024.0;
 	_has_layout = true;
+#ifdef DEBUG
+sw.stop();
+unsigned long l;
+sw.elapsed(l);
+std::cerr << "Time spent rendering: " << l << " us" << std::endl << std::flush;
+#endif
 }
 
 /// Render both PangoLayouts (a single line of header plus space plus body 
