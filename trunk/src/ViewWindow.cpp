@@ -5,15 +5,18 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#define DEBUG
+#undef DEBUG
 
 #include <iostream>
 #include <math.h>
+
+#include <gdkmm/drawable.h>
+#include <gdkmm/window.h>
 #include <gtkmm/adjustment.h>
 #include <gtkmm/scrollbar.h>
 #include <gtkmm/widget.h>
-#include <gdkmm/drawable.h>
-#include <gdkmm/window.h>
+#include <pangomm/layout.h>
+
 #include "ViewWindow.h"
 #include "AppContext.h"
 #include "Feed.h"
@@ -53,10 +56,14 @@ ViewWindow::~ViewWindow()
 
 //======VIEWDRAWINGAREA======================================================
 ViewDrawingArea::ViewDrawingArea() 
-: _top_item (NULL), _old_vval(0.0), _old_hval(0.0), _disp_mode_switched (false)
+: _top_item (NULL), _old_vval(0.0), _old_hval(0.0), _disp_mode_switched (false),
+  _layout_prepared(false)
 {
 	modify_bg (Gtk::STATE_NORMAL, Gdk::Color ("white"));
 	set_double_buffered (false);
+
+	//signal_realize().connect_notify (sigc::mem_fun (*this,
+	//	&ViewDrawingArea::on_realize));
 
 	signal_expose_event().connect (sigc::mem_fun (*this,
 		&ViewDrawingArea::on_expose_event));
@@ -104,6 +111,13 @@ ViewDrawingArea::on_configure_event (GdkEventConfigure *event)
 		cr->paint();
 		cr->show_page();
 	}
+	else
+	{
+		Feed *feed = AppContext::get().get_feed();
+		const item_list_t items = feed->get_items();
+		for_each (items.begin(), items.end(), 
+			std::mem_fun (&Item::reset_display_unit));
+	}
 
 	draw_buffer();
 
@@ -143,6 +157,33 @@ std::cerr << "VA->val:"<<_vadj->get_value() <<" VA->upper:"<<_vadj->get_upper() 
 
 	// First determine start item
 	Cairo::RefPtr<Cairo::Context> cr = _pixmap->create_cairo_context();
+
+#if DEBUG
+	/// This code was meant to investigate the 500ms delay with pango
+	/// at start of rendering.
+	if (!_layout_prepared)
+	{
+Glib::Timer sw;
+sw.start();
+		Glib::RefPtr<Pango::Layout> pl = Pango::Layout::create (cr);
+		const char *fonts[] = {"Sans 10", "Sans 14"};
+		for (unsigned i = 0; i < sizeof(fonts)/sizeof(const char*); ++i)
+		{
+			Pango::FontDescription fdesc (fonts[i]);
+			pl->set_font_description (fdesc);
+			pl->set_width (10 * Pango::SCALE); // force line break
+			pl->set_markup ("<b>Show Us Your Freaky Geek Costumes</b>\nHitting the streets in a scary, tech-themed outfit this Halloween? We want to see it. Find out how your Sergey Brin costume (or is it David Duchovny?) could be featured on Wired News. test\n test");
+			Pango::Rectangle irect, lrect;
+			pl->get_extents (irect, lrect);
+		}
+		_layout_prepared = true;
+sw.stop();
+unsigned long l;
+sw.elapsed(l);
+std::cerr << "Time spent rendering: " << l << " us" << std::endl << std::flush;
+	}
+#endif
+
 	const item_list_t items = feed->get_items();
 	const int n_items = items.size();
 	if (n_items == 0)
@@ -178,7 +219,7 @@ std::cerr << "VA->val:"<<_vadj->get_value() <<" VA->upper:"<<_vadj->get_upper() 
 		}
 		y = - h * prop;
 #ifdef DEBUG
-std::cerr << "2prop:"<<prop <<" y:"<<y << std::endl << std::flush;
+std::cerr << "prop:"<<prop <<" y:"<<y << std::endl << std::flush;
 #endif
 
 	}

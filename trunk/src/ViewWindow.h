@@ -40,7 +40,7 @@ private:
 	Item *_top_item;
 	Glib::RefPtr<Gdk::Pixmap> _pixmap;
 	double _old_vval, _old_hval;
-	bool _disp_mode_switched;
+	bool _disp_mode_switched, _layout_prepared;
 };
 
 /// ViewWindow
