@@ -28,6 +28,7 @@ public:
 	void set_pos_y (double y)	{ _pos_y = y; }
 	double get_height() const 	{ return _height; }
 	double get_width() const        { return _width; }
+	void set_layout_flag (bool f)	{ _has_layout = f; }
 
 	virtual void layout(const Cairo::RefPtr<Cairo::Context>&) = 0;
 	virtual void render (const Cairo::RefPtr<Cairo::Context>&, double, double) = 0;
