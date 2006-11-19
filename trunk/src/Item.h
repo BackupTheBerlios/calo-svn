@@ -20,8 +20,10 @@ class Item
 public:
 	Item() : _ensured(false) { _simple_du = _normal_du = NULL; }
 	~Item();
+	
 	void make_display_unit();
 	ItemDisplayUnit* get_display_unit();
+	void reset_display_unit();
 
 	Glib::ustring _title, _description, _link, _pubdate, _guid;
 

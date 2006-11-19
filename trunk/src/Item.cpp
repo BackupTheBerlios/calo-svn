@@ -28,6 +28,7 @@ Item::~Item()
 ItemDisplayUnit* 
 Item::get_display_unit()
 {
+/// TODO: replace with curr_du and inheritance
 	switch (AppContext::get().get_display_type())
 	{
 	case SIMPLE: return _simple_du;
@@ -36,6 +37,14 @@ Item::get_display_unit()
 	}
 
 	return NULL;
+}
+
+void 
+Item::reset_display_unit() 
+{ 
+	ItemDisplayUnit *du = get_display_unit();
+	if (du)
+		du->set_layout_flag (false); 
 }
 
 void
