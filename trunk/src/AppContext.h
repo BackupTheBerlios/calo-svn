@@ -53,6 +53,7 @@ public:
 	void set_view_is_opened (bool opened) 		{ _view_is_opened = opened; }
 	item_display_unit_t get_display_type()	{ return _curr_display_type; }
 	void set_display_type (item_display_unit_t t) { _curr_display_type = t; }
+	void set_curr_item (Item* i)			{ _curr_item = i; }
 	
 	virtual void add_item (Item* i) 		{ _all_items.push_back (i); }
 
@@ -66,6 +67,7 @@ private:
 	Feed			*_curr_feed;
 	item_display_unit_t 	_curr_display_type;
 	item_list_t		_all_items;
+	Item			*_curr_item;
 	std::string		_calodir, _itemdir;
 	unsigned int 		_app_x, _app_y, _app_w, _app_h, _lpane_w;
 	bool			_has_feed_tips, _view_is_opened;
