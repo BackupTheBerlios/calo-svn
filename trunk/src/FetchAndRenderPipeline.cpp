@@ -27,6 +27,7 @@ FetchAndRenderPipeline::FetchAndRenderPipeline()
 	set_fname();
 	set_callback();
 	set_timeout_ms();
+	set_render_to_pdf();
 	
 	_size = 0;
 	_all_fetched = false;
@@ -103,7 +104,8 @@ FetchAndRenderPipeline::quit_fetch (URIFetchInfo* info)
 		make_pdf();
 		_all_fetched = true;
 	}
-	_progress_cb (this, info->uri, info->is_fetched, info->is_last);
+	if (_progress_cb)
+		_progress_cb (this, info->uri, _dumps[info->no-1], info->is_fetched, info->is_last);
 }
 
 /// Interrupt the pipeline even before timeout is reached. Needed?
@@ -133,6 +135,9 @@ FetchAndRenderPipeline::make_dump (const Glib::ustring& html, const Glib::ustrin
 void 
 FetchAndRenderPipeline::make_pdf()
 {
+	if (!_pdf_f)
+		return;
+
 	PDFCreator *pdf = PDFCreator::create();
 	for (unsigned int i=0; i<_dumps.size(); ++i)
 		*pdf << _dumps[i];

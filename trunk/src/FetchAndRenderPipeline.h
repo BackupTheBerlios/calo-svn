@@ -18,7 +18,7 @@ class URIFetcher;
 
 typedef enum { NOTHING_FETCHED=0, WAITING, PARTLY_FETCHED, PARTLY_WRITTEN, 
 	FULLY_WRITTEN } status_t;
-typedef void (*progress_func_t)(FetchAndRenderPipeline*, const Glib::ustring&,bool,bool);
+typedef void (*progress_func_t)(FetchAndRenderPipeline*, const Glib::ustring&,const Glib::ustring&, bool, bool);
 
 /// FetchAndRenderPipeline
 
@@ -34,6 +34,8 @@ public:
 		{ _progress_cb = progress_cb; }
 	void set_timeout_ms (unsigned long timeout_ms = 30000L)
 		{ _timeout_ms = timeout_ms; }
+	void set_render_to_pdf (bool pdf_f = true)
+		{ _pdf_f = pdf_f; }
 	void add_uri (const Glib::ustring& uri);
  	
 	status_t start();
@@ -41,6 +43,7 @@ public:
 
 	// Override
 	virtual void quit_fetch (URIFetchInfo*);
+	virtual void handle_header (const Glib::ustring&, const Glib::ustring&) {}
 
 private:
 	bool post_fetch();
@@ -55,7 +58,7 @@ private:
 	progress_func_t 		_progress_cb;
 	unsigned long 			_timeout_ms;
 	int				_size;
-	bool				_all_fetched, _something_dumped;
+	bool				_all_fetched, _something_dumped, _pdf_f;
 };
 
 #endif
