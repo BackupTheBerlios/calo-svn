@@ -5,7 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#define DEBUG
+#undef DEBUG
 
 #include <iostream>
 #include <math.h>
