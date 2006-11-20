@@ -1,4 +1,96 @@
 
+2006-11-20 18:10 +0000 [r273-278]  rws <rws@localhost>
+
+	* src/ViewWindow.cpp: cosmetics
+
+	* src/AppContext.cpp, src/AppContext.h: link fetch pipeline to
+	  program
+
+	* src/FetchAndRenderPipeline.h, src/FetchAndRenderPipeline.cpp: add
+	  temp possibility to render to screen
+
+	* src/Item.h: add FullItemDU, add -article field
+
+	* src/ItemDisplayUnit.h, src/Item.cpp: add FullItemDU
+
+	* src/Makefile.am, src/FullItemDU.cpp (added), src/FullItemDU.h
+	  (added): add FullItemDU
+
+2006-11-20 11:09 +0000 [r272]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/AppContext.h, src/ViewWindow.cpp: blank
+	  page on every feed switch
+
+2006-11-20 10:13 +0000 [r270-271]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/ViewWindow.cpp: prepare handling of button
+	  press
+
+	* src/AppContext.h: add current item field
+
+2006-11-19 18:36 +0000 [r266-269]  rws <rws@localhost>
+
+	* src/NormalItemDU.cpp: add timing code
+
+	* src/ViewWindow.h, src/ViewWindow.cpp: handle window resize by
+	  rerendering, add timing code
+
+	* src/Item.cpp, src/Item.h: add reset_display_unit()
+
+	* src/ItemDisplayUnit.h: add set_layout_flag()
+
+2006-11-18 11:24 +0000 [r263-265]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/ViewWindow.cpp: rewrite using top item as
+	  metric
+
+	* src/AppContext.cpp: on redraw, repaint too
+
+	* src/ItemDisplayUnit.h, src/NormalItemDU.cpp,
+	  src/SimpleItemDU.cpp, src/ItemDisplayUnit.cpp: use _has_layout
+	  flag, remove superfluous code
+
+2006-11-13 17:16 +0000 [r262]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/ViewWindow.cpp: switch rendering code to
+	  pixmap buffered
+
+2006-11-13 10:54 +0000 [r261]  rws <rws@localhost>
+
+	* src/ViewWindow.cpp: view normal color is white
+
+2006-11-12 18:36 +0000 [r257-260]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/ViewWindow.cpp: layout items from within
+	  expose, remove superfluous code
+
+	* src/Item.cpp: only layout items from within expose view
+
+	* src/NormalItemDU.h, src/SimpleItemDU.h, src/ItemDisplayUnit.h:
+	  changes to use cairo context from expose event
+
+	* src/NormalItemDU.cpp, src/SimpleItemDU.cpp: use cairo context
+	  from expose event
+
+2006-11-12 16:59 +0000 [r256]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/ViewWindow.h, src/AppContext.h,
+	  src/NormalItemDU.cpp, src/SimpleItemDU.cpp, src/ViewWindow.cpp:
+	  set tag: reorg of cairo context handling, drawing
+
+2006-11-09 18:58 +0000 [r255]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/NormalItemDU.cpp, src/ViewWindow.cpp: only
+	  create cairo context once
+
+2006-11-09 18:35 +0000 [r254]  rws <rws@localhost>
+
+	* src/AppContext.cpp: _curr_feed wasn't initialized
+
+2006-11-09 17:52 +0000 [r253]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-11-09 17:52 +0000 [r249-252]  rws <rws@localhost>
 
 	* src/AppContext.cpp, src/ViewContainer.cpp: draw list/norm icons
