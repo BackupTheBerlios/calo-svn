@@ -176,7 +176,7 @@ AppContext::save()
 	catch (const std::exception& ex)
 	{
 		std::cerr << "Exception while writing items: " << ex.what()
-			<< std::endl;
+			<< std::endl << std::flush;
 	}
 }
 
@@ -198,6 +198,14 @@ AppContext::draw_view() const
 	ViewWindow *vw = _aw->get_viewcontainer()->get_viewwindow();
 	vw->_darea.draw_buffer();
 	vw->_darea.queue_draw();
+}
+
+void 
+AppContext::set_feed (Feed* theFeed)			
+{
+std::cerr << "Feed set." << std::endl << std::flush;
+	_curr_feed = theFeed;
+	draw_view();
 }
 
 //-------------------------------------------------------------

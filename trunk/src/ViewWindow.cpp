@@ -187,43 +187,47 @@ std::cerr << "Time spent rendering: " << l << " us" << std::endl << std::flush;
 #endif
 
 	const item_list_t items = feed->get_items();
-	const int n_items = items.size();
-	if (n_items == 0)
-		return;
-	
-	// Set start_item and h
-	int start = static_cast<int> (_vadj->get_value());
 	item_list_t::const_iterator start_item;
-	double h = 0.0, y;
-	if (_vadj->get_value() > 0 && _vadj->get_value() == _vadj->get_upper())
-	{
-		// This will give a blank page when pulling the handle
-		// full down. While unusual, it might make sense with
-		// an ever-growing newslist.
-		y = 0.0;
+	const int n_items = items.size();
+	double y = 0.0;
+
+	if (n_items == 0)
 		start_item = items.end();
-	}
 	else
 	{
-		start_item = items.begin();
-		for (int i = 0; i < start; ++i)
-			++start_item;
-		if (start < 0)
-			start = 0;
-
-		double prop = _vadj->get_value() - start;
-		if (prop > 0.0)
+		// Set start_item and h
+		int start = static_cast<int> (_vadj->get_value());
+		double h = 0.0;
+		if (_vadj->get_value() > 0 && _vadj->get_value() == _vadj->get_upper())
 		{
-			(*start_item)->make_display_unit();
-			ItemDisplayUnit *du = (*start_item)->get_display_unit();
-			du->layout (cr);
-			h = du->get_height();
+			// This will give a blank page when pulling the handle
+			// full down. While unusual, it might make sense with
+			// an ever-growing newslist.
+			y = 0.0;
+			start_item = items.end();
 		}
-		y = - h * prop;
+		else
+		{
+			start_item = items.begin();
+			for (int i = 0; i < start; ++i)
+				++start_item;
+			if (start < 0)
+				start = 0;
+
+			double prop = _vadj->get_value() - start;
+			if (prop > 0.0)
+			{
+				(*start_item)->make_display_unit();
+				ItemDisplayUnit *du = (*start_item)->get_display_unit();
+				du->layout (cr);
+				h = du->get_height();
+			}
+			y = - h * prop;
 #ifdef DEBUG
 std::cerr << "prop:"<<prop <<" y:"<<y << std::endl << std::flush;
 #endif
 
+		}
 	}
 
 	// clip to the area indicated by the expose event so that we only redraw

@@ -44,7 +44,7 @@ public:
 	void set_appwindow (AppWindow* theWindow);
 	void draw_view() const;
 	Feed* get_feed() const				{ return _curr_feed; }
-	void set_feed (Feed* theFeed)			{ _curr_feed = theFeed; }
+	void set_feed (Feed* theFeed);
 	int get_lpanew();
 	void set_lpanew (int i);
 	bool get_has_feed_tips() const			{ return _has_feed_tips; }
