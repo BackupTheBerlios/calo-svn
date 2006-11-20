@@ -11,6 +11,7 @@
 #include "AppContext.h"
 #include "AppWindow.h"
 #include "FeedListColumnRecord.h"
+#include "FetchAndRenderPipeline.h"
 #include "ConfigFile.h"
 #include "Item.h"
 #include "exceptions.h"
@@ -18,6 +19,7 @@
 
 /// The AppContext singleton
 static AppContext* _theContext = NULL;
+static Item *_curr_item;
 
 /// Make sure the app context is created once only.
 AppContext& AppContext::get()
@@ -203,9 +205,27 @@ AppContext::draw_view() const
 void 
 AppContext::set_feed (Feed* theFeed)			
 {
-std::cerr << "Feed set." << std::endl << std::flush;
 	_curr_feed = theFeed;
 	draw_view();
+}
+
+static void
+fill_item (FetchAndRenderPipeline* f, const Glib::ustring& uri, 
+	const Glib::ustring& dump, bool f1, bool f2)
+{
+	_curr_item->_article = dump;
+}
+
+void 
+AppContext::set_curr_item (Item* i)
+{ 
+	_curr_item = i;
+	set_display_type (FULL);
+	FetchAndRenderPipeline pline;
+	pline.add_uri (i->_link);
+	pline.set_callback (fill_item);
+	pline.set_render_to_pdf (false);
+	pline.start();
 }
 
 //-------------------------------------------------------------
