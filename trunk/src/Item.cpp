@@ -11,6 +11,7 @@
 #include "ItemDisplayUnit.h"
 #include "SimpleItemDU.h"
 #include "NormalItemDU.h"
+#include "FullItemDU.h"
 #include "exceptions.h"
 #include "utils.h"
 
@@ -33,6 +34,7 @@ Item::get_display_unit()
 	{
 	case SIMPLE: return _simple_du;
 	case NORMAL: return _normal_du;
+	case FULL:   return _full_du;
 	default: throw MiscException ("Item::get_display-unit(): can't happen");
 	}
 
@@ -79,6 +81,13 @@ Item::make_display_unit()
 		{
 			ensure_integrity();
 			_normal_du = new NormalItemDU (this);
+		}
+		break;
+	case FULL: 
+		if (_full_du == NULL) 
+		{
+			ensure_integrity();
+			_full_du = new FullItemDU (this);
 		}
 		break;
 
