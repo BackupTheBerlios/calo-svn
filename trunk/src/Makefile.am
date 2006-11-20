@@ -44,6 +44,8 @@ calo_SOURCES =  exceptions.h		\
 		FetchAndRenderPipeline.h\
 		FetchProtocol.cpp	\
 		FetchProtocol.h		\
+		FullItemDU.cpp		\
+		FullItemDU.h		\
 		InputPipe.cpp		\
 		InputPipe.h		\
 		Item.cpp		\
