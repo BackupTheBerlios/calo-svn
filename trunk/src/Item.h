@@ -18,19 +18,19 @@ class ItemDisplayUnit;
 class Item
 {
 public:
-	Item() : _ensured(false) { _simple_du = _normal_du = NULL; }
+	Item() : _ensured(false) { _simple_du = _normal_du = _full_du = NULL; }
 	~Item();
 	
 	void make_display_unit();
 	ItemDisplayUnit* get_display_unit();
 	void reset_display_unit();
 
-	Glib::ustring _title, _description, _link, _pubdate, _guid;
+	Glib::ustring _title, _description, _link, _pubdate, _guid, _article;
 
 private:
 	void ensure_integrity();
 
-	ItemDisplayUnit *_simple_du, *_normal_du;
+	ItemDisplayUnit *_simple_du, *_normal_du, *_full_du;
 	bool _ensured;
 };
 
