@@ -33,14 +33,15 @@ private:
 	friend class ViewWindow;
 	bool on_expose_event (GdkEventExpose* event);
 	bool on_configure_event (GdkEventConfigure *event);
+	bool on_button_press_event (GdkEventButton *event);
 	void on_vvalue_changed();
 	void on_hvalue_changed();
 
-	Gtk::Adjustment *_hadj, *_vadj;
-	Item *_top_item;
-	Glib::RefPtr<Gdk::Pixmap> _pixmap;
-	double _old_vval, _old_hval;
-	bool _disp_mode_switched, _layout_prepared;
+	Gtk::Adjustment 		*_hadj, *_vadj;
+	Glib::RefPtr<Gdk::Pixmap> 	_pixmap;
+	Item 				*_top_item;
+	double 				_old_vval, _old_hval, _topitem_y;
+	bool 				_disp_mode_switched, _layout_prepared;
 };
 
 /// ViewWindow

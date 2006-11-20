@@ -5,7 +5,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
-#undef DEBUG
+#define DEBUG
 
 #include <iostream>
 #include <math.h>
@@ -21,6 +21,7 @@
 #include "AppContext.h"
 #include "Feed.h"
 #include "Item.h"
+#include "utils.h"
 
 
 //======VIEWWINDOW====================================================
@@ -61,15 +62,16 @@ ViewDrawingArea::ViewDrawingArea()
 {
 	modify_bg (Gtk::STATE_NORMAL, Gdk::Color ("white"));
 	set_double_buffered (false);
-
-	//signal_realize().connect_notify (sigc::mem_fun (*this,
-	//	&ViewDrawingArea::on_realize));
+	set_events (Gdk::BUTTON_PRESS_MASK);
 
 	signal_expose_event().connect (sigc::mem_fun (*this,
 		&ViewDrawingArea::on_expose_event));
 
 	signal_configure_event().connect (sigc::mem_fun (*this,
 		&ViewDrawingArea::on_configure_event));
+
+	signal_button_press_event().connect (sigc::mem_fun (*this,
+		&ViewDrawingArea::on_button_press_event), false);
 }
 
 ///-----------------------------------------------------------------
@@ -158,7 +160,7 @@ std::cerr << "VA->val:"<<_vadj->get_value() <<" VA->upper:"<<_vadj->get_upper() 
 	// First determine start item
 	Cairo::RefPtr<Cairo::Context> cr = _pixmap->create_cairo_context();
 
-#if DEBUG
+#ifdef DEBUG
 	/// This code was meant to investigate the 500ms delay with pango
 	/// at start of rendering.
 	if (!_layout_prepared)
@@ -237,6 +239,8 @@ std::cerr << "prop:"<<prop <<" y:"<<y << std::endl << std::flush;
 
 	// Render text
 	item_list_t::const_iterator it = start_item;
+	_top_item = *start_item;
+	_topitem_y = y;
 	int count = 0;
 	for (; it != items.end() && y < height; ++it, ++count)
 	{
@@ -259,4 +263,40 @@ std::cerr << "prop:"<<prop <<" y:"<<y << std::endl << std::flush;
 	_hadj->set_page_increment (width*15.0/16.0);
 	_hadj->changed();
 	_vadj->changed();
+
+}
+
+bool
+ViewDrawingArea::on_button_press_event (GdkEventButton *event)
+{
+std::cerr << "Event y = " << event->y << std::endl << std::flush;
+	Feed *feed = AppContext::get().get_feed();
+	if (feed == NULL)
+		return true;
+	
+	Gtk::Allocation allocation = get_allocation();
+	const int height = allocation.get_height();
+	const item_list_t items = feed->get_items();
+	item_list_t::const_iterator it = items.begin(); 
+	for (; it != items.end(); ++it)
+		if ((*it) == _top_item)
+			break;
+	double y = _topitem_y;
+	for (; it != items.end() && y < height; ++it)
+	{
+#ifdef DEBUG
+std::cerr << "y = " << y << "Looking at: " << conv((*it)->_title) << std::endl << std::flush;
+#endif
+		ItemDisplayUnit *du = (*it)->get_display_unit();
+		y += du->get_height();
+		if (event->y < y)
+			break;
+	}
+
+	AppContext::get().set_curr_item (*it);
+	//AppContext().get().set_display_mode
+#ifdef DEBUG
+if (it!=items.end())std::cerr << "Clicked: " << conv((*it)->_title) << std::endl << std::flush;
+#endif
+	return true;
 }
