@@ -7,6 +7,7 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <iostream>
 #include <algorithm>
 #include <functional>
 #include <glib/gmessages.h>
@@ -16,8 +17,6 @@
 #include "TextDumper.h"
 #include "DumpProcessor.h"
 #include "PDFCreator.h"
-#include "URIFetcher.h"
-#include "URIFetchInfo.h"
 #include "utils.h"
 
 
@@ -25,31 +24,37 @@
 FetchAndRenderPipeline::FetchAndRenderPipeline()
 {
 	set_fname();
-	set_callback();
 	set_timeout_ms();
 	set_render_to_pdf();
 	
 	_size = 0;
 	_all_fetched = false;
 	_something_dumped = false;
-	_fetcher = URIFetcher::create();
+	//_fetcher = URIFetcher::create();
 }
 
 /// Adds an entry for this uri to the internal database of URIs
 /// that will be fetched
 void FetchAndRenderPipeline::add_uri (const Glib::ustring& uri)
 {
-	_fetcher->add_uri (uri);
+	//_fetcher->add_uri (uri);
 	++_size;
 }
 
 FetchAndRenderPipeline::~FetchAndRenderPipeline()
 {
 	_timeout_connection.disconnect();
-	delete _fetcher;
+	//delete _fetcher;
 }
 
 //----------------------------------------------------------------------
+Glib::ustring
+FetchAndRenderPipeline::single_get (const Glib::ustring& uri)
+{
+	return "";
+}
+
+#if 0
 /// Starts fetching articles and wait for timeout.
 status_t FetchAndRenderPipeline::start()
 {
@@ -57,8 +62,8 @@ status_t FetchAndRenderPipeline::start()
 		return NOTHING_FETCHED;
 		
 	_dumps.assign (_size, "");
-	_fetcher->set_pline (this);
-	_fetcher->start();
+	//_fetcher->set_pline (this);
+	//_fetcher->start();
 	_timeout_connection = Glib::signal_timeout().connect (
 		sigc::mem_fun (this, &FetchAndRenderPipeline::post_fetch), 
 		_timeout_ms);
@@ -76,7 +81,7 @@ FetchAndRenderPipeline::post_fetch()
 	// we need to handle here only the other cases.
 	if (!_all_fetched)
 	{
-		_fetcher->stop();
+		//_fetcher->stop();
 		if (!_something_dumped)
 			return false; // NOTHING_FETCHED;
 		make_pdf();
@@ -95,7 +100,7 @@ FetchAndRenderPipeline::quit_fetch (URIFetchInfo* info)
 	// the info struct contains bool _is_last_call;
 	// to determine if all URIs were fetched
 
-//std::cerr << "try to assign to _dumps index " << info->no << std::endl << std::flush;
+std::cerr << "try to assign to _dumps index " << info->no << std::endl << std::flush;
 	g_assert (info->no <= _dumps.size());
 	_dumps[info->no - 1] = make_dump (info->html, info->uri);
 	
@@ -116,6 +121,7 @@ FetchAndRenderPipeline::stop()
 		_fetcher->stop();
 	return FULLY_WRITTEN;
 }
+#endif
 
 //-----------------------------------------------------------
 const Glib::ustring&
