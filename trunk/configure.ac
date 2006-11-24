@@ -51,6 +51,13 @@ dnl AC_FUNC_ALLOCA
 
 dnl internationalization macros
 dnl AM_GNU_GETTEXT
+AC_ARG_ENABLE(nls,
+    [  --disable-nls           do not use Native Language Support],
+    USE_NLS=$enableval, USE_NLS=yes)
+AC_MSG_RESULT($USE_NLS)
+AC_SUBST(USE_NLS)
+AM_PO_SUBDIRS
+IT_PROG_INTLTOOL
 
 AC_CONFIG_FILES([Makefile
 doc/Makefile

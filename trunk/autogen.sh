@@ -15,7 +15,7 @@ TEST_TYPE=-f
 FILE=configure.ac
 
 AUTOCONF_REQUIRED_VERSION=2.52
-AUTOMAKE_REQUIRED_VERSION=1.7
+AUTOMAKE_REQUIRED_VERSION=1.10
 GLIB_REQUIRED_VERSION=2.0.0
 INTLTOOL_REQUIRED_VERSION=0.17
 
@@ -80,12 +80,9 @@ fi
 
 echo -n "checking for automake >= $AUTOMAKE_REQUIRED_VERSION ... "
 # Prefer earlier versions just so that the earliest supported version gets test coverage by developers.
-if (automake-1.7 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.7
-   ACLOCAL=aclocal-1.7
-elif (automake-1.8 --version) < /dev/null > /dev/null 2>&1; then
-   AUTOMAKE=automake-1.8
-   ACLOCAL=aclocal-1.8
+if (automake-1.10 --version) < /dev/null > /dev/null 2>&1; then
+   AUTOMAKE=automake-1.10
+   ACLOCAL=aclocal-1.10
 elif (automake --version) < /dev/null > /dev/null 2>&1; then
    # Leave unversioned automake for a last resort: it may be a version earlier
    # than what we require.
@@ -95,24 +92,13 @@ elif (automake --version) < /dev/null > /dev/null 2>&1; then
    ACLOCAL=aclocal
 else
     echo
-    echo "  You must have automake 1.7 or newer installed to compile $PROJECT."
-    echo "  Get ftp://ftp.gnu.org/pub/gnu/automake/automake-1.8.5.tar.gz"
-    echo "  (or a newer version of 1.8 if it is available; note that 1.9 is buggy)"
+    echo "  You must have automake 1.10 or newer installed to compile $PROJECT."
     DIE=1
 fi
 if test x$AUTOMAKE != x; then
     VER=`$AUTOMAKE --version \
          | grep automake | sed -n 's/.* \([0-9.]*\)[-a-z0-9]*$/\1/p'`
     check_version "$VER" "$AUTOMAKE_REQUIRED_VERSION"
-
-    # Exclude automake 1.9.[0-6]
-    if expr $VER \>= 1.9.0 >/dev/null && expr $VER \<= 1.9.6 >/dev/null ; then
-        echo
-        echo "  You must have automake less than 1.9.0 or newer than 1.9.6"
-        echo "  Get ftp://ftp.gnu.org/pub/gnu/automake/automake-1.8.5.tar.gz"
-        echo "  (or a newer version of 1.8 if it is available)"
-        DIE=1
-    fi
 fi
 
 echo -n "checking for glib-gettextize >= $GLIB_REQUIRED_VERSION ... "
