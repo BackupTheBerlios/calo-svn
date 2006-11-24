@@ -209,14 +209,23 @@ AppContext::set_feed (Feed* theFeed)
 	draw_view();
 }
 
+static void
+fill_item (FetchAndRenderPipeline* f, const Glib::ustring& uri, 
+	const Glib::ustring& dump, bool f1, bool f2)
+{
+	_curr_item->_article = dump;
+}
+
 void 
 AppContext::set_curr_item (Item* i)
 { 
 	_curr_item = i;
-	FetchAndRenderPipeline pline;
-	pline.single_get (i->_link);
 	set_display_type (FULL);
-	draw_view();
+	FetchAndRenderPipeline pline;
+	pline.add_uri (i->_link);
+	pline.set_callback (fill_item);
+	pline.set_render_to_pdf (false);
+	pline.start();
 }
 
 //-------------------------------------------------------------

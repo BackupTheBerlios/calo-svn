@@ -39,6 +39,7 @@ calo_SOURCES =  exceptions.h		\
 		FeedList.h		\
 		FeedListColumnRecord.cpp\
 		FeedListColumnRecord.h	\
+		FetchInfoHandler.h	\
 		FetchAndRenderPipeline.cpp\
 		FetchAndRenderPipeline.h\
 		FetchProtocol.cpp	\
@@ -70,10 +71,15 @@ calo_SOURCES =  exceptions.h		\
 		RSSParser.h		\
 		SimpleItemDU.cpp	\
 		SimpleItemDU.h		\
+		SoupURIFetcher.cpp	\
+		SoupURIFetcher.h	\
 		TempFile.cpp		\
 		TempFile.h		\
 		TextDumper.cpp		\
 		TextDumper.h		\
+		URIFetcher.cpp		\
+		URIFetcher.h		\
+		URIFetchInfo.h		\
 		ViewContainer.cpp	\
 		ViewContainer.h		\
 		ViewWindow.cpp		\

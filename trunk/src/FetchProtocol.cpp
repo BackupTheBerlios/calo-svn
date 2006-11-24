@@ -8,6 +8,8 @@
 #include <iostream>
 #include <libsoup/soup.h>
 #include "FetchProtocol.h"
+#include "URIFetcher.h"
+#include "URIFetchInfo.h"
 #include "RSSParser.h"
 #include "AppContext.h"
 #include "Feed.h"
@@ -27,7 +29,6 @@ FetchProtocol* FetchProtocol::get()
 
 FetchProtocol::FetchProtocol() {}
 
-#if 0
 /// Callback that is called for every encountered HTML response header. 
 /// It sets the current feed properties with it, changing "Date" to "Last-Visited". 
 /// Overrides FetchInfoHandler::handle_header().
@@ -53,13 +54,12 @@ FetchProtocol::quit_fetch (URIFetchInfo* info)
 	parser.parse_memory (info->html);
 	AppContext::get().draw_view();
 }
-#endif
 
 //---------------------------------------------------------------------------
 /// Run the FetchProtocol by setting up HTML request headers, callbacks,
 /// and calling the URIFetcher.
 void FetchProtocol::run (Glib::ustring& uri, Feed* theFeed)
-{/*
+{
 	_curr_feed = theFeed;
 	str_pair_list_t headers;
 	if (!theFeed->is_unset())
@@ -70,5 +70,5 @@ void FetchProtocol::run (Glib::ustring& uri, Feed* theFeed)
 	fetcher->add_uri (uri, &headers);
 	fetcher->set_pline (this);
 	fetcher->start();
-*/}
+}
 
