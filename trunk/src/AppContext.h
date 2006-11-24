@@ -16,6 +16,7 @@
 
 class AppWindow;
 class ConfigFile;
+class FetchAndRenderPipeline;
 class Feed;
 class Item;
 namespace Gtk { class Tooltips; }
@@ -56,6 +57,8 @@ public:
 	void set_curr_item (Item* i);
 	
 	virtual void add_item (Item* i) 		{ _all_items.push_back (i); }
+	void fill_curr_item (const Glib::ustring& uri, 
+		const Glib::ustring& dump, bool f1, bool f2);
 
 private:
 	AppContext();
@@ -65,6 +68,8 @@ private:
 	AppWindow		*_aw;
 	ConfigFile		*_cfg;
 	Feed			*_curr_feed;
+	FetchAndRenderPipeline  *_pline;
+        Item			*_curr_item;
 	item_display_unit_t 	_curr_display_type;
 	item_list_t		_all_items;
 	std::string		_calodir, _itemdir;

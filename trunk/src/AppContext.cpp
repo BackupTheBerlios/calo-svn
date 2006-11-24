@@ -19,7 +19,7 @@
 
 /// The AppContext singleton
 static AppContext* _theContext = NULL;
-static Item *_curr_item;
+
 
 /// Make sure the app context is created once only.
 AppContext& AppContext::get()
@@ -209,11 +209,13 @@ AppContext::set_feed (Feed* theFeed)
 	draw_view();
 }
 
-static void
-fill_item (FetchAndRenderPipeline* f, const Glib::ustring& uri, 
+void
+AppContext::fill_curr_item (const Glib::ustring& uri, 
 	const Glib::ustring& dump, bool f1, bool f2)
 {
 	_curr_item->_article = dump;
+	draw_view();
+	delete _pline;
 }
 
 void 
@@ -221,11 +223,12 @@ AppContext::set_curr_item (Item* i)
 { 
 	_curr_item = i;
 	set_display_type (FULL);
-	FetchAndRenderPipeline pline;
-	pline.add_uri (i->_link);
-	pline.set_callback (fill_item);
-	pline.set_render_to_pdf (false);
-	pline.start();
+	_pline = new FetchAndRenderPipeline;
+	_pline->add_uri (i->_link);
+	_pline->signal_msg_fetched.connect (sigc::mem_fun (*this,
+		&AppContext::fill_curr_item));
+	_pline->set_render_to_pdf (false);
+	_pline->start();
 }
 
 //-------------------------------------------------------------
