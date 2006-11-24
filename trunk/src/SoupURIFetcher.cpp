@@ -54,7 +54,7 @@ SoupURIFetcher::SoupURIFetcher()
 
 SoupURIFetcher::~SoupURIFetcher()
 {
-	soup_session_abort (_session);
+//	soup_session_abort (_session);
 }
 
 /// Add an URI to the list of the to-be-fetched URIs by creating a SoupMessage.
