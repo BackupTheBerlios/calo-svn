@@ -25,7 +25,6 @@
 FetchAndRenderPipeline::FetchAndRenderPipeline()
 {
 	set_fname();
-	set_callback();
 	set_timeout_ms();
 	set_render_to_pdf();
 	
@@ -104,8 +103,8 @@ FetchAndRenderPipeline::quit_fetch (URIFetchInfo* info)
 		make_pdf();
 		_all_fetched = true;
 	}
-	if (_progress_cb)
-		_progress_cb (this, info->uri, _dumps[info->no-1], info->is_fetched, info->is_last);
+
+	signal_msg_fetched.emit (info->uri, _dumps[info->no-1], info->is_fetched, info->is_last);
 }
 
 /// Interrupt the pipeline even before timeout is reached. Needed?
