@@ -224,7 +224,7 @@ AppContext::set_curr_item (Item* i)
 	_curr_item = i;
 	set_display_type (FULL);
 	_pline = new FetchAndRenderPipeline;
-	_pline->add_uri (i->_link);
+	_pline->add_uri (i->_link, _curr_item->_title);
 	_pline->signal_msg_fetched.connect (sigc::mem_fun (*this,
 		&AppContext::fill_curr_item));
 	_pline->set_render_to_pdf (false);

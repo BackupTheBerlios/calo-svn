@@ -22,6 +22,12 @@ LynxToCairoProcessor::set_uri (const Glib::ustring& uri)
 	_uri = uri;
 }
 
+void
+LynxToCairoProcessor::set_title (const Glib::ustring& title)
+{
+	_title = title;
+}
+
 const Glib::ustring&
 LynxToCairoProcessor::process (const Glib::ustring& dump)
 {
@@ -41,6 +47,11 @@ LynxToCairoProcessor::process (const Glib::ustring& dump)
 
 		++pos;
 	}
+
+	// Crop at top
+	pos = str->find (_title);
+	if (pos != Glib::ustring::npos)
+		str->erase (0, pos + _title.length());
 
 	// Crop at bottom
 	pos = str->find ("\n\n   Related Links"); // newsforge

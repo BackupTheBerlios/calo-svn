@@ -34,7 +34,7 @@ public:
 		{ _timeout_ms = timeout_ms; }
 	void set_render_to_pdf (bool pdf_f = true)
 		{ _pdf_f = pdf_f; }
-	void add_uri (const Glib::ustring& uri);
+	void add_uri (const Glib::ustring& uri, const Glib::ustring& title);
  	
 	status_t start();
 	status_t stop();
@@ -48,11 +48,11 @@ public:
 private:
 	bool post_fetch();
 	const Glib::ustring& make_dump (const Glib::ustring& html, 
-					const Glib::ustring& uri);
+			const Glib::ustring& uri, const Glib::ustring& title);
 	void make_pdf();
 
 	URIFetcher			*_fetcher;
-	std::vector<Glib::ustring> 	_dumps;
+	std::vector<Glib::ustring> 	_dumps, _titles;
 	Glib::ustring			_fname;
 	sigc::connection		_timeout_connection;
 	unsigned long 			_timeout_ms;

@@ -36,9 +36,11 @@ FetchAndRenderPipeline::FetchAndRenderPipeline()
 
 /// Adds an entry for this uri to the internal database of URIs
 /// that will be fetched
-void FetchAndRenderPipeline::add_uri (const Glib::ustring& uri)
+void FetchAndRenderPipeline::add_uri (const Glib::ustring& uri, 
+	const Glib::ustring& title)
 {
 	_fetcher->add_uri (uri);
+	_titles.push_back (title);
 	++_size;
 }
 
@@ -96,7 +98,7 @@ FetchAndRenderPipeline::quit_fetch (URIFetchInfo* info)
 
 //std::cerr << "try to assign to _dumps index " << info->no << std::endl << std::flush;
 	g_assert (info->no <= _dumps.size());
-	_dumps[info->no - 1] = make_dump (info->html, info->uri);
+	_dumps[info->no - 1] = make_dump (info->html, info->uri, _titles[info->no-1]);
 	
 	if (info->is_last)
 	{
@@ -118,13 +120,14 @@ FetchAndRenderPipeline::stop()
 
 //-----------------------------------------------------------
 const Glib::ustring&
-FetchAndRenderPipeline::make_dump (const Glib::ustring& html, const Glib::ustring& uri)
+FetchAndRenderPipeline::make_dump (const Glib::ustring& html, const Glib::ustring& uri, const Glib::ustring& title)
 {
 	TextDumper *dumper = TextDumper::create();
 	const Glib::ustring& dump = dumper->render (html);
 
 	DumpProcessor *dp = DumpProcessor::create();
 	dp->set_uri (uri);
+	dp->set_title (title);
 	const Glib::ustring& res = dp->process (dump);
 	
 	_something_dumped = true;
