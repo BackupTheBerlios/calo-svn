@@ -101,6 +101,8 @@ AppContext::init()
 		_app_w = _cfg->get_i ("app_w");
 	if (_cfg->has ("app_h"))
 		_app_h = _cfg->get_i ("app_h");
+	if (_cfg->has ("lpane_w"))
+		_lpane_w = _cfg->get_i ("lpane_w");
 	if (_cfg->has ("has_feed_tips"))
 		_has_feed_tips = (_cfg->get_i ("has_feed_tips") != 0);
 }
@@ -251,7 +253,7 @@ AppContext::save_geometry()
 }
 
 void 
-AppContext::get_appwindow_pos (unsigned int* x, unsigned int* y, unsigned int* w, unsigned int* h)
+AppContext::get_appwindow_pos (unsigned int* x, unsigned int* y, unsigned int* w, unsigned int* h) const
 {
 	*x = _app_x;
 	*y = _app_y;
@@ -269,10 +271,8 @@ AppContext::set_appwindow_pos (unsigned int x, unsigned int y,	unsigned int w, u
 }
 
 int
-AppContext::get_lpanew()
+AppContext::get_lpanew() const
 {
-	if (_cfg->has ("lpane_w"))
-		_lpane_w = _cfg->get_i ("lpane_w");
 	return _lpane_w;
 }
 

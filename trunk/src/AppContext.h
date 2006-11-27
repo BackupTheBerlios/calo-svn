@@ -38,7 +38,7 @@ public:
 	Gtk::Tooltips* get_tooltips()			{ return _ttips; }
 	void save_geometry();
 	void get_appwindow_pos (unsigned int* x, unsigned int* y,
-			unsigned int* w, unsigned int* h);
+			unsigned int* w, unsigned int* h) const;
 	void set_appwindow_pos (unsigned int x, unsigned int y,
 			unsigned int w, unsigned int h);
 	AppWindow* get_appwindow() const 		{ return _aw; }
@@ -46,14 +46,15 @@ public:
 	void draw_view() const;
 	Feed* get_feed() const				{ return _curr_feed; }
 	void set_feed (Feed* theFeed);
-	int get_lpanew();
+	int get_lpanew() const;
 	void set_lpanew (int i);
-	bool get_has_feed_tips() const			{ return _has_feed_tips; }
+	bool get_has_feed_tips() const		     { return _has_feed_tips; }
 	void set_has_feed_tips (bool f)			{ _has_feed_tips = f; }
-	bool get_view_is_opened() 			{ return _view_is_opened; }
-	void set_view_is_opened (bool opened) 		{ _view_is_opened = opened; }
-	item_display_unit_t get_display_type()	{ return _curr_display_type; }
+	bool get_view_is_opened() const 	    { return _view_is_opened; }
+	void set_view_is_opened (bool opened) 	  { _view_is_opened = opened; }
+	item_display_unit_t get_display_type() const { return _curr_display_type; }
 	void set_display_type (item_display_unit_t t) { _curr_display_type = t; }
+	Item *get_curr_item() const			 { return _curr_item; }
 	void set_curr_item (Item* i);
 	
 	virtual void add_item (Item* i) 		{ _all_items.push_back (i); }
