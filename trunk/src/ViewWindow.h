@@ -32,6 +32,7 @@ public:
 private:
 	friend class ViewWindow;
 	bool on_expose_event (GdkEventExpose* event);
+	void render_full_article();
 	bool on_configure_event (GdkEventConfigure *event);
 	bool on_button_press_event (GdkEventButton *event);
 	void on_vvalue_changed();

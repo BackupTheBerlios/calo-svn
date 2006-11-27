@@ -115,10 +115,16 @@ ViewDrawingArea::on_configure_event (GdkEventConfigure *event)
 	}
 	else
 	{
-		Feed *feed = AppContext::get().get_feed();
-		const item_list_t items = feed->get_items();
-		for_each (items.begin(), items.end(), 
-			std::mem_fun (&Item::reset_display_unit));
+		const AppContext& ac = AppContext::get();
+		if (ac.get_display_type() == FULL)
+			ac.get_curr_item()->reset_display_unit();
+		else
+		{
+			Feed *feed = ac.get_feed();
+			const item_list_t items = feed->get_items();
+			for_each (items.begin(), items.end(), 
+				std::mem_fun (&Item::reset_display_unit));
+		}
 	}
 
 	draw_buffer();
@@ -151,6 +157,12 @@ std::cerr << "VA->val:"<<_vadj->get_value() <<" VA->upper:"<<_vadj->get_upper() 
 	Feed *feed = AppContext::get().get_feed();
 	if (feed == NULL) 
 		return;
+
+	if (AppContext::get().get_display_type() == FULL)
+	{
+		render_full_article();
+		return;
+	}
 
 	// Dimensions of drawing area
 	Gtk::Allocation allocation = get_allocation();
@@ -270,10 +282,48 @@ std::cerr << "prop:"<<prop <<" y:"<<y << std::endl << std::flush;
 
 }
 
+/// Same as draw_buffer, with only the curr_item's full text
+void
+ViewDrawingArea::render_full_article()
+{
+	// Dimensions of drawing area
+	Gtk::Allocation allocation = get_allocation();
+	const int height = allocation.get_height();
+	const int width = allocation.get_width();
+
+	Cairo::RefPtr<Cairo::Context> cr = _pixmap->create_cairo_context();
+	cr->reset_clip();
+	cr->rectangle (0.0, 0.0, width, height);
+	cr->clip();
+	cr->set_source_rgb (1.0, 1.0, 1.0);
+	cr->paint();
+	cr->set_source_rgb (0.0, 0.0, 0.0);
+
+	Item *item = AppContext::get().get_curr_item();
+	item->make_display_unit();
+	ItemDisplayUnit *du = item->get_display_unit();
+	du->render (cr, 0, -_vadj->get_value());
+	cr->show_page();
+	
+	double h = du->get_height();
+	if (h > height)
+		_vadj->set_upper (h - height);
+	else
+		_vadj->set_upper (0);
+
+	_vadj->set_page_size (height);
+	_vadj->set_step_increment (height * 1.0/16.0);
+	_vadj->set_page_increment (height * 15.0/16.0);
+	_vadj->changed();
+}
+
 bool
 ViewDrawingArea::on_button_press_event (GdkEventButton *event)
 {
-std::cerr << "Event y = " << event->y << std::endl << std::flush;
+#ifdef DEBUG
+std::cerr << "ButtonEvent y = " << event->y << std::endl << std::flush;
+#endif
+	
 	Feed *feed = AppContext::get().get_feed();
 	if (feed == NULL)
 		return true;
@@ -288,9 +338,6 @@ std::cerr << "Event y = " << event->y << std::endl << std::flush;
 	double y = _topitem_y;
 	for (; it != items.end() && y < height; ++it)
 	{
-#ifdef DEBUG
-std::cerr << "y = " << y << "Looking at: " << conv((*it)->_title) << std::endl << std::flush;
-#endif
 		ItemDisplayUnit *du = (*it)->get_display_unit();
 		y += du->get_height();
 		if (event->y < y)
@@ -298,9 +345,12 @@ std::cerr << "y = " << y << "Looking at: " << conv((*it)->_title) << std::endl <
 	}
 
 	AppContext::get().set_curr_item (*it);
-	//AppContext().get().set_display_mode
+	_vadj->set_value (0.0);
+	(*it)->reset_display_unit();
+
 #ifdef DEBUG
 if (it!=items.end())std::cerr << "Clicked: " << conv((*it)->_title) << std::endl << std::flush;
 #endif
+
 	return true;
 }
