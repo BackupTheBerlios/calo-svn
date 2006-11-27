@@ -28,20 +28,13 @@
 
 ViewWindow::ViewWindow()
 {
-	_darea._hadj = _hbar.get_adjustment();
 	_darea._vadj = _vbar.get_adjustment();
 	_darea._vadj->set_lower (0.0);
-	_darea._hadj->set_lower (0.0);
 	_darea._vadj->set_value (0.0);
-	_darea._hadj->set_value (0.0);
 
 	attach (_darea, 0, 1, 0, 1, Gtk::FILL|Gtk::EXPAND, Gtk::FILL|Gtk::EXPAND);
-	attach (_hbar, 0, 1, 1, 2, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
 	attach (_vbar, 1, 2, 0, 1, Gtk::SHRINK, Gtk::FILL|Gtk::EXPAND);
 	
-	_hbar.signal_value_changed().connect (sigc::mem_fun (_darea, 	
-		&ViewDrawingArea::on_hvalue_changed));
-
 	_vbar.signal_value_changed().connect (sigc::mem_fun (_darea, 
 		&ViewDrawingArea::on_vvalue_changed));
 
@@ -262,7 +255,7 @@ std::cerr << "prop:"<<prop <<" y:"<<y << std::endl << std::flush;
 	{
 		(*it)->make_display_unit();
 		ItemDisplayUnit *du = (*it)->get_display_unit();
-		du->render (cr, _hadj->get_value(), y);
+		du->render (cr, 0, y);
 		y += du->get_height();
 	}
 
@@ -273,11 +266,6 @@ std::cerr << "prop:"<<prop <<" y:"<<y << std::endl << std::flush;
 	//_vadj->set_page_size (count - 1 + );
 	_vadj->set_step_increment (1);
 	_vadj->set_page_increment (count);
-	_hadj->set_upper (n_items);
-	//_hadj->set_page_size (width);
-	_hadj->set_step_increment (width/16.0);
-	_hadj->set_page_increment (width*15.0/16.0);
-	_hadj->changed();
 	_vadj->changed();
 
 }

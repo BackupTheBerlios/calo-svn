@@ -38,7 +38,7 @@ private:
 	void on_vvalue_changed();
 	void on_hvalue_changed();
 
-	Gtk::Adjustment 		*_hadj, *_vadj;
+	Gtk::Adjustment 		*_vadj;
 	Glib::RefPtr<Gdk::Pixmap> 	_pixmap;
 	Item 				*_top_item;
 	double 				_old_vval, _old_hval, _topitem_y;
