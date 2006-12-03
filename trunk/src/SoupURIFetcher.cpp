@@ -27,7 +27,6 @@ void got_data (SoupMessage *msg, gpointer datap)
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code))
 	{
 		g_warning ("%d - %s", msg->status_code, msg->reason_phrase);
-		return;
 	}
 	
 	SoupURIFetcher* context = static_cast<SoupURIFetcher*>(datap);
@@ -112,6 +111,7 @@ URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 	info->html = msg->response.body;
 	info->uri = soup_uri_to_string (su, false);
 	info->no = (_msg_index.find (msg))->second;
+	info->status = msg->status_code;
 	soup_message_foreach_header (msg->response_headers, handle_header, this);
 
 	return info;
