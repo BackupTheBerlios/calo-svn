@@ -13,6 +13,7 @@
 #include "RSSParser.h"
 #include "AppContext.h"
 #include "Feed.h"
+#include "gtkutils.h"
 #include "utils.h"
 
 /// The FetchProtocol singleton
@@ -51,7 +52,14 @@ FetchProtocol::quit_fetch (URIFetchInfo* info)
 	RSSParser parser;
 	parser.add_item_listener (_curr_feed);
 	parser.add_item_listener (&AppContext::get());
-	parser.parse_memory (info->html);
+	try 
+	{
+		parser.parse_memory (info->html);
+	}
+	catch (const xmlpp::exception& ex)
+	{
+		myg_show_warning ("The XML parser choked on this file.\nMaybe the feed is no longer valid.");
+	}
 	AppContext::get().draw_view();
 }
 
