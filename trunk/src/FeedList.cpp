@@ -14,6 +14,7 @@
 #include "OPMLParser.h"
 #include "FetchProtocol.h"
 
+
 FeedList::FeedList()
 : _tview()
 {
@@ -84,12 +85,15 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 	Feed* feed = (*it)[_smcol->_col_feed];
 	AppContext::get().set_feed (feed);
 	if (event->button == 3 || feed->get_items().empty())
+	{
 		FetchProtocol::get()->run (uri, feed);
+	}
 	AppContext::get().draw_view();
 }
 
 /// Callback: Action to take when row is to be deleted.
 /// TODO: does not handle multiple entries for one feed!
+/// TODO: set curr_feed to something useful, or handle NULL
 void
 FeedList::delete_row (const Gtk::TreeModel::iterator& iter)
 {
