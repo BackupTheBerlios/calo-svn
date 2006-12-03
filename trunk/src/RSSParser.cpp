@@ -112,18 +112,24 @@ void RSSParser::on_comment(const Glib::ustring& text)
 
 void RSSParser::on_warning(const Glib::ustring& text)
 {
+#ifdef DEBUG
 	std::cout << "on_warning(): " << text << std::endl;
+#endif
 }
 
 void RSSParser::on_error(const Glib::ustring& text)
 {
+#ifdef DEBUG
 	std::cout << "on_error(): " << text << std::endl;
 	std::cout << conv(_str) << std::endl << std::flush;
+#endif
 }
 
 void RSSParser::on_fatal_error(const Glib::ustring& text)
 {
+#ifdef DEBUG
 	 std::cout << "on_fatal_error(): " << text << std::endl;
+#endif
 }
 
 
