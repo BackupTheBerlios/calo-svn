@@ -49,6 +49,12 @@ FetchProtocol::handle_header (const Glib::ustring& key, const Glib::ustring& val
 void 
 FetchProtocol::quit_fetch (URIFetchInfo* info)
 {
+	if (info->status == 404 || info->status == 410)
+	{
+		myg_show_warning ("The feed is no longer valid.");
+		return;
+	}
+
 	RSSParser parser;
 	parser.add_item_listener (_curr_feed);
 	parser.add_item_listener (&AppContext::get());
