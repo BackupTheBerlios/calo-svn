@@ -1,4 +1,97 @@
 
+2006-12-03 10:58 +0000 [r297-299]  rws <rws@localhost>
+
+	* src/FetchProtocol.cpp: handle 404 and 410 by popping a warning
+
+	* src/URIFetchInfo.h: add status field
+
+	* src/SoupURIFetcher.cpp: do not bail out on unsuccessful fetches,
+	  give them with status to caller
+
+2006-12-03 10:39 +0000 [r294-296]  rws <rws@localhost>
+
+	* src/FetchProtocol.cpp: handle xml feed exceptions gracefully
+
+	* src/RSSParser.cpp: add debug ifdefs
+
+	* src/FeedList.cpp: cosmetics
+
+2006-12-03 09:51 +0000 [r292-293]  rws <rws@localhost>
+
+	* src/FeedList.cpp: add comments
+
+	* src/FeedList.cpp, src/FeedList.h: impl. keyboard delete feed
+
+2006-11-27 19:15 +0000 [r291]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/ViewWindow.cpp: remove horizontal scrollbar
+
+2006-11-27 19:06 +0000 [r289-290]  rws <rws@localhost>
+
+	* src/ViewWindow.h, src/ViewWindow.cpp: render_full_article()
+
+	* src/AppContext.cpp, src/AppContext.h: const correctness,
+	  get_curr_item(), lpanew cfg handling
+
+2006-11-25 08:55 +0000 [r288]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/FetchAndRenderPipeline.h,
+	  src/DumpProcessor.h, src/LynxToCairoProcessor.cpp,
+	  src/LynxToCairoProcessor.h, src/FetchAndRenderPipeline.cpp: give
+	  item title to dump processor in order to implement top crop
+
+2006-11-24 18:23 +0000 [r286-287]  rws <rws@localhost>
+
+	* src/AppContext.cpp, src/AppContext.h: implement final showing of
+	  article
+
+	* src/SoupURIFetcher.cpp: do not call soup_session_abort
+
+2006-11-24 18:08 +0000 [r284-285]  rws <rws@localhost>
+
+	* src/FetchAndRenderPipeline.h, src/FetchAndRenderPipeline.cpp:
+	  replace callback with signal
+
+	* src/ItemDisplayUnit.h: remove compiler warnings
+
+2006-11-24 17:09 +0000 [r283]  rws <rws@localhost>
+
+	* /: more files ignored
+
+2006-11-24 17:03 +0000 [r282]  rws <rws@localhost>
+
+	* configure.ac, autogen.sh: get intltool usage right
+
+2006-11-24 09:31 +0000 [r281]  rws <rws@localhost>
+
+	* src/AppContext.cpp, old/URIFetcher.cpp (removed),
+	  src/Makefile.am, src/URIFetchInfo.h (added), old/URIFetcher.h
+	  (removed), old/SoupURIFetcher.cpp (removed),
+	  old/FetchInfoHandler.h (removed), src/URIFetcher.cpp (added),
+	  src/FetchAndRenderPipeline.cpp, old/SoupURIFetcher.h (removed),
+	  src/URIFetcher.h (added), src/SoupURIFetcher.cpp (added),
+	  src/FetchAndRenderPipeline.h, src/FetchInfoHandler.h (added),
+	  src/FetchProtocol.cpp, src/SoupURIFetcher.h (added),
+	  src/FetchProtocol.h, old/URIFetchInfo.h (removed): revert
+	  previous commit
+
+2006-11-22 16:17 +0000 [r280]  rws <rws@localhost>
+
+	* src/AppContext.cpp, old/URIFetcher.cpp (added), src/Makefile.am,
+	  src/URIFetchInfo.h (removed), old/URIFetcher.h (added),
+	  old/SoupURIFetcher.cpp (added), old/FetchInfoHandler.h (added),
+	  src/URIFetcher.cpp (removed), src/FetchAndRenderPipeline.cpp,
+	  old/SoupURIFetcher.h (added), src/URIFetcher.h (removed), old
+	  (added), src/SoupURIFetcher.cpp (removed),
+	  src/FetchAndRenderPipeline.h, src/FetchInfoHandler.h (removed),
+	  src/FetchProtocol.cpp, src/SoupURIFetcher.h (removed),
+	  src/FetchProtocol.h, old/URIFetchInfo.h (added): remove libsoup
+	  HTTP functionality
+
+2006-11-20 18:11 +0000 [r279]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-11-20 18:10 +0000 [r273-278]  rws <rws@localhost>
 
 	* src/ViewWindow.cpp: cosmetics
