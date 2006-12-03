@@ -88,12 +88,15 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 	AppContext::get().draw_view();
 }
 
+/// Callback: Action to take when row is to be deleted.
+/// TODO: does not handle multiple entries for one feed!
 void
 FeedList::delete_row (const Gtk::TreeModel::iterator& iter)
 {
 	_tstore->erase (iter);
 }
 
+/// Callback to handle keyboard input
 void
 FeedList::on_tview_key_press (GdkEventKey* event)
 {
