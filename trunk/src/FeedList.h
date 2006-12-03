@@ -27,8 +27,11 @@ public:
 protected:
 
 	void on_tview_button_press (GdkEventButton*);
+	void on_tview_key_press (GdkEventKey*);
 	void on_tview_motion_notify (GdkEventMotion*);
 	void on_selection_changed();
+
+	void delete_row (const Gtk::TreeModel::iterator& iter);
 
 	FeedListColumnRecord 		*_smcol;
 	Glib::RefPtr<Gtk::TreeStore> 	_tstore;

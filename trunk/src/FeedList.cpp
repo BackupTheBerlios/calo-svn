@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <gdk/gdkkeysyms.h>
 #include <gtkmm/tooltips.h>
 #include <gtkmm/treeselection.h>
 #include "AppContext.h"
@@ -42,6 +43,7 @@ FeedList::FeedList()
 //	_slctn->signal_changed().connect (sigc::mem_fun (*this, &FeedList::on_selection_changed));
 //	_tview.set_events (Gdk::BUTTON_PRESS_MASK|Gdk::POINTER_MOTION_MASK);
 	_tview.signal_button_press_event().connect_notify (sigc::mem_fun (*this, &FeedList::on_tview_button_press));
+	_tview.signal_key_press_event().connect_notify (sigc::mem_fun (*this, &FeedList::on_tview_key_press));
 	_tview.signal_motion_notify_event().connect_notify (sigc::mem_fun (*this, &FeedList::on_tview_motion_notify));
 
 	AppContext::get().get_tooltips()->set_tip (_tview, Glib::ustring(""));
@@ -84,6 +86,23 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 	if (event->button == 3 || feed->get_items().empty())
 		FetchProtocol::get()->run (uri, feed);
 	AppContext::get().draw_view();
+}
+
+void
+FeedList::delete_row (const Gtk::TreeModel::iterator& iter)
+{
+	_tstore->erase (iter);
+}
+
+void
+FeedList::on_tview_key_press (GdkEventKey* event)
+{
+	if (event->keyval == GDK_Delete)
+	{
+		Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+		_slctn->selected_foreach_iter (sigc::mem_fun (*this, 
+			&FeedList::delete_row));
+	}
 }
 
 /// Show feed tooltips when mouse is over the feed list, if so configured.
