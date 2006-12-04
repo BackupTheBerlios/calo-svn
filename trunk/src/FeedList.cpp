@@ -91,19 +91,14 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 	AppContext::get().draw_view();
 }
 
-/// Callback: Action to take when row is to be deleted.
-/// TODO: does not handle multiple entries for one feed!
+/// Select given TreeNodeChildren in TreeView, set current feed.
 void
-FeedList::delete_row (const Gtk::TreeModel::iterator& iter)
+FeedList::_select (const Gtk::TreeModel::iterator& iter)
 {
-	Gtk::TreeModel::iterator new_it = iter;
-	new_it++;
-	_tstore->erase (iter);
-	Gtk::TreenodeChildren = childre
-	if (new_it ==)
-	if (!_slctn->is_selected (path))
-		_slctn->select (path);
-
+	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+    _slctn->select (get_tmodel()->get_path (iter));
+	Feed* feed = (*iter)[_smcol->_col_feed];
+	AppContext::get().set_feed (feed);
 }
 
 /// Callback to handle keyboard input
@@ -112,13 +107,38 @@ FeedList::on_tview_key_press (GdkEventKey* event)
 {
 	if (event->keyval == GDK_Delete)
 	{
+        /// TODO: does not handle multiple entries for one feed!
+        typedef std::list<Gtk::TreePath> path_list_t;
 		Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-		Gtk::TreeSelection::ListHandle_Path sel = _slctn->get_selected_rows();
+        path_list_t sel = path_list_t (_slctn->get_selected_rows());
+        path_list_t::iterator pit;
 		Gtk::TreeNodeChildren all = get_tmodel()->children();
-		Gtk::TreeModelChildren::const_iterator it = all.begin(), itt;
+		Gtk::TreeModel::Children::const_iterator it = all.begin(), next;
 		for (; it != all.end(); it++)
 		{
-
+            Gtk::TreePath path = get_tmodel()->get_path (it);
+            for (pit = sel.begin(); pit != sel.end(); pit++)
+                if (path == *pit)
+                    break;
+            if (pit != sel.end())
+            {
+                next = it;
+                next++;
+                _tstore->erase (it);
+                if (next != all.end())
+                    _select (next);
+                else 
+                {
+                    if (all.begin() != all.end())
+                    {
+                        next--;
+                        _select (next);
+                    }
+                    else
+	                    AppContext::get().set_feed (NULL);
+                }
+            }
+        }
 	}
 }
 
@@ -168,8 +188,5 @@ FeedList::on_tview_motion_notify (GdkEventMotion* event)
 	AppContext::get().get_tooltips()->enable();
 	_old_path = path;
 }
-
-// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :
-
 
 // vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :
