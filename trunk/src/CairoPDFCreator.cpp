@@ -122,3 +122,6 @@ void CairoPDFCreator::save()
 	cairo_surface_destroy (_csfc);
 }
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

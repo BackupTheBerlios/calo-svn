@@ -134,3 +134,6 @@ void ConfigFile::on_fatal_error(const Glib::ustring& text)
   std::cout << "ConfigFile::on_fatal_error(): " << text << std::endl;
 }
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

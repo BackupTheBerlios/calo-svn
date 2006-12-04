@@ -66,3 +66,6 @@ AppWindow::on_delete_event (GdkEventAny*)
 	AppContext::get().save_geometry();
 	return false;
 }
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

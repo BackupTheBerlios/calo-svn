@@ -148,3 +148,6 @@ void MenuBar::on_menu_help_about()
 void MenuBar::on_menu_others()
 {
 }
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

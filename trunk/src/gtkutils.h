@@ -114,3 +114,6 @@ void myg_show_info(const Glib::ustring &msg);
 
 
 #endif /* _MYG_GTKUTILS_H_ */
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

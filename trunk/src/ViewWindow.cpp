@@ -342,3 +342,6 @@ if (it!=items.end())std::cerr << "Clicked: " << conv((*it)->_title) << std::endl
 
 	return true;
 }
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

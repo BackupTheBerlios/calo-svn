@@ -65,3 +65,6 @@ SimpleItemDU::render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, doubl
 	line->show_in_cairo_context (cctx);
 }
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

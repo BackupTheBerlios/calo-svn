@@ -134,3 +134,6 @@ void RSSParser::on_fatal_error(const Glib::ustring& text)
 
 
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

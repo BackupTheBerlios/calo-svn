@@ -16,3 +16,6 @@ TextDumper* TextDumper::create()
 TextDumper::~TextDumper() {}
 
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

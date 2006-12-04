@@ -42,3 +42,6 @@ static void callback (FetchAndRenderPipeline* line, const Glib::ustring& uri, bo
 }
 
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

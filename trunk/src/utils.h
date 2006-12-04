@@ -16,3 +16,6 @@ extern std::string conv (const std::string& str);
 extern void remove_markup (const Glib::ustring&, Glib::ustring&);
 
 #endif
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

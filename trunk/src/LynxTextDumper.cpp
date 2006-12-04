@@ -25,3 +25,6 @@ const Glib::ustring& LynxTextDumper::render (const Glib::ustring& html)
 
 
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

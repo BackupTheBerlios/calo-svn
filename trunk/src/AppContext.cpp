@@ -281,3 +281,6 @@ AppContext::set_lpanew (int i)
 {
 	_lpane_w = i;
 }
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

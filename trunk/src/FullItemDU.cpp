@@ -105,3 +105,6 @@ FullItemDU::render (const Cairo::RefPtr<Cairo::Context>& cctx, double x, double 
 
 }
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

@@ -94,3 +94,6 @@ void remove_markup (const Glib::ustring& in, Glib::ustring& out)
 }
 
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

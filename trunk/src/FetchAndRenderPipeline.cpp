@@ -146,3 +146,6 @@ FetchAndRenderPipeline::make_pdf()
 	pdf->save();
 	delete pdf;
 }
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

@@ -81,3 +81,6 @@ void PDFContext::set_rgb_foreground (double r, double g, double b)
 	_bf = b;
 }
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

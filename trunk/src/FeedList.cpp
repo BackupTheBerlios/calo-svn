@@ -93,11 +93,17 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 
 /// Callback: Action to take when row is to be deleted.
 /// TODO: does not handle multiple entries for one feed!
-/// TODO: set curr_feed to something useful, or handle NULL
 void
 FeedList::delete_row (const Gtk::TreeModel::iterator& iter)
 {
+	Gtk::TreeModel::iterator new_it = iter;
+	new_it++;
 	_tstore->erase (iter);
+	Gtk::TreenodeChildren = childre
+	if (new_it ==)
+	if (!_slctn->is_selected (path))
+		_slctn->select (path);
+
 }
 
 /// Callback to handle keyboard input
@@ -107,8 +113,12 @@ FeedList::on_tview_key_press (GdkEventKey* event)
 	if (event->keyval == GDK_Delete)
 	{
 		Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-		_slctn->selected_foreach_iter (sigc::mem_fun (*this, 
-			&FeedList::delete_row));
+		Gtk::TreeSelection::ListHandle_Path sel = _slctn->get_selected_rows();
+		Gtk::TreeNodeChildren all = get_tmodel()->children();
+		Gtk::TreeModelChildren::const_iterator it = all.begin(), itt;
+		for (; it != all.end(); it++)
+		{
+
 	}
 }
 
@@ -159,4 +169,7 @@ FeedList::on_tview_motion_notify (GdkEventMotion* event)
 	_old_path = path;
 }
 
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :
 
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

@@ -54,3 +54,6 @@ ViewContainer::on_normal_button()
 	AppContext::get().draw_view();
 }
 
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :

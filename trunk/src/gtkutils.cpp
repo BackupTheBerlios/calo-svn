@@ -414,3 +414,6 @@ void myg_show_info(const Glib::ustring &msg)
 }
 
 //----------------------------------------------------------------------
+
+
+// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :
