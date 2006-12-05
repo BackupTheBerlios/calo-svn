@@ -111,34 +111,48 @@ FeedList::on_tview_key_press (GdkEventKey* event)
         typedef std::list<Gtk::TreePath> path_list_t;
 		Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
         path_list_t sel = path_list_t (_slctn->get_selected_rows());
-        path_list_t::iterator pit;
+        if (sel.empty())
+            return;
+        
+        // All nodes selected? Then erase all, select nothing.
 		Gtk::TreeNodeChildren all = get_tmodel()->children();
+        if (sel.size() == all.size())
+        {
+            _tstore->clear();
+	        AppContext::get().set_feed (NULL);
+            return;
+        }
+
+        // Find first selected node. Do not presume selection is ordered.
+        path_list_t::iterator pit;
 		Gtk::TreeModel::Children::const_iterator it = all.begin(), next;
-		for (; it != all.end(); it++)
+        bool first_sel_found = false;
+		for (; it != all.end() && !first_sel_found; it++)
 		{
             Gtk::TreePath path = get_tmodel()->get_path (it);
             for (pit = sel.begin(); pit != sel.end(); pit++)
                 if (path == *pit)
-                    break;
-            if (pit != sel.end())
-            {
-                next = it;
-                next++;
-                _tstore->erase (it);
-                if (next != all.end())
-                    _select (next);
-                else 
                 {
-                    if (all.begin() != all.end())
-                    {
-                        next--;
-                        _select (next);
-                    }
-                    else
-	                    AppContext::get().set_feed (NULL);
+                    first_sel_found = true;
+                    break;
                 }
-            }
         }
+        g_assert (first_sel_found);
+
+        // Find first unselected node (or end()) after first selected.
+        while (it != all.end() && _slctn->is_selected (it))
+            it++;
+
+        // Delete all selected nodes.
+        _slctn->selected_foreach_iter (sigc::hide_return (sigc::mem_fun (*_tstore.operator->(), &Gtk::TreeStore::erase)));
+
+        // Now select one. There is one guaranteed to be left.
+        if (it == all.end())
+        {
+            // All selected nodes were listed at end. Select last.
+            it--;
+        }
+        _select (it);
 	}
 }
 
