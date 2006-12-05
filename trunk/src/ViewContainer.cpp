@@ -15,15 +15,19 @@ ViewContainer::ViewContainer()
 	Glib::RefPtr<Gdk::Pixbuf> buf = PIXCACHE->load ("list-view.png");
 	Gtk::Image *img = manage (new Gtk::Image (buf));
 	_but_simple_disp.set_image (*img);
+    _but_simple_disp.set_size_request (54);
 	buf = PIXCACHE->load ("norm-view.png");
 	img = manage (new Gtk::Image (buf));
 	_but_norm_disp.set_image (*img);
+    _but_norm_disp.set_size_request (54);
+	buf = PIXCACHE->load ("full-view.png");
+	img = manage (new Gtk::Image (buf));
+	_but_full_text.set_image (*img);
+    _but_full_text.set_size_request (54);
 		
-	_buttons.add (_but_simple_disp);
-	_buttons.add (_but_norm_disp);
-	_buttons.add (_but_full_text);
-	_buttons.set_layout (Gtk::BUTTONBOX_START);
-	_box.pack_start (_buttons, Gtk::PACK_SHRINK);
+	_box.pack_start (_but_simple_disp, Gtk::PACK_SHRINK);
+	_box.pack_start (_but_norm_disp, Gtk::PACK_SHRINK);
+	_box.pack_start (_but_full_text, Gtk::PACK_SHRINK);
 	pack_start (_box, Gtk::PACK_SHRINK);
 	pack_start (_vw, Gtk::PACK_EXPAND_WIDGET);
 	

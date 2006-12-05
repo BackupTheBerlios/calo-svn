@@ -16,7 +16,7 @@
 
 /// ViewContainer
 
-class ViewContainer : public Gtk::VBox
+class ViewContainer : public Gtk::HBox
 {
 public:
 	ViewContainer();
@@ -30,7 +30,7 @@ private:
 
 	ViewWindow 		_vw;
 	Gtk::VBox 		_box;
-	Gtk::HButtonBox 	_buttons;
+	Gtk::VButtonBox 	_buttons;
 	Gtk::Button	_but_simple_disp, _but_norm_disp, _but_full_text;
 };
 
