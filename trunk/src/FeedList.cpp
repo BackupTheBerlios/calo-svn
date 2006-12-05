@@ -23,7 +23,6 @@ FeedList::FeedList()
 	_smcol = &FeedListColumnRecord::get();
 	_tstore = Gtk::TreeStore::create (*_smcol);
 	_tview.set_model (_tstore);
-	_tview.set_reorderable();
 
 	try 
 	{
@@ -40,9 +39,6 @@ FeedList::FeedList()
 	_tview.append_column ("Feeds", _smcol->_col_string);
 	_tview.set_headers_visible (true);
 
-//	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-//	_slctn->signal_changed().connect (sigc::mem_fun (*this, &FeedList::on_selection_changed));
-//	_tview.set_events (Gdk::BUTTON_PRESS_MASK|Gdk::POINTER_MOTION_MASK);
 	_tview.signal_button_press_event().connect_notify (sigc::mem_fun (*this, &FeedList::on_tview_button_press));
 	_tview.signal_key_press_event().connect_notify (sigc::mem_fun (*this, &FeedList::on_tview_key_press));
 	_tview.signal_motion_notify_event().connect_notify (sigc::mem_fun (*this, &FeedList::on_tview_motion_notify));
@@ -58,12 +54,70 @@ FeedList::~FeedList()
 }
 
 
-//-Overrides-------------------------------------------------------------
-void 
-FeedList::on_selection_changed()
+//=HELPERS=============================================================
+//
+/// Select given TreeNodeChildren in TreeView, set current feed.
+void
+FeedList::_select (const Gtk::TreeModel::iterator& iter)
 {
-//	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-//	select (_slctn->get_selected());
+	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+    _slctn->select (get_tmodel()->get_path (iter));
+	Feed* feed = (*iter)[_smcol->_col_feed];
+	AppContext::get().set_feed (feed);
+}
+
+/// Delete selected feeds, select next unselected or none.
+/// TODO: does not handle multiple entries for one feed!
+void
+FeedList::_delete_selected()
+{
+    typedef std::list<Gtk::TreePath> path_list_t;
+    Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
+    path_list_t sel = path_list_t (_slctn->get_selected_rows());
+    
+    if (sel.empty())
+        return;
+
+    // All nodes selected? Then erase all, select nothing.
+	Gtk::TreeNodeChildren all = get_tmodel()->children();
+    if (sel.size() == all.size())
+    {
+        _tstore->clear();
+	    AppContext::get().set_feed (NULL);
+        return;
+    }
+
+    // Find first selected node. Do not presume selection is ordered.
+    path_list_t::iterator pit;
+	Gtk::TreeModel::Children::const_iterator it = all.begin(), next;
+    bool first_sel_found = false;
+	for (; it != all.end() && !first_sel_found; it++)
+	{
+        Gtk::TreePath path = get_tmodel()->get_path (it);
+        for (pit = sel.begin(); pit != sel.end(); pit++)
+            if (path == *pit)
+            {
+                first_sel_found = true;
+                break;
+            }
+    }
+    g_assert (first_sel_found);
+
+    // Find first unselected node (or end()) after first selected.
+    while (it != all.end() && _slctn->is_selected (it))
+        it++;
+
+    // Delete all selected nodes.
+    _slctn->selected_foreach_iter (sigc::hide_return (sigc::mem_fun 
+                    (*_tstore.operator->(), &Gtk::TreeStore::erase)));
+
+    // Now select one. There is one guaranteed to be left.
+    if (it == all.end())
+    {
+        // All selected nodes were listed at end. Select last.
+        it--;
+    }
+    _select (it);
 }
 
 //-Callbacks-------------------------------------------------------------
@@ -91,68 +145,13 @@ FeedList::on_tview_button_press (GdkEventButton* event)
 	AppContext::get().draw_view();
 }
 
-/// Select given TreeNodeChildren in TreeView, set current feed.
-void
-FeedList::_select (const Gtk::TreeModel::iterator& iter)
-{
-	Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-    _slctn->select (get_tmodel()->get_path (iter));
-	Feed* feed = (*iter)[_smcol->_col_feed];
-	AppContext::get().set_feed (feed);
-}
-
 /// Callback to handle keyboard input
 void
 FeedList::on_tview_key_press (GdkEventKey* event)
 {
-	if (event->keyval == GDK_Delete)
-	{
-        /// TODO: does not handle multiple entries for one feed!
-        typedef std::list<Gtk::TreePath> path_list_t;
-		Glib::RefPtr<Gtk::TreeSelection> _slctn = _tview.get_selection();
-        path_list_t sel = path_list_t (_slctn->get_selected_rows());
-        if (sel.empty())
-            return;
-        
-        // All nodes selected? Then erase all, select nothing.
-		Gtk::TreeNodeChildren all = get_tmodel()->children();
-        if (sel.size() == all.size())
-        {
-            _tstore->clear();
-	        AppContext::get().set_feed (NULL);
-            return;
-        }
-
-        // Find first selected node. Do not presume selection is ordered.
-        path_list_t::iterator pit;
-		Gtk::TreeModel::Children::const_iterator it = all.begin(), next;
-        bool first_sel_found = false;
-		for (; it != all.end() && !first_sel_found; it++)
-		{
-            Gtk::TreePath path = get_tmodel()->get_path (it);
-            for (pit = sel.begin(); pit != sel.end(); pit++)
-                if (path == *pit)
-                {
-                    first_sel_found = true;
-                    break;
-                }
-        }
-        g_assert (first_sel_found);
-
-        // Find first unselected node (or end()) after first selected.
-        while (it != all.end() && _slctn->is_selected (it))
-            it++;
-
-        // Delete all selected nodes.
-        _slctn->selected_foreach_iter (sigc::hide_return (sigc::mem_fun (*_tstore.operator->(), &Gtk::TreeStore::erase)));
-
-        // Now select one. There is one guaranteed to be left.
-        if (it == all.end())
-        {
-            // All selected nodes were listed at end. Select last.
-            it--;
-        }
-        _select (it);
+    switch (event->keyval)
+    {
+    case GDK_Delete: _delete_selected(); break;
 	}
 }
 
