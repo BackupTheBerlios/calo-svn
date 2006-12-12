@@ -42,6 +42,7 @@ public:
 	virtual void add_item (Item*);
 	void save_items (const std::string& dir, const std::string& url) const;
 	void read_items_from_disk (const Glib::ustring& uri);
+    void expire_items (unsigned int ndays);
 
 protected:
 	str_str_map_t _props;

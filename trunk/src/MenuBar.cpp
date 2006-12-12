@@ -15,6 +15,7 @@
 #include "MenuBar.h"
 #include "AppContext.h"
 #include "ExpireDialog.h"
+#include "ExpireProtocol.h"
 
 
 static MenuBar* _theContext = NULL;
@@ -143,7 +144,10 @@ void MenuBar::on_menu_edit_feed()
 void MenuBar::on_menu_expire()
 {
     ExpireDialog dialog;
-    dialog.run();
+    dialog.init();
+    int r = dialog.run();
+    if (r > 0)
+        ExpireProtocol::do_expire();
 }
 
 void MenuBar::on_menu_feed_tooltips()
