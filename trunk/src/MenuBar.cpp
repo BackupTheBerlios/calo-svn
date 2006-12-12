@@ -14,6 +14,7 @@
 #include <gtkmm/window.h>
 #include "MenuBar.h"
 #include "AppContext.h"
+#include "ExpireDialog.h"
 
 
 static MenuBar* _theContext = NULL;
@@ -50,9 +51,9 @@ MenuBar::MenuBar (Gtk::Window* theWindow)
 	_ag->add( Gtk::Action::create("EditPaste", Gtk::Stock::PASTE),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
 	_ag->add( Gtk::Action::create("EditFeed", _("Edit selected feed")), Gtk::AccelKey("<control>E"),
-		sigc::mem_fun(*this, &MenuBar::on_menu_expire) );
-	_ag->add( Gtk::Action::create("Expire", _("Expire items")), Gtk::AccelKey("<control>X"),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
+	_ag->add( Gtk::Action::create("Expire", _("Expire items")), Gtk::AccelKey("<control>X"),
+		sigc::mem_fun(*this, &MenuBar::on_menu_expire) );
 
 	//Options menu:
 	_ag->add( Gtk::Action::create("OptionsMenu", _("Options")) );
@@ -141,6 +142,8 @@ void MenuBar::on_menu_edit_feed()
 
 void MenuBar::on_menu_expire()
 {
+    ExpireDialog dialog;
+    dialog.run();
 }
 
 void MenuBar::on_menu_feed_tooltips()

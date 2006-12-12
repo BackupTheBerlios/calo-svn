@@ -33,6 +33,8 @@ calo_SOURCES =  exceptions.h		\
 		ConfigFile.h		\
 		DumpProcessor.cpp	\
 		DumpProcessor.h		\
+		ExpireDialog.cpp	\
+		ExpireDialog.h		\
 		Feed.cpp		\
 		Feed.h			\
 		FeedList.cpp		\
