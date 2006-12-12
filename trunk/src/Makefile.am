@@ -35,6 +35,8 @@ calo_SOURCES =  exceptions.h		\
 		DumpProcessor.h		\
 		ExpireDialog.cpp	\
 		ExpireDialog.h		\
+		ExpireProtocol.cpp	\
+		ExpireProtocol.h	\
 		Feed.cpp		\
 		Feed.h			\
 		FeedList.cpp		\
