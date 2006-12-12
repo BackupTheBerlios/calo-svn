@@ -56,6 +56,8 @@ public:
 	void set_display_type (item_display_unit_t t) { _curr_display_type = t; }
 	Item *get_curr_item() const			 { return _curr_item; }
 	void set_curr_item (Item* i);
+    unsigned int get_expire() const          { return _exp; }
+    void set_expire (unsigned int i)         { _exp = i; }
 	
 	virtual void add_item (Item* i) 		{ _all_items.push_back (i); }
 	void fill_curr_item (const Glib::ustring& uri, 
@@ -74,7 +76,7 @@ private:
 	item_display_unit_t 	_curr_display_type;
 	item_list_t		_all_items;
 	std::string		_calodir, _itemdir;
-	unsigned int 		_app_x, _app_y, _app_w, _app_h, _lpane_w;
+	unsigned int 		_app_x, _app_y, _app_w, _app_h, _lpane_w, _exp;
 	bool			_has_feed_tips, _view_is_opened;
 };
 

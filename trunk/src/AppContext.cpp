@@ -44,6 +44,7 @@ AppContext::AppContext()
 	_curr_display_type = SIMPLE;
 	_has_feed_tips = true;
 	_app_x = _app_y = _app_w = _app_h = 0;
+    _exp = 3;
 	_aw = NULL;
 	_curr_feed = NULL;
 	_ttips = new Gtk::Tooltips;
@@ -103,6 +104,8 @@ AppContext::init()
 		_app_h = _cfg->get_i ("app_h");
 	if (_cfg->has ("lpane_w"))
 		_lpane_w = _cfg->get_i ("lpane_w");
+	if (_cfg->has ("expire"))
+		_exp = _cfg->get_i ("expire");
 	if (_cfg->has ("has_feed_tips"))
 		_has_feed_tips = (_cfg->get_i ("has_feed_tips") != 0);
 }
@@ -152,6 +155,7 @@ AppContext::save()
 	_cfg->set ("app_w", _app_w);
 	_cfg->set ("app_h", _app_h);
 	_cfg->set ("lpane_w", _lpane_w);
+    _cfg->set ("expire", _exp);
 	_cfg->set ("has_feed_tips", _has_feed_tips? 1:0);
 	_cfg->save();
 
