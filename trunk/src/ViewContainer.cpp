@@ -29,7 +29,7 @@ ViewContainer::ViewContainer()
 	_box.pack_start (_but_norm_disp, Gtk::PACK_SHRINK);
 	_box.pack_start (_but_full_text, Gtk::PACK_SHRINK);
 	pack_start (_box, Gtk::PACK_SHRINK);
-	pack_start (_vw, Gtk::PACK_EXPAND_WIDGET);
+	pack_start (_vw, Gtk::PACK_EXPAND_WIDGET, 5);
 	
 	_but_simple_disp.signal_clicked().connect (sigc::mem_fun (*this, &ViewContainer::on_simple_button));
 	_but_norm_disp.signal_clicked().connect (sigc::mem_fun (*this, &ViewContainer::on_normal_button));
