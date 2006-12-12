@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <glibmm/i18n.h>
 #include <gtkmm/main.h>
 #include <gtkmm/actiongroup.h>
 #include <gtkmm/toggleaction.h>
@@ -31,33 +32,35 @@ MenuBar::MenuBar (Gtk::Window* theWindow)
 
 	//File menu:
 	_ag->add( Gtk::Action::create("FileNew", 
-			Gtk::Stock::NEW, "_New Feed List", "Clear the feed list"),
+			Gtk::Stock::NEW, _("_New Feed List"), _("Clear the feed list")),
 		sigc::mem_fun(*this, &MenuBar::on_menu_file_new) );
 	_ag->add( Gtk::Action::create("FileSaveAsDefault", 
-			Gtk::Stock::SAVE, "_Save List as Default", "Save feed list as default feed file"),
+			Gtk::Stock::SAVE, _("_Save List as Default"), _("Save feed list as default feed file")),
 		sigc::mem_fun(*this, &MenuBar::on_menu_file_save_as_default) );
 	_ag->add( Gtk::Action::create("FileQuit", 
-			Gtk::Stock::QUIT, "_Quit", "Leave the program"),
+			Gtk::Stock::QUIT, _("_Quit"), _("Leave the program")),
 		sigc::mem_fun(*this, &MenuBar::on_menu_file_quit) );
 
-	_ag->add( Gtk::Action::create("FileMenu", "File") );
+	_ag->add( Gtk::Action::create("FileMenu", _("File")) );
 
 	//Edit menu:
-	_ag->add( Gtk::Action::create("EditMenu", "Edit") );
+	_ag->add( Gtk::Action::create("EditMenu", _("Edit")) );
 	_ag->add( Gtk::Action::create("EditCopy", Gtk::Stock::COPY),
     		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
 	_ag->add( Gtk::Action::create("EditPaste", Gtk::Stock::PASTE),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
-	_ag->add( Gtk::Action::create("EditFeed", "Edit the selected feed entry"), Gtk::AccelKey("<control>E"),
+	_ag->add( Gtk::Action::create("EditFeed", _("Edit selected feed")), Gtk::AccelKey("<control>E"),
+		sigc::mem_fun(*this, &MenuBar::on_menu_expire) );
+	_ag->add( Gtk::Action::create("Expire", _("Expire items")), Gtk::AccelKey("<control>X"),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
 
 	//Options menu:
-	_ag->add( Gtk::Action::create("OptionsMenu", "Options") );
-	_ag->add( Gtk::ToggleAction::create("OptFeedtips", "Show feed tooltips", "If on, hovering over a feed in the feed list\nwill show all its properties.", AppContext::get().get_has_feed_tips()),
+	_ag->add( Gtk::Action::create("OptionsMenu", _("Options")) );
+	_ag->add( Gtk::ToggleAction::create("OptFeedtips", _("Show feed tooltips"), _("If on, hovering over a feed in the feed list\nwill show all its properties."), AppContext::get().get_has_feed_tips()),
     		sigc::mem_fun(*this, &MenuBar::on_menu_feed_tooltips) );
 
 	//Help menu:
-	_ag->add( Gtk::Action::create("HelpMenu", "Help") );
+	_ag->add( Gtk::Action::create("HelpMenu", _("Help")) );
 	_ag->add( Gtk::Action::create("HelpAbout", Gtk::Stock::HELP),
 		sigc::mem_fun(*this, &MenuBar::on_menu_others) );
 
@@ -80,6 +83,7 @@ MenuBar::MenuBar (Gtk::Window* theWindow)
         "      <menuitem action='EditCopy'/>"
         "      <menuitem action='EditPaste'/>"
         "      <menuitem action='EditFeed'/>"
+        "      <menuitem action='Expire'/>"
         "    </menu>"
         "    <menu action='OptionsMenu'>"
         "      <menuitem action='OptFeedtips'/>"
@@ -132,6 +136,10 @@ void MenuBar::on_menu_edit_paste()
 }
 
 void MenuBar::on_menu_edit_feed()
+{
+}
+
+void MenuBar::on_menu_expire()
 {
 }
 
