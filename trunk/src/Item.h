@@ -24,8 +24,10 @@ public:
 	void make_display_unit();
 	ItemDisplayUnit* get_display_unit();
 	void reset_display_unit();
+    bool older_than (unsigned int ndays);
 
-	Glib::ustring _title, _description, _link, _pubdate, _guid, _article;
+	Glib::ustring _title, _description, _link, _pubdate, _rcvdate;
+	Glib::ustring  _guid, _article;
 
 private:
 	void ensure_integrity();
