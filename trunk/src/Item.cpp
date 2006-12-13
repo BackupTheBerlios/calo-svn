@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <glibmm/date.h>
 #include "AppContext.h"
 #include "Item.h"
 #include "ItemDisplayUnit.h"
@@ -22,6 +23,16 @@ Item::~Item()
 	{ 
 		delete _simple_du; 
 		_simple_du = NULL; 
+	} 
+	if (_normal_du != NULL) 
+	{ 
+		delete _normal_du; 
+		_normal_du = NULL; 
+	} 
+	if (_full_du != NULL) 
+	{ 
+		delete _full_du; 
+		_full_du = NULL; 
 	} 
 }
 
@@ -61,6 +72,8 @@ Item::ensure_integrity()
 		_title = _empty;
 	const Glib::ustring s = _description;
 	remove_markup (s, _description);
+    if (_rcvdate.empty())
+        _rcvdate = _pubdate;
 	_ensured = true;
 }
 
@@ -96,6 +109,16 @@ Item::make_display_unit()
 
 }
 
+/// TODO accelerate by giving exp Date as parameter
+bool 
+Item::older_than (unsigned int ndays)
+{
+    Glib::Date my, now;
+    now.set_time_current();
+    now.subtract_days (ndays);
+    my.set_parse (_rcvdate);
+    return my < now;
+}
 
 
 // vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :
