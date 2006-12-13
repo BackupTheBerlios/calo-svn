@@ -1,4 +1,110 @@
 
+2006-12-13 11:06 +0000 [r322-323]  rws <rws@localhost>
+
+	* src/Feed.cpp: set item's rcvtime when polling
+
+2006-12-13 10:43 +0000 [r321]  rws <rws@localhost>
+
+	* src/Item.cpp: before comparing dates, ensure integrity
+
+2006-12-13 10:40 +0000 [r317-320]  rws <rws@localhost>
+
+	* src/RSSParser.cpp: read rcvdate field
+
+	* src/Item.h: add older_than(), _rcvdate
+
+	* src/Feed.cpp: implement expire, save _rcvdate
+
+	* src/Item.cpp: del all display units, implement older_than(),
+	  ensure _rcvdate validity
+
+2006-12-12 18:25 +0000 [r315-316]  rws <rws@localhost>
+
+	* src/Feed.h, src/MenuBar.cpp, src/Feed.cpp: add expire stub
+
+	* src/Makefile.am, src/ExpireProtocol.cpp (added),
+	  src/ExpireProtocol.h (added): add expire protocol
+
+2006-12-12 11:56 +0000 [r313-314]  rws <rws@localhost>
+
+	* src/ExpireDialog.cpp, src/ExpireDialog.h: handle expire global
+	  var
+
+	* src/AppContext.cpp, src/AppContext.h: add expire global var
+
+2006-12-12 11:23 +0000 [r312]  rws <rws@localhost>
+
+	* src/ExpireDialog.cpp: widget cosmetics, set focus
+
+2006-12-12 09:49 +0000 [r311]  rws <rws@localhost>
+
+	* src/Makefile.am, src/MenuBar.cpp, src/ExpireDialog.cpp (added),
+	  src/ExpireDialog.h (added): add expire dialog
+
+2006-12-12 08:46 +0000 [r309-310]  rws <rws@localhost>
+
+	* src/MenuBar.cpp, src/MenuBar.h: expire menu item, i18n
+
+	* src/ViewContainer.cpp: cosmetics
+
+2006-12-05 12:24 +0000 [r306-308]  rws <rws@localhost>
+
+	* src/ViewContainer.cpp, src/ViewContainer.h: make button bar
+	  vertical, no buttonbox, tight buttons
+
+	* share/icons/list-view.png, share/icons/norm-view.png: change icon
+	  res to 48x48
+
+	* share/icons/full-view.svg (added), share/icons/full-view.png
+	  (added): add full view icons
+
+2006-12-05 09:45 +0000 [r305]  rws <rws@localhost>
+
+	* src/FeedList.cpp, src/FeedList.h: cosmetics
+
+2006-12-05 09:26 +0000 [r304]  rws <rws@localhost>
+
+	* src/FeedList.cpp: get feed deletion right
+
+2006-12-04 16:32 +0000 [r302-303]  rws <rws@localhost>
+
+	* src/FeedList.cpp: try to always have a meaningful selection and
+	  current feed
+
+	* src/FeedList.h: add _select(iter) helper
+
+2006-12-04 15:35 +0000 [r301]  rws <rws@localhost>
+
+	* src/exceptions.h, src/PDFCreator.h, src/Item.cpp, src/MenuBar.h,
+	  src/utils.cpp, src/SimpleItemDU.cpp, src/Feed.cpp,
+	  src/ItemAccumulator.h, src/ViewWindow.h, src/TempFile.h,
+	  src/LynxToCairoProcessor.cpp, src/gtkutils.h, src/AppWindow.h,
+	  src/PDFContext.cpp, src/LynxTextDumper.h,
+	  src/FeedListColumnRecord.h, src/ViewContainer.h,
+	  src/OPMLParser.h, src/ItemDisplayUnit.h, src/ViewWindow.cpp,
+	  src/DumpProcessor.cpp, src/URIFetcher.h, src/SimpleItemDU.h,
+	  src/gtkutils.cpp, src/SoupURIFetcher.cpp, src/FetchInfoHandler.h,
+	  src/Feed.h, src/AppWindow.cpp, src/FetchProtocol.cpp,
+	  src/LynxTextDumper.cpp, src/FeedListColumnRecord.cpp,
+	  src/LynxToCairoProcessor.h, src/ItemDisplayUnit.cpp,
+	  src/OPMLParser.cpp, src/AppContext.cpp, src/testPDFCreator.cpp,
+	  src/FeedList.cpp, src/URIFetcher.cpp, src/TextDumper.cpp,
+	  src/testPipeline.cpp, src/NormalItemDU.h, src/ConfigFile.cpp,
+	  src/FetchAndRenderPipeline.h, src/CairoPDFCreator.cpp,
+	  src/DumpProcessor.h, src/SoupURIFetcher.h, src/InputPipe.cpp,
+	  src/FullItemDU.h, src/FetchProtocol.h, src/main.cpp,
+	  src/MenuBar.cpp, src/RSSParser.h, src/PDFCreator.cpp,
+	  src/URIFetchInfo.h, src/AppContext.h, src/NormalItemDU.cpp,
+	  src/FetchAndRenderPipeline.cpp, src/Item.h, src/FeedList.h,
+	  src/utils.h, src/TempFile.cpp, src/TextDumper.h,
+	  src/FullItemDU.cpp, src/ConfigFile.h, src/CairoPDFCreator.h,
+	  src/ViewContainer.cpp, src/InputPipe.h, src/PDFContext.h,
+	  src/RSSParser.cpp: append vim info everywhere
+
+2006-12-03 10:59 +0000 [r300]  rws <rws@localhost>
+
+	* ChangeLog: update
+
 2006-12-03 10:58 +0000 [r297-299]  rws <rws@localhost>
 
 	* src/FetchProtocol.cpp: handle 404 and 410 by popping a warning
