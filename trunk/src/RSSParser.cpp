@@ -63,6 +63,8 @@ RSSParser::on_start_element(const Glib::ustring& theName, const AttributeList& a
 			_curr_string = &_item->_link;
 		else if (name == "pubdate")
 			_curr_string = &_item->_pubdate;
+		else if (name == "rcvdate")
+			_curr_string = &_item->_rcvdate;
 		else if (name == "guid")
 			_curr_string = &_item->_guid;
 		else _curr_string = NULL;
