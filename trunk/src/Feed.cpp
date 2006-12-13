@@ -6,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include <time.h>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -26,6 +27,9 @@ static char* _possible_props[] = {
 	"Last-Visited", 
 	"Retry-After",
 };
+
+bool _reading_from_disk = false;
+
 
 Feed::Feed() 
 {
@@ -66,6 +70,7 @@ const
 }
 
 //------------------------------------------------------------------
+/// Callback called for every item received from URL or disk
 void
 Feed::add_item (Item *i)
 {
@@ -77,8 +82,15 @@ Feed::add_item (Item *i)
 			_items.erase (it);
 			break;	/// TODO: remove this and hell breaks loose
 		}
-			
-	_items.push_back (i); 
+
+	_items.push_back (i);
+    
+    if (!_reading_from_disk)
+    {
+        time_t now;
+        time (&now);
+        i->_rcvdate = ctime (now);
+    }
 }
 
 static void
@@ -129,6 +141,7 @@ Feed::save_items (const std::string& dir, const std::string& theURL) const
 	}
 }
 
+/// Read all items which were received from a specific URL from disk into feed
 void
 Feed::read_items_from_disk (const Glib::ustring& theURL)
 {
@@ -146,9 +159,11 @@ Feed::read_items_from_disk (const Glib::ustring& theURL)
 	
 	in.close();
 	RSSParser parser;
+    _reading_from_disk = true;
 	parser.add_item_listener (this);
 	parser.add_item_listener (&AppContext::get());
 	parser.parse_file (path);
+    _reading_from_disk = false;
 }
 
 void
