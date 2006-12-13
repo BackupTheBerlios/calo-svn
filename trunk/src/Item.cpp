@@ -113,6 +113,8 @@ Item::make_display_unit()
 bool 
 Item::older_than (unsigned int ndays)
 {
+    ensure_integrity();
+
     Glib::Date my, now;
     now.set_time_current();
     now.subtract_days (ndays);
