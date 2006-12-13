@@ -89,7 +89,7 @@ Feed::add_item (Item *i)
     {
         time_t now;
         time (&now);
-        i->_rcvdate = ctime (now);
+        i->_rcvdate = ctime (&now);
     }
 }
 
