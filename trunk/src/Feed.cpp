@@ -93,6 +93,8 @@ add_rss_item (Item *theItem, xmlpp::Element *theRoot)
 	desc->set_child_text (theItem->_description);
 	xmlpp::Element *pubdate = item->add_child ("pubDate");
 	pubdate->set_child_text (theItem->_pubdate);
+    xmlpp::Element *rcvdate = item->add_child ("rcvDate");
+    rcvdate->set_child_text (theItem->_rcvdate);
 }
 
 void 
@@ -152,13 +154,15 @@ Feed::read_items_from_disk (const Glib::ustring& theURL)
 void
 Feed::layout_items()
 {
-	for (item_list_t::iterator it = _items.begin(); it != _items.end(); ++it)
-		(*it)->make_display_unit();
+    for_each (_items.begin(), _items.end(),
+            std::mem_fun (&Item::make_display_unit));
 }
 
 void 
 Feed::expire_items (unsigned int ndays)
 {
+    remove_if (_items.begin(), _items.end(), 
+            std::bind2nd (std::mem_fun (&Item::older_than), ndays));
 }
 
 // vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :
