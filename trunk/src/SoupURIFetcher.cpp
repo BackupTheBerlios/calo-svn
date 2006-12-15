@@ -107,8 +107,11 @@ URIFetchInfo* SoupURIFetcher::handle_msg (SoupMessage *msg)
 	if (++_fetched >= _added)
 		info->is_last = true;
 	char *buf = msg->response.body;
-	buf[msg->response.length] = '\0';
-	info->html = msg->response.body;
+    if (buf != NULL)
+    {
+    	buf[msg->response.length] = '\0';
+	    info->html = buf;
+    }
 	info->uri = soup_uri_to_string (su, false);
 	info->no = (_msg_index.find (msg))->second;
 	info->status = msg->status_code;
