@@ -36,7 +36,6 @@ private:
 	bool on_configure_event (GdkEventConfigure *event);
 	bool on_button_press_event (GdkEventButton *event);
 	void on_vvalue_changed();
-	void on_hvalue_changed();
 
 	Gtk::Adjustment 		*_vadj;
 	Glib::RefPtr<Gdk::Pixmap> 	_pixmap;

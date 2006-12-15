@@ -68,14 +68,6 @@ ViewDrawingArea::ViewDrawingArea()
 }
 
 ///-----------------------------------------------------------------
-/// Called when horizontal view scrollbar changes value.
-void
-ViewDrawingArea::on_hvalue_changed()
-{
-	draw_buffer();
-	queue_draw();
-}
-
 /// Called when vertical view scrollbar changes value.
 void
 ViewDrawingArea::on_vvalue_changed()
