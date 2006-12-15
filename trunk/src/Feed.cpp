@@ -89,7 +89,10 @@ Feed::add_item (Item *i)
     {
         time_t now;
         time (&now);
-        i->_rcvdate = ctime (&now);
+        char buf[16];
+        buf[0] = '\0';
+        (void)strftime (buf, 16, "%Y-%m-%d", localtime (&now));
+        i->_rcvdate = buf;
     }
 }
 

@@ -72,8 +72,26 @@ Item::ensure_integrity()
 		_title = _empty;
 	const Glib::ustring s = _description;
 	remove_markup (s, _description);
-    if (_rcvdate.empty())
-        _rcvdate = _pubdate;
+
+    bool rd_is_valid = false;
+    if (!_rcvdate.empty())
+    {
+        Glib::Date my;
+        int y, m, d;
+        sscanf (_rcvdate.c_str(), "%d-%d-%d", &y, &m, &d);
+        my.set_day (d);
+        my.set_year (y);
+        my.set_month (Glib::Date::JANUARY);
+        my.add_months (m-1);
+        rd_is_valid = my.valid();
+    }
+    if (!rd_is_valid)
+    {
+        g_warning ("Invalid date: %s ... fixing", _rcvdate.c_str());
+        Glib::Date now;
+        now.set_time_current();
+        _rcvdate = now.format_string ("%Y-%m-%d");
+    }
 	_ensured = true;
 }
 
@@ -113,12 +131,23 @@ Item::make_display_unit()
 bool 
 Item::older_than (unsigned int ndays)
 {
-    ensure_integrity();
-
     Glib::Date my, now;
     now.set_time_current();
     now.subtract_days (ndays);
-    my.set_parse (_rcvdate);
+    
+    /// TODO: duplicated from ensure_integrity() above
+    int y, m, d;
+    sscanf (_rcvdate.c_str(), "%d-%d-%d", &y, &m, &d);
+    my.set_day (d);
+    my.set_year (y);
+    my.set_month (Glib::Date::JANUARY);
+    my.add_months (m-1);
+    
+    if (!my.valid())
+    {
+        g_warning (_("In Item::older_than(): Invalid date: %s"), _rcvdate.c_str());
+        return true;
+    }
     return my < now;
 }
 
