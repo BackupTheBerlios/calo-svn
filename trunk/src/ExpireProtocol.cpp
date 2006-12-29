@@ -32,6 +32,7 @@ do_expire()
     AppWindow *aw = AppContext::get().get_appwindow();
 	Glib::RefPtr<Gtk::TreeModel> tmodel = aw->get_feedlist()->get_tmodel();
 	tmodel->foreach (sigc::ptr_fun (&expire_in_feed));
+    AppContext::get().draw_view();
 }
 
 
