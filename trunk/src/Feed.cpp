@@ -179,8 +179,10 @@ Feed::layout_items()
 void 
 Feed::expire_items (unsigned int ndays)
 {
-    remove_if (_items.begin(), _items.end(), 
+    item_list_t::iterator new_end =
+        std::remove_if (_items.begin(), _items.end(), 
             std::bind2nd (std::mem_fun (&Item::older_than), ndays));
+    _items.erase (new_end, _items.end());
 }
 
 // vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=4:softtabstop=4 :
