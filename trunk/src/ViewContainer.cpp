@@ -5,7 +5,9 @@
  * Released under GNU GPL2, read the file 'COPYING' for more information.
  */
 
+#include <glibmm/i18n.h>
 #include <gtkmm/image.h>
+#include <gtkmm/tooltips.h>
 #include "ViewContainer.h"
 #include "AppContext.h"
 #include "gtkutils.h"
@@ -16,14 +18,17 @@ ViewContainer::ViewContainer()
 	Gtk::Image *img = manage (new Gtk::Image (buf));
 	_but_simple_disp.set_image (*img);
     _but_simple_disp.set_size_request (54);
+    AppContext::get().get_tooltips()->set_tip (_but_simple_disp, _("Simple display"));
 	buf = PIXCACHE->load ("norm-view.png");
 	img = manage (new Gtk::Image (buf));
 	_but_norm_disp.set_image (*img);
     _but_norm_disp.set_size_request (54);
+    AppContext::get().get_tooltips()->set_tip (_but_norm_disp, _("Normal display"));
 	buf = PIXCACHE->load ("full-view.png");
 	img = manage (new Gtk::Image (buf));
 	_but_full_text.set_image (*img);
     _but_full_text.set_size_request (54);
+    AppContext::get().get_tooltips()->set_tip (_but_full_text, _("Full display"));
 		
 	_box.pack_start (_but_simple_disp, Gtk::PACK_SHRINK);
 	_box.pack_start (_but_norm_disp, Gtk::PACK_SHRINK);
